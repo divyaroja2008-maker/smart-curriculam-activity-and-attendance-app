@@ -10,7 +10,7 @@ content="width=device-width, initial-scale=1.0">
 
 <title>
 
-Smart Curriculum Activity And Attendance App
+Smart Curriculum Activity Attendance App
 
 </title>
 
@@ -287,8 +287,7 @@ Logout
 
 <div class="notice">
 
-Today's Notification:
-Attendance Submission Before 5 PM
+Submit Attendance Before 5 PM
 
 </div>
 
@@ -392,37 +391,37 @@ placeholder="Student ID">
 id="email"
 placeholder="Student Email">
 
-<input type="text"
-id="activity"
-placeholder="Curriculum Activity">
-
 <select id="semester">
 
-<option value="Semester 1">
+<option>
 
 Semester 1
 
 </option>
 
-<option value="Semester 2">
+<option>
 
 Semester 2
 
 </option>
 
-<option value="Semester 3">
+<option>
 
 Semester 3
 
 </option>
 
-<option value="Semester 4">
+<option>
 
 Semester 4
 
 </option>
 
 </select>
+
+<input type="text"
+id="activity"
+placeholder="Curriculum Activity">
 
 <textarea id="remarks"
 placeholder="Remarks"></textarea>
@@ -500,7 +499,7 @@ Download PDF
 
 <footer>
 
-Smart Curriculum Activity And Attendance App
+Smart Curriculum Activity Attendance App
 
 </footer>
 
@@ -665,7 +664,8 @@ let absent = 0;
 
 filtered.forEach((student,index)=>{
 
-let colorClass = "pending";
+let colorClass =
+"pending";
 
 if(
 student.attendance ===
@@ -747,15 +747,11 @@ Delete
 
 </button>
 
-<a href="mailto:${student.email}">
-
-<button>
+<button onclick="sendMail('${student.email}')">
 
 Mail
 
 </button>
-
-</a>
 
 </td>
 
@@ -863,6 +859,13 @@ students.splice(index,1);
 saveStudents();
 
 displayStudents();
+
+}
+
+function sendMail(email){
+
+window.location.href =
+"mailto:" + email;
 
 }
 
@@ -1051,7 +1054,8 @@ window.location.href =
 
 function updateDateTime(){
 
-let now = new Date();
+let now =
+new Date();
 
 document.getElementById(
 "dateTime"
