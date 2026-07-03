@@ -81,3 +81,36 @@ function searchStudent() {
     }
   }
 }
+
+function toggleDarkMode() {
+
+  document.body.classList.toggle("dark");
+}
+
+function downloadReport() {
+
+  let items =
+    document.getElementsByTagName("li");
+
+  let report = "";
+
+  for(let i = 0; i < items.length; i++) {
+
+    report += items[i].innerText + "\n";
+  }
+
+  let blob =
+    new Blob([report],
+    { type: "text/plain" });
+
+  let link =
+    document.createElement("a");
+
+  link.href =
+    URL.createObjectURL(blob);
+
+  link.download =
+    "attendance-report.txt";
+
+  link.click();
+}
