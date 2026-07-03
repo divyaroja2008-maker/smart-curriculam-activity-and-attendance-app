@@ -1,0 +1,1 @@
+# smart-curriculam-activity-and-attendance-app
