@@ -39,7 +39,7 @@
 
             border-radius: 10px;
 
-            max-width: 1000px;
+            max-width: 1200px;
 
             margin: auto;
         }
@@ -195,25 +195,25 @@
 
             <div class="card">
 
-                <h3>Sports</h3>
+                <h3>Present</h3>
 
-                <h2 id="sportsCount">0</h2>
-
-            </div>
-
-            <div class="card">
-
-                <h3>NSS</h3>
-
-                <h2 id="nssCount">0</h2>
+                <h2 id="presentCount">0</h2>
 
             </div>
 
             <div class="card">
 
-                <h3>NCC</h3>
+                <h3>Absent</h3>
 
-                <h2 id="nccCount">0</h2>
+                <h2 id="absentCount">0</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Attendance %</h3>
+
+                <h2 id="attendancePercent">0%</h2>
 
             </div>
 
@@ -240,6 +240,8 @@
                     <th>Phone</th>
 
                     <th>Activity</th>
+
+                    <th>Status</th>
 
                     <th>Action</th>
 
@@ -293,7 +295,9 @@
                     document.getElementById("phone").value,
 
                 activity:
-                    document.getElementById("activity").value
+                    document.getElementById("activity").value,
+
+                attendance: "Not Marked"
             };
 
             if (editIndex === -1) {
@@ -316,26 +320,8 @@
 
             updateDashboard();
 
-            document.getElementById(
-                "studentId").value = "";
-
-            document.getElementById(
-                "studentName").value = "";
-
-            document.getElementById(
-                "department").value = "";
-
-            document.getElementById(
-                "year").value = "";
-
-            document.getElementById(
-                "section").value = "";
-
-            document.getElementById(
-                "email").value = "";
-
-            document.getElementById(
-                "phone").value = "";
+            document.querySelectorAll("input")
+                .forEach(input => input.value = "");
         }
 
         function displayStudents() {
@@ -367,18 +353,24 @@
 
                     <td>${s.activity}</td>
 
+                    <td>${s.attendance}</td>
+
                     <td>
 
+                        <button onclick="markAttendance(${index}, 'Present')">
+                            Present
+                        </button>
+
+                        <button onclick="markAttendance(${index}, 'Absent')">
+                            Absent
+                        </button>
+
                         <button onclick="editStudent(${index})">
-
                             Edit
-
                         </button>
 
                         <button onclick="deleteStudent(${index})">
-
                             Delete
-
                         </button>
 
                     </td>
@@ -387,6 +379,20 @@
 
                 `;
             });
+        }
+
+        function markAttendance(index, status) {
+
+            students[index].attendance = status;
+
+            localStorage.setItem(
+                "students",
+                JSON.stringify(students)
+            );
+
+            displayStudents();
+
+            updateDashboard();
         }
 
         function deleteStudent(index) {
@@ -462,30 +468,33 @@
 
         function updateDashboard() {
 
-            document.getElementById(
-                "totalStudents").innerHTML =
-                students.length;
+            let total = students.length;
 
-            let sports = students.filter(
-                s => s.activity === "Sports"
+            let present = students.filter(
+                s => s.attendance === "Present"
             ).length;
 
-            let nss = students.filter(
-                s => s.activity === "NSS"
+            let absent = students.filter(
+                s => s.attendance === "Absent"
             ).length;
 
-            let ncc = students.filter(
-                s => s.activity === "NCC"
-            ).length;
+            let percent =
+                total === 0
+                ? 0
+                : ((present / total) * 100).toFixed(2);
 
             document.getElementById(
-                "sportsCount").innerHTML = sports;
+                "totalStudents").innerHTML = total;
 
             document.getElementById(
-                "nssCount").innerHTML = nss;
+                "presentCount").innerHTML = present;
 
             document.getElementById(
-                "nccCount").innerHTML = ncc;
+                "absentCount").innerHTML = absent;
+
+            document.getElementById(
+                "attendancePercent").innerHTML =
+                percent + "%";
         }
 
     </script>
