@@ -1,25 +1,54 @@
-function searchStudent() {
+public class Attendance {
 
-    let input =
-        document.getElementById("searchInput")
-        .value.toLowerCase();
+    private String studentId;
+    private String studentName;
+    private String department;
+    private String activity;
+    private String attendance;
 
-    let table =
-        document.getElementById("studentTable");
+    public Attendance(
+        String studentId,
+        String studentName,
+        String department,
+        String activity,
+        String attendance
+    ) {
 
-    let rows = table.getElementsByTagName("tr");
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.department = department;
+        this.activity = activity;
+        this.attendance = attendance;
+    }
 
-    for (let i = 0; i < rows.length; i++) {
+    public String getStudentId() {
+        return studentId;
+    }
 
-        let data = rows[i].innerText.toLowerCase();
+    public String getStudentName() {
+        return studentName;
+    }
 
-        if (data.includes(input)) {
+    public String getDepartment() {
+        return department;
+    }
 
-            rows[i].style.display = "";
+    public String getActivity() {
+        return activity;
+    }
 
-        } else {
+    public String getAttendance() {
+        return attendance;
+    }
 
-            rows[i].style.display = "none";
-        }
+    public void display() {
+
+        System.out.println(
+            studentId + " " +
+            studentName + " " +
+            department + " " +
+            activity + " " +
+            attendance
+        );
     }
 }
