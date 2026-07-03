@@ -1,12 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-    <title>Smart Attendance App</title>
+    <meta charset="UTF-8">
 
-    <link rel="stylesheet"
-        href="style.css">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Smart Attendance App
+    </title>
+
+    <style>
+
+        body {
+
+            font-family: Arial;
+
+            margin: 0;
+
+            padding: 20px;
+
+            background: #f2f2f2;
+
+            transition: 0.3s;
+        }
+
+        .dark-mode {
+
+            background: #121212;
+
+            color: white;
+        }
+
+        .container {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+
+            transition: 0.3s;
+        }
+
+        .dark-mode .container {
+
+            background: #1e1e1e;
+        }
+
+        h1 {
+
+            text-align: center;
+
+            color: blue;
+        }
+
+        input,
+        button {
+
+            width: 100%;
+
+            padding: 10px;
+
+            margin-top: 10px;
+
+            border-radius: 5px;
+
+            border: 1px solid #ccc;
+
+            box-sizing: border-box;
+        }
+
+        button {
+
+            background: blue;
+
+            color: white;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+
+            background: darkblue;
+        }
+
+        .dashboard {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+            margin-top: 20px;
+        }
+
+        .card {
+
+            flex: 1;
+
+            min-width: 150px;
+
+            background: blue;
+
+            color: white;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            text-align: center;
+        }
+
+        table {
+
+            width: 100%;
+
+            margin-top: 20px;
+
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td {
+
+            border: 1px solid black;
+        }
+
+        th {
+
+            background: blue;
+
+            color: white;
+        }
+
+        th,
+        td {
+
+            padding: 10px;
+
+            text-align: center;
+        }
+
+        .present {
+
+            color: green;
+
+            font-weight: bold;
+        }
+
+        .absent {
+
+            color: red;
+
+            font-weight: bold;
+        }
+
+    </style>
 
 </head>
 
@@ -22,19 +180,43 @@
             Smart Attendance App
         </h1>
 
+        <button onclick="toggleDarkMode()">
+            Dark Mode
+        </button>
+
         <div class="dashboard">
 
-            <h3 id="total">
-                Total Students: 0
-            </h3>
+            <div class="card">
 
-            <h3 id="present">
-                Present: 0
-            </h3>
+                <h3 id="total">
+                    Total Students: 0
+                </h3>
 
-            <h3 id="absent">
-                Absent: 0
-            </h3>
+            </div>
+
+            <div class="card">
+
+                <h3 id="present">
+                    Present: 0
+                </h3>
+
+            </div>
+
+            <div class="card">
+
+                <h3 id="absent">
+                    Absent: 0
+                </h3>
+
+            </div>
+
+            <div class="card">
+
+                <h3 id="percentage">
+                    Attendance %: 0%
+                </h3>
+
+            </div>
 
         </div>
 
@@ -53,6 +235,10 @@
 
         <button onclick="addStudent()">
             Add Student
+        </button>
+
+        <button onclick="clearAllStudents()">
+            Clear All Students
         </button>
 
         <table>
@@ -81,7 +267,316 @@
 
     </div>
 
-    <script src="script.js"></script>
+    <script>
+
+        if (
+            localStorage.getItem("login")
+            !== "true"
+        ) {
+
+            window.location.href =
+                "login.html";
+        }
+
+        let students =
+            JSON.parse(
+                localStorage.getItem(
+                    "students"
+                )
+            ) || [];
+
+        displayStudents();
+
+        function addStudent() {
+
+            let name =
+                document.getElementById(
+                    "studentName"
+                ).value;
+
+            let department =
+                document.getElementById(
+                    "department"
+                ).value;
+
+            if (
+                name === ""
+                ||
+                department === ""
+            ) {
+
+                alert(
+                    "Fill all fields"
+                );
+
+                return;
+            }
+
+            students.push({
+
+                name: name,
+
+                department: department,
+
+                attendance: "Not Marked"
+            });
+
+            saveData();
+
+            displayStudents();
+
+            clearInputs();
+        }
+
+        function displayStudents(filtered = students) {
+
+            let table =
+                document.getElementById(
+                    "studentTable"
+                );
+
+            table.innerHTML = "";
+
+            let presentCount = 0;
+
+            let absentCount = 0;
+
+            filtered.forEach((s, index) => {
+
+                if (
+                    s.attendance === "Present"
+                ) {
+
+                    presentCount++;
+                }
+
+                if (
+                    s.attendance === "Absent"
+                ) {
+
+                    absentCount++;
+                }
+
+                let colorClass = "";
+
+                if (
+                    s.attendance === "Present"
+                ) {
+
+                    colorClass = "present";
+                }
+
+                if (
+                    s.attendance === "Absent"
+                ) {
+
+                    colorClass = "absent";
+                }
+
+                table.innerHTML += `
+
+                <tr>
+
+                    <td>${s.name}</td>
+
+                    <td>${s.department}</td>
+
+                    <td class="${colorClass}">
+                        ${s.attendance}
+                    </td>
+
+                    <td>
+
+                        <button onclick="markPresent(${index})">
+                            Present
+                        </button>
+
+                        <button onclick="markAbsent(${index})">
+                            Absent
+                        </button>
+
+                        <button onclick="editStudent(${index})">
+                            Edit
+                        </button>
+
+                        <button onclick="deleteStudent(${index})">
+                            Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+                `;
+            });
+
+            document.getElementById(
+                "total"
+            ).innerHTML =
+                "Total Students: "
+                + students.length;
+
+            document.getElementById(
+                "present"
+            ).innerHTML =
+                "Present: "
+                + presentCount;
+
+            document.getElementById(
+                "absent"
+            ).innerHTML =
+                "Absent: "
+                + absentCount;
+
+            document.getElementById(
+                "percentage"
+            ).innerHTML =
+                "Attendance %: "
+                +
+                (
+                    students.length === 0
+                    ? 0
+                    : (
+                        presentCount /
+                        students.length
+                    ) * 100
+                ).toFixed(2)
+                + "%";
+        }
+
+        function markPresent(index) {
+
+            students[index].attendance =
+                "Present";
+
+            saveData();
+
+            displayStudents();
+        }
+
+        function markAbsent(index) {
+
+            students[index].attendance =
+                "Absent";
+
+            saveData();
+
+            displayStudents();
+        }
+
+        function deleteStudent(index) {
+
+            students.splice(index, 1);
+
+            saveData();
+
+            displayStudents();
+        }
+
+        function editStudent(index) {
+
+            let newName =
+                prompt(
+                    "Enter New Name",
+                    students[index].name
+                );
+
+            let newDepartment =
+                prompt(
+                    "Enter New Department",
+                    students[index].department
+                );
+
+            if (
+                newName !== null
+                &&
+                newDepartment !== null
+            ) {
+
+                students[index].name =
+                    newName;
+
+                students[index].department =
+                    newDepartment;
+
+                saveData();
+
+                displayStudents();
+            }
+        }
+
+        function searchStudent() {
+
+            let value =
+                document.getElementById(
+                    "search"
+                ).value.toLowerCase();
+
+            let filtered =
+                students.filter((s) =>
+
+                    s.name.toLowerCase()
+                    .includes(value)
+                );
+
+            displayStudents(filtered);
+        }
+
+        function clearInputs() {
+
+            document.getElementById(
+                "studentName"
+            ).value = "";
+
+            document.getElementById(
+                "department"
+            ).value = "";
+        }
+
+        function clearAllStudents() {
+
+            let confirmDelete =
+                confirm(
+                    "Delete All Students?"
+                );
+
+            if (confirmDelete) {
+
+                students = [];
+
+                saveData();
+
+                displayStudents();
+            }
+        }
+
+        function saveData() {
+
+            localStorage.setItem(
+
+                "students",
+
+                JSON.stringify(students)
+            );
+        }
+
+        function logout() {
+
+            localStorage.removeItem(
+                "login"
+            );
+
+            window.location.href =
+                "login.html";
+        }
+
+        function toggleDarkMode() {
+
+            document.body.classList.toggle(
+                "dark-mode"
+            );
+        }
+
+    </script>
 
 </body>
 
