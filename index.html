@@ -1,60 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>
-        Smart Curriculum Activity and Attendance App
-    </title>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <title>Login</title>
 
     <style>
 
         body {
 
-            font-family: Arial, sans-serif;
+            font-family: Arial;
 
             background: #f4f4f4;
 
-            margin: 0;
+            display: flex;
 
-            padding: 20px;
+            justify-content: center;
 
-            transition: 0.3s;
+            align-items: center;
+
+            height: 100vh;
         }
 
-        h1 {
-
-            text-align: center;
-
-            color: #333;
-        }
-
-        .container {
-
-            max-width: 1200px;
-
-            margin: auto;
+        .box {
 
             background: white;
 
-            padding: 20px;
+            padding: 30px;
 
             border-radius: 10px;
 
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            width: 300px;
         }
 
         input,
-        select,
         button {
 
             width: 100%;
@@ -62,125 +41,6 @@
             padding: 10px;
 
             margin-top: 10px;
-
-            border-radius: 5px;
-
-            border: 1px solid #ccc;
-
-            box-sizing: border-box;
-        }
-
-        button {
-
-            background: #007bff;
-
-            color: white;
-
-            border: none;
-
-            cursor: pointer;
-        }
-
-        button:hover {
-
-            background: #0056b3;
-        }
-
-        table {
-
-            width: 100%;
-
-            border-collapse: collapse;
-
-            margin-top: 20px;
-        }
-
-        table,
-        th,
-        td {
-
-            border: 1px solid #ddd;
-        }
-
-        th {
-
-            background: #007bff;
-
-            color: white;
-        }
-
-        th,
-        td {
-
-            padding: 10px;
-
-            text-align: center;
-        }
-
-        .dashboard {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            margin-top: 20px;
-
-            gap: 10px;
-
-            flex-wrap: wrap;
-        }
-
-        .card {
-
-            flex: 1;
-
-            min-width: 200px;
-
-            background: #007bff;
-
-            color: white;
-
-            padding: 20px;
-
-            border-radius: 10px;
-
-            text-align: center;
-        }
-
-        canvas {
-
-            margin-top: 30px;
-        }
-
-        .dark-mode {
-
-            background: #121212;
-
-            color: white;
-        }
-
-        .dark-mode .container {
-
-            background: #1e1e1e;
-
-            color: white;
-        }
-
-        .dark-mode table,
-        .dark-mode th,
-        .dark-mode td {
-
-            border: 1px solid white;
-        }
-
-        .dark-mode input,
-        .dark-mode select {
-
-            background: #333;
-
-            color: white;
-
-            border: 1px solid white;
         }
 
     </style>
@@ -189,533 +49,61 @@
 
 <body>
 
-    <button onclick="toggleDarkMode()">
-        Dark Mode
-    </button>
+    <div class="box">
 
-    <div class="container">
-
-        <h1>
-            Smart Curriculum Activity and Attendance App
-        </h1>
+        <h2>Admin Login</h2>
 
         <input type="text"
-            id="studentId"
-            placeholder="Student ID">
+            id="username"
+            placeholder="Username">
 
-        <input type="text"
-            id="studentName"
-            placeholder="Student Name">
+        <input type="password"
+            id="password"
+            placeholder="Password">
 
-        <input type="text"
-            id="department"
-            placeholder="Department">
-
-        <input type="text"
-            id="year"
-            placeholder="Year">
-
-        <input type="text"
-            id="section"
-            placeholder="Section">
-
-        <input type="email"
-            id="email"
-            placeholder="Email">
-
-        <input type="text"
-            id="phone"
-            placeholder="Phone Number">
-
-        <select id="activity">
-
-            <option>Sports</option>
-
-            <option>NSS</option>
-
-            <option>NCC</option>
-
-            <option>Yoga</option>
-
-            <option>Cultural</option>
-
-        </select>
-
-        <button onclick="addStudent()">
-            Add Student
+        <button onclick="login()">
+            Login
         </button>
 
-        <input type="text"
-            id="searchInput"
-            placeholder="Search Student"
-            onkeyup="searchStudent()">
-
-        <div class="dashboard">
-
-            <div class="card">
-
-                <h3>Total Students</h3>
-
-                <h2 id="totalStudents">0</h2>
-
-            </div>
-
-            <div class="card">
-
-                <h3>Present</h3>
-
-                <h2 id="presentCount">0</h2>
-
-            </div>
-
-            <div class="card">
-
-                <h3>Absent</h3>
-
-                <h2 id="absentCount">0</h2>
-
-            </div>
-
-            <div class="card">
-
-                <h3>Attendance %</h3>
-
-                <h2 id="attendancePercent">0%</h2>
-
-            </div>
-
-        </div>
-
-        <button onclick="downloadCSV()">
-            Download CSV Report
-        </button>
-
-        <button onclick="downloadPDF()">
-            Download PDF Report
-        </button>
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>ID</th>
-
-                    <th>Name</th>
-
-                    <th>Department</th>
-
-                    <th>Year</th>
-
-                    <th>Section</th>
-
-                    <th>Email</th>
-
-                    <th>Phone</th>
-
-                    <th>Activity</th>
-
-                    <th>Status</th>
-
-                    <th>Actions</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody id="studentTable">
-
-            </tbody>
-
-        </table>
-
-        <canvas id="attendanceChart"></canvas>
+        <p id="msg"></p>
 
     </div>
 
     <script>
 
-        let students =
-            JSON.parse(localStorage.getItem("students"))
-            || [];
+        function login() {
 
-        let editIndex = -1;
+            let username =
+                document.getElementById(
+                    "username"
+                ).value;
 
-        let chart;
+            let password =
+                document.getElementById(
+                    "password"
+                ).value;
 
-        displayStudents();
+            if (
+                username === "admin"
+                &&
+                password === "admin123"
+            ) {
 
-        updateDashboard();
+                localStorage.setItem(
+                    "login",
+                    "true"
+                );
 
-        function addStudent() {
-
-            const student = {
-
-                id:
-                    document.getElementById("studentId").value,
-
-                name:
-                    document.getElementById("studentName").value,
-
-                department:
-                    document.getElementById("department").value,
-
-                year:
-                    document.getElementById("year").value,
-
-                section:
-                    document.getElementById("section").value,
-
-                email:
-                    document.getElementById("email").value,
-
-                phone:
-                    document.getElementById("phone").value,
-
-                activity:
-                    document.getElementById("activity").value,
-
-                attendance: "Not Marked"
-            };
-
-            if (editIndex === -1) {
-
-                students.push(student);
+                window.location.href =
+                    "index.html";
 
             } else {
 
-                students[editIndex] = student;
-
-                editIndex = -1;
-            }
-
-            localStorage.setItem(
-                "students",
-                JSON.stringify(students)
-            );
-
-            displayStudents();
-
-            updateDashboard();
-
-            clearForm();
-        }
-
-        function displayStudents() {
-
-            let table =
-                document.getElementById("studentTable");
-
-            table.innerHTML = "";
-
-            students.forEach((s, index) => {
-
-                table.innerHTML += `
-
-                <tr>
-
-                    <td>${s.id}</td>
-
-                    <td>${s.name}</td>
-
-                    <td>${s.department}</td>
-
-                    <td>${s.year}</td>
-
-                    <td>${s.section}</td>
-
-                    <td>${s.email}</td>
-
-                    <td>${s.phone}</td>
-
-                    <td>${s.activity}</td>
-
-                    <td>${s.attendance}</td>
-
-                    <td>
-
-                        <button onclick="markAttendance(${index}, 'Present')">
-
-                            Present
-
-                        </button>
-
-                        <button onclick="markAttendance(${index}, 'Absent')">
-
-                            Absent
-
-                        </button>
-
-                        <button onclick="editStudent(${index})">
-
-                            Edit
-
-                        </button>
-
-                        <button onclick="deleteStudent(${index})">
-
-                            Delete
-
-                        </button>
-
-                    </td>
-
-                </tr>
-
-                `;
-            });
-        }
-
-        function markAttendance(index, status) {
-
-            students[index].attendance = status;
-
-            localStorage.setItem(
-                "students",
-                JSON.stringify(students)
-            );
-
-            displayStudents();
-
-            updateDashboard();
-        }
-
-        function deleteStudent(index) {
-
-            students.splice(index, 1);
-
-            localStorage.setItem(
-                "students",
-                JSON.stringify(students)
-            );
-
-            displayStudents();
-
-            updateDashboard();
-        }
-
-        function editStudent(index) {
-
-            document.getElementById("studentId").value =
-                students[index].id;
-
-            document.getElementById("studentName").value =
-                students[index].name;
-
-            document.getElementById("department").value =
-                students[index].department;
-
-            document.getElementById("year").value =
-                students[index].year;
-
-            document.getElementById("section").value =
-                students[index].section;
-
-            document.getElementById("email").value =
-                students[index].email;
-
-            document.getElementById("phone").value =
-                students[index].phone;
-
-            document.getElementById("activity").value =
-                students[index].activity;
-
-            editIndex = index;
-        }
-
-        function searchStudent() {
-
-            let input =
-                document.getElementById("searchInput")
-                .value.toLowerCase();
-
-            let table =
-                document.getElementById("studentTable");
-
-            let rows =
-                table.getElementsByTagName("tr");
-
-            for (let i = 0; i < rows.length; i++) {
-
-                let data =
-                    rows[i].innerText.toLowerCase();
-
-                if (data.includes(input)) {
-
-                    rows[i].style.display = "";
-
-                } else {
-
-                    rows[i].style.display = "none";
-                }
-            }
-        }
-
-        function updateDashboard() {
-
-            let total = students.length;
-
-            let present = students.filter(
-                s => s.attendance === "Present"
-            ).length;
-
-            let absent = students.filter(
-                s => s.attendance === "Absent"
-            ).length;
-
-            let percent =
-                total === 0
-                ? 0
-                : ((present / total) * 100).toFixed(2);
-
-            document.getElementById(
-                "totalStudents").innerHTML = total;
-
-            document.getElementById(
-                "presentCount").innerHTML = present;
-
-            document.getElementById(
-                "absentCount").innerHTML = absent;
-
-            document.getElementById(
-                "attendancePercent").innerHTML =
-                percent + "%";
-
-            createChart(present, absent);
-        }
-
-        function clearForm() {
-
-            document.getElementById("studentId").value = "";
-
-            document.getElementById("studentName").value = "";
-
-            document.getElementById("department").value = "";
-
-            document.getElementById("year").value = "";
-
-            document.getElementById("section").value = "";
-
-            document.getElementById("email").value = "";
-
-            document.getElementById("phone").value = "";
-        }
-
-        function downloadCSV() {
-
-            let csv =
-`ID,Name,Department,Year,Section,Email,Phone,Activity,Attendance\n`;
-
-            students.forEach((s) => {
-
-                csv +=
-`${s.id},
-${s.name},
-${s.department},
-${s.year},
-${s.section},
-${s.email},
-${s.phone},
-${s.activity},
-${s.attendance}\n`;
-            });
-
-            let blob =
-                new Blob([csv],
-                { type: 'text/csv' });
-
-            let url =
-                window.URL.createObjectURL(blob);
-
-            let a =
-                document.createElement("a");
-
-            a.href = url;
-
-            a.download =
-                "attendance_report.csv";
-
-            a.click();
-        }
-
-        async function downloadPDF() {
-
-            const { jsPDF } = window.jspdf;
-
-            const doc = new jsPDF();
-
-            doc.text(
-                "Attendance Report",
-                20,
-                20
-            );
-
-            let y = 40;
-
-            students.forEach((s) => {
-
-                doc.text(
-
-`${s.id} | ${s.name} | ${s.department} | ${s.attendance}`,
-
-                    20,
-
-                    y
-                );
-
-                y += 10;
-            });
-
-            doc.save(
-                "attendance_report.pdf"
-            );
-        }
-
-        function toggleDarkMode() {
-
-            document.body.classList.toggle(
-                "dark-mode"
-            );
-        }
-
-        function createChart(present, absent) {
-
-            let ctx =
                 document.getElementById(
-                    "attendanceChart"
-                );
-
-            if (chart) {
-
-                chart.destroy();
+                    "msg"
+                ).innerHTML =
+                    "Invalid Login";
             }
-
-            chart = new Chart(ctx, {
-
-                type: "pie",
-
-                data: {
-
-                    labels: [
-                        "Present",
-                        "Absent"
-                    ],
-
-                    datasets: [{
-
-                        data: [
-                            present,
-                            absent
-                        ],
-
-                        backgroundColor: [
-                            "green",
-                            "red"
-                        ]
-                    }]
-                }
-            });
         }
 
     </script>
