@@ -9,248 +9,164 @@
 content="width=device-width, initial-scale=1.0">
 
 <title>
-
 Smart Curriculum Activity Attendance App
-
 </title>
 
 <style>
 
 body{
-
 margin:0;
-
 font-family:Arial;
-
 background:#f2f2f2;
-
 transition:0.3s;
-
 }
 
 .dark-mode{
-
 background:#121212;
-
 color:white;
-
 }
 
 header{
-
 background:#0066ff;
-
 color:white;
-
 padding:20px;
-
 text-align:center;
-
 }
 
 .container{
-
 padding:20px;
-
 }
 
 .dashboard{
-
 display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:15px;
-
 margin-top:20px;
-
 }
 
 .card{
-
 background:white;
-
 padding:20px;
-
 border-radius:10px;
-
 box-shadow:0 0 10px rgba(0,0,0,0.2);
-
 transition:0.3s;
-
 }
 
 .dark-mode .card{
-
 background:#1f1f1f;
-
 }
 
 .card:hover{
-
 transform:scale(1.03);
-
 }
 
 input,
 textarea,
 button,
 select{
-
 width:100%;
-
 padding:10px;
-
 margin-top:10px;
-
 border-radius:5px;
-
 border:1px solid #ccc;
-
 box-sizing:border-box;
-
 }
 
 button{
-
 background:#0066ff;
-
 color:white;
-
 border:none;
-
 cursor:pointer;
-
 }
 
 button:hover{
-
 background:#0044aa;
-
 }
 
 .notice{
-
 background:orange;
-
 color:white;
-
 padding:10px;
-
 border-radius:5px;
-
 margin-top:15px;
-
 }
 
 .progress{
-
 width:100%;
-
 background:#ddd;
-
 border-radius:20px;
-
 overflow:hidden;
-
 margin-top:20px;
-
 }
 
 .progress-bar{
-
 width:0%;
-
 height:25px;
-
 background:green;
-
 text-align:center;
-
 line-height:25px;
-
 color:white;
-
 }
 
 table{
-
 width:100%;
-
 margin-top:20px;
-
 border-collapse:collapse;
-
 }
 
 table,
 th,
 td{
-
 border:1px solid #ccc;
-
 }
 
 th{
-
 background:#0066ff;
-
 color:white;
-
 }
 
 th,
 td{
-
 padding:10px;
-
 text-align:center;
-
 }
 
 .present{
-
 color:green;
-
 font-weight:bold;
-
 }
 
 .absent{
-
 color:red;
-
 font-weight:bold;
-
 }
 
 .pending{
-
 color:orange;
-
 font-weight:bold;
-
 }
 
 img{
-
 border-radius:50%;
-
 }
 
 footer{
-
 margin-top:30px;
-
 text-align:center;
-
 padding:15px;
-
 background:#0066ff;
-
 color:white;
+}
 
+.chart-container{
+margin-top:30px;
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+.dark-mode .chart-container{
+background:#1f1f1f;
 }
 
 </style>
@@ -262,9 +178,7 @@ color:white;
 <header>
 
 <h1>
-
 Smart Curriculum Activity And Attendance App
-
 </h1>
 
 </header>
@@ -272,89 +186,39 @@ Smart Curriculum Activity And Attendance App
 <div class="container">
 
 <button onclick="toggleDarkMode()">
-
 Dark Mode
-
 </button>
 
 <button onclick="logout()">
-
 Logout
-
 </button>
 
 <h3 id="dateTime"></h3>
 
 <div class="notice">
-
-Submit Attendance Before 5 PM
-
+Attendance Submission Before 5 PM
 </div>
 
 <div class="dashboard">
 
 <div class="card">
-
-<h2 id="totalStudents">
-
-0
-
-</h2>
-
-<p>
-
-Total Students
-
-</p>
-
+<h2 id="totalStudents">0</h2>
+<p>Total Students</p>
 </div>
 
 <div class="card">
-
-<h2 id="presentStudents">
-
-0
-
-</h2>
-
-<p>
-
-Present Students
-
-</p>
-
+<h2 id="presentStudents">0</h2>
+<p>Present Students</p>
 </div>
 
 <div class="card">
-
-<h2 id="absentStudents">
-
-0
-
-</h2>
-
-<p>
-
-Absent Students
-
-</p>
-
+<h2 id="absentStudents">0</h2>
+<p>Absent Students</p>
 </div>
 
 <div class="card">
-
-<h2 id="attendancePercent">
-
-0%
-
-</h2>
-
-<p>
-
-Attendance Percentage
-
-</p>
-
+<h2 id="attendancePercent">0%</h2>
+<p>Attendance Percentage</p>
 </div>
 
 </div>
@@ -393,29 +257,10 @@ placeholder="Student Email">
 
 <select id="semester">
 
-<option>
-
-Semester 1
-
-</option>
-
-<option>
-
-Semester 2
-
-</option>
-
-<option>
-
-Semester 3
-
-</option>
-
-<option>
-
-Semester 4
-
-</option>
+<option>Semester 1</option>
+<option>Semester 2</option>
+<option>Semester 3</option>
+<option>Semester 4</option>
 
 </select>
 
@@ -430,33 +275,23 @@ placeholder="Remarks"></textarea>
 id="photo">
 
 <button onclick="addStudent()">
-
 Add Student
-
 </button>
 
 <button onclick="clearAllStudents()">
-
 Clear All Students
-
 </button>
 
 <button onclick="resetAttendance()">
-
 Reset Attendance
-
 </button>
 
 <button onclick="exportCSV()">
-
 Export CSV
-
 </button>
 
 <button onclick="window.print()">
-
 Download PDF
-
 </button>
 
 <table>
@@ -466,23 +301,14 @@ Download PDF
 <tr>
 
 <th>Photo</th>
-
 <th>Name</th>
-
 <th>Department</th>
-
 <th>ID</th>
-
 <th>Email</th>
-
 <th>Semester</th>
-
 <th>Activity</th>
-
 <th>Remarks</th>
-
 <th>Status</th>
-
 <th>Actions</th>
 
 </tr>
@@ -495,6 +321,18 @@ Download PDF
 
 </table>
 
+<div class="chart-container">
+
+<h2>
+Attendance Report
+</h2>
+
+<canvas id="attendanceChart">
+
+</canvas>
+
+</div>
+
 </div>
 
 <footer>
@@ -502,6 +340,8 @@ Download PDF
 Smart Curriculum Activity Attendance App
 
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 
@@ -696,25 +536,17 @@ table.innerHTML += `
 <tr>
 
 <td>
-
 <img src="${student.photo}"
 width="50"
 height="50">
-
 </td>
 
 <td>${student.name}</td>
-
 <td>${student.department}</td>
-
 <td>${student.id}</td>
-
 <td>${student.email}</td>
-
 <td>${student.semester}</td>
-
 <td>${student.activity}</td>
-
 <td>${student.remarks}</td>
 
 <td class="${colorClass}">
@@ -724,33 +556,23 @@ ${student.attendance}
 <td>
 
 <button onclick="markPresent(${index})">
-
 Present
-
 </button>
 
 <button onclick="markAbsent(${index})">
-
 Absent
-
 </button>
 
 <button onclick="editStudent(${index})">
-
 Edit
-
 </button>
 
 <button onclick="deleteStudent(${index})">
-
 Delete
-
 </button>
 
 <button onclick="sendMail('${student.email}')">
-
 Mail
-
 </button>
 
 </td>
@@ -806,6 +628,8 @@ document.getElementById(
 ).innerHTML =
 percentage.toFixed(0)
 + "%";
+
+updateChart(present,absent);
 
 }
 
@@ -872,11 +696,8 @@ window.location.href =
 function saveStudents(){
 
 localStorage.setItem(
-
 "students",
-
 JSON.stringify(students)
-
 );
 
 }
@@ -991,9 +812,7 @@ student.attendance + "\n";
 
 let blob =
 new Blob([csv],{
-
 type:"text/csv"
-
 });
 
 let url =
@@ -1070,6 +889,51 @@ updateDateTime,
 );
 
 updateDateTime();
+
+let chart;
+
+function updateChart(present,absent){
+
+let ctx =
+document.getElementById(
+"attendanceChart"
+);
+
+if(chart){
+chart.destroy();
+}
+
+chart =
+new Chart(ctx,{
+
+type:"pie",
+
+data:{
+
+labels:[
+"Present",
+"Absent"
+],
+
+datasets:[{
+
+data:[
+present,
+absent
+],
+
+backgroundColor:[
+"green",
+"red"
+]
+
+}]
+
+}
+
+});
+
+}
 
 </script>
 
