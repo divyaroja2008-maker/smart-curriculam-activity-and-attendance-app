@@ -9,20 +9,18 @@
         content="width=device-width, initial-scale=1.0">
 
     <title>
-        Smart Attendance App
+        Smart Curriculum Dashboard
     </title>
 
     <style>
 
         body {
 
-            font-family: Arial;
-
             margin: 0;
 
-            padding: 20px;
+            font-family: Arial;
 
-            background: #f2f2f2;
+            background: #f0f2f5;
 
             transition: 0.3s;
         }
@@ -34,31 +32,86 @@
             color: white;
         }
 
+        header {
+
+            background: blue;
+
+            color: white;
+
+            padding: 15px;
+
+            text-align: center;
+        }
+
         .container {
+
+            padding: 20px;
+        }
+
+        .dashboard {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit,
+                minmax(220px,1fr));
+
+            gap: 15px;
+        }
+
+        .card {
 
             background: white;
 
-            padding: 20px;
-
             border-radius: 10px;
 
+            padding: 20px;
+
             box-shadow: 0 0 10px rgba(0,0,0,0.2);
+
+            transition: 0.3s;
         }
 
-        .dark-mode .container {
+        .dark-mode .card {
 
-            background: #1e1e1e;
+            background: #1f1f1f;
         }
 
-        h1 {
+        .card:hover {
 
-            text-align: center;
+            transform: scale(1.03);
+        }
 
-            color: blue;
+        .card h2 {
+
+            margin: 0;
+        }
+
+        button {
+
+            width: 100%;
+
+            padding: 10px;
+
+            border: none;
+
+            background: blue;
+
+            color: white;
+
+            border-radius: 5px;
+
+            margin-top: 10px;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+
+            background: darkblue;
         }
 
         input,
-        button,
         textarea {
 
             width: 100%;
@@ -74,81 +127,20 @@
             box-sizing: border-box;
         }
 
-        button {
-
-            background: blue;
-
-            color: white;
-
-            border: none;
-
-            cursor: pointer;
-
-            transition: 0.3s;
-        }
-
-        button:hover {
-
-            background: darkblue;
-
-            transform: scale(1.03);
-        }
-
-        .dashboard {
-
-            display: flex;
-
-            gap: 10px;
-
-            flex-wrap: wrap;
-
-            margin-top: 20px;
-        }
-
-        .card {
-
-            flex: 1;
-
-            min-width: 180px;
-
-            background: blue;
-
-            color: white;
-
-            padding: 15px;
-
-            border-radius: 10px;
-
-            text-align: center;
-        }
-
-        .notice {
-
-            background: orange;
-
-            color: white;
-
-            padding: 10px;
-
-            border-radius: 5px;
-
-            margin-top: 15px;
-        }
-
         table {
 
             width: 100%;
 
-            margin-top: 20px;
-
             border-collapse: collapse;
+
+            margin-top: 20px;
         }
 
         table,
         th,
         td {
 
-            border: 1px solid black;
+            border: 1px solid #ccc;
         }
 
         th {
@@ -180,13 +172,26 @@
             font-weight: bold;
         }
 
+        .notice {
+
+            background: orange;
+
+            color: white;
+
+            padding: 10px;
+
+            border-radius: 5px;
+
+            margin-top: 15px;
+        }
+
         .progress {
 
             width: 100%;
 
             background: #ddd;
 
-            border-radius: 10px;
+            border-radius: 20px;
 
             overflow: hidden;
 
@@ -201,9 +206,9 @@
 
             background: green;
 
-            color: white;
-
             text-align: center;
+
+            color: white;
 
             line-height: 25px;
         }
@@ -213,759 +218,676 @@
             border-radius: 50%;
         }
 
-        @media screen and (max-width: 600px) {
-
-            .dashboard {
-
-                flex-direction: column;
-            }
-
-            table {
-
-                font-size: 12px;
-            }
-        }
-
     </style>
 
 </head>
 
 <body>
 
-    <div class="container">
+<header>
 
-        <button onclick="logout()">
+    <h1>
 
-            Logout
+        Smart Curriculum Activity And Attendance App
 
-        </button>
+    </h1>
 
-        <h1>
+</header>
 
-            Smart Curriculum Activity And Attendance App
+<div class="container">
 
-        </h1>
+    <button onclick="toggleDarkMode()">
 
-        <h3>
+        Dark Mode
 
-            Welcome Admin
+    </button>
 
-        </h3>
+    <button onclick="logout()">
 
-        <h4 id="dateTime"></h4>
+        Logout
 
-        <button onclick="toggleDarkMode()">
+    </button>
 
-            Dark Mode
+    <h3 id="dateTime"></h3>
 
-        </button>
+    <div class="notice">
 
-        <div class="notice">
-
-            Submit Attendance Before 5 PM
-
-        </div>
-
-        <div class="dashboard">
-
-            <div class="card">
-
-                <h3>
-                    Admin Profile
-                </h3>
-
-                <p>
-                    Name: Admin
-                </p>
-
-                <p>
-                    Role: Attendance Manager
-                </p>
-
-            </div>
-
-            <div class="card">
-
-                <h3 id="total">
-
-                    Total Students: 0
-
-                </h3>
-
-            </div>
-
-            <div class="card">
-
-                <h3 id="present">
-
-                    Present: 0
-
-                </h3>
-
-            </div>
-
-            <div class="card">
-
-                <h3 id="absent">
-
-                    Absent: 0
-
-                </h3>
-
-            </div>
-
-            <div class="card">
-
-                <h3 id="percentage">
-
-                    Attendance %: 0%
-
-                </h3>
-
-            </div>
-
-        </div>
-
-        <div class="progress">
-
-            <div class="progress-bar"
-                id="progressBar">
-
-                0%
-
-            </div>
-
-        </div>
-
-        <input type="text"
-            id="search"
-            placeholder="Search Student"
-            onkeyup="searchStudent()">
-
-        <input type="text"
-            id="studentName"
-            placeholder="Student Name">
-
-        <input type="text"
-            id="department"
-            placeholder="Department">
-
-        <input type="text"
-            id="studentId"
-            placeholder="Student ID">
-
-        <input type="email"
-            id="email"
-            placeholder="Student Email">
-
-        <input type="text"
-            id="activity"
-            placeholder="Curriculum Activity">
-
-        <textarea id="remarks"
-            placeholder="Remarks"></textarea>
-
-        <input type="file"
-            id="studentPhoto">
-
-        <button onclick="addStudent()">
-
-            Add Student
-
-        </button>
-
-        <button onclick="clearAllStudents()">
-
-            Clear All Students
-
-        </button>
-
-        <button onclick="resetAttendance()">
-
-            Reset Attendance
-
-        </button>
-
-        <button onclick="exportCSV()">
-
-            Export CSV
-
-        </button>
-
-        <button onclick="window.print()">
-
-            Download PDF
-
-        </button>
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>Photo</th>
-
-                    <th>Name</th>
-
-                    <th>Department</th>
-
-                    <th>ID</th>
-
-                    <th>Email</th>
-
-                    <th>Activity</th>
-
-                    <th>Remarks</th>
-
-                    <th>Attendance</th>
-
-                    <th>Percentage</th>
-
-                    <th>Action</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody id="studentTable">
-
-            </tbody>
-
-        </table>
+        Notification:
+        Attendance Submission Before 5 PM
 
     </div>
 
-    <script>
+    <div class="dashboard">
 
-        if (
-            localStorage.getItem("login")
-            !== "true"
-        ) {
+        <div class="card">
 
-            window.location.href =
-                "login.html";
-        }
+            <h2 id="totalStudents">
 
-        if (
+                0
+
+            </h2>
+
+            <p>
+
+                Total Students
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h2 id="presentCount">
+
+                0
+
+            </h2>
+
+            <p>
+
+                Present Students
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h2 id="absentCount">
+
+                0
+
+            </h2>
+
+            <p>
+
+                Absent Students
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h2 id="attendancePercentage">
+
+                0%
+
+            </h2>
+
+            <p>
+
+                Attendance Percentage
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="progress">
+
+        <div class="progress-bar"
+            id="progressBar">
+
+            0%
+
+        </div>
+
+    </div>
+
+    <input type="text"
+        id="searchStudent"
+        placeholder="Search Student"
+        onkeyup="searchStudent()">
+
+    <input type="text"
+        id="studentName"
+        placeholder="Student Name">
+
+    <input type="text"
+        id="department"
+        placeholder="Department">
+
+    <input type="text"
+        id="studentId"
+        placeholder="Student ID">
+
+    <input type="email"
+        id="studentEmail"
+        placeholder="Student Email">
+
+    <input type="text"
+        id="activity"
+        placeholder="Curriculum Activity">
+
+    <textarea id="remarks"
+        placeholder="Remarks"></textarea>
+
+    <input type="file"
+        id="studentPhoto">
+
+    <button onclick="addStudent()">
+
+        Add Student
+
+    </button>
+
+    <button onclick="resetAttendance()">
+
+        Reset Attendance
+
+    </button>
+
+    <button onclick="clearAllStudents()">
+
+        Clear All Students
+
+    </button>
+
+    <button onclick="exportCSV()">
+
+        Export CSV
+
+    </button>
+
+    <button onclick="window.print()">
+
+        Download PDF
+
+    </button>
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Photo</th>
+
+                <th>Name</th>
+
+                <th>Department</th>
+
+                <th>ID</th>
+
+                <th>Email</th>
+
+                <th>Activity</th>
+
+                <th>Remarks</th>
+
+                <th>Attendance</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="studentTable">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+    if (
+        localStorage.getItem("login")
+        !== "true"
+    ) {
+
+        window.location.href =
+            "login.html";
+    }
+
+    let students =
+        JSON.parse(
             localStorage.getItem(
-                "darkMode"
-            ) === "enabled"
-        ) {
+                "students"
+            )
+        ) || [];
 
-            document.body.classList.add(
-                "dark-mode"
-            );
-        }
+    displayStudents();
 
-        let students =
-            JSON.parse(
-                localStorage.getItem(
-                    "students"
-                )
-            ) || [];
+    function addStudent() {
 
-        displayStudents();
-
-        function addStudent() {
-
-            let name =
-                document.getElementById(
-                    "studentName"
-                ).value;
-
-            let department =
-                document.getElementById(
-                    "department"
-                ).value;
-
-            let studentId =
-                document.getElementById(
-                    "studentId"
-                ).value;
-
-            let email =
-                document.getElementById(
-                    "email"
-                ).value;
-
-            let activity =
-                document.getElementById(
-                    "activity"
-                ).value;
-
-            let remarks =
-                document.getElementById(
-                    "remarks"
-                ).value;
-
-            let photoInput =
-                document.getElementById(
-                    "studentPhoto"
-                );
-
-            let file =
-                photoInput.files[0];
-
-            if (
-                name === ""
-                ||
-                department === ""
-                ||
-                studentId === ""
-                ||
-                email === ""
-                ||
-                activity === ""
-                ||
-                remarks === ""
-                ||
-                !file
-            ) {
-
-                alert(
-                    "Fill All Fields"
-                );
-
-                return;
-            }
-
-            let reader =
-                new FileReader();
-
-            reader.onload =
-                function(e) {
-
-                    students.push({
-
-                        name: name,
-
-                        department: department,
-
-                        id: studentId,
-
-                        email: email,
-
-                        activity: activity,
-
-                        remarks: remarks,
-
-                        photo: e.target.result,
-
-                        attendance: "Not Marked",
-
-                        percentage: 0
-                    });
-
-                    saveData();
-
-                    displayStudents();
-
-                    clearInputs();
-
-                    alert(
-                        "Student Added"
-                    );
-                };
-
-            reader.readAsDataURL(file);
-        }
-
-        function displayStudents(filtered = students) {
-
-            let table =
-                document.getElementById(
-                    "studentTable"
-                );
-
-            table.innerHTML = "";
-
-            let presentCount = 0;
-
-            let absentCount = 0;
-
-            filtered.forEach((student, index) => {
-
-                let colorClass = "";
-
-                if (
-                    student.attendance === "Present"
-                ) {
-
-                    colorClass = "present";
-
-                    presentCount++;
-                }
-
-                if (
-                    student.attendance === "Absent"
-                ) {
-
-                    colorClass = "absent";
-
-                    absentCount++;
-                }
-
-                table.innerHTML += `
-
-                <tr>
-
-                    <td>
-
-                        <img src="${student.photo}"
-                        width="50"
-                        height="50">
-
-                    </td>
-
-                    <td>${student.name}</td>
-
-                    <td>${student.department}</td>
-
-                    <td>${student.id}</td>
-
-                    <td>${student.email}</td>
-
-                    <td>${student.activity}</td>
-
-                    <td>${student.remarks}</td>
-
-                    <td class="${colorClass}">
-                        ${student.attendance}
-                    </td>
-
-                    <td>
-                        ${student.percentage}%
-                    </td>
-
-                    <td>
-
-                        <button onclick="markPresent(${index})">
-
-                            Present
-
-                        </button>
-
-                        <button onclick="markAbsent(${index})">
-
-                            Absent
-
-                        </button>
-
-                        <button onclick="editStudent(${index})">
-
-                            Edit
-
-                        </button>
-
-                        <button onclick="deleteStudent(${index})">
-
-                            Delete
-
-                        </button>
-
-                        <a href="mailto:${student.email}">
-
-                            <button>
-
-                                Mail
-
-                            </button>
-
-                        </a>
-
-                    </td>
-
-                </tr>
-                `;
-            });
-
-            document.getElementById(
-                "total"
-            ).innerHTML =
-                "Total Students: "
-                + students.length;
-
-            document.getElementById(
-                "present"
-            ).innerHTML =
-                "Present: "
-                + presentCount;
-
-            document.getElementById(
-                "absent"
-            ).innerHTML =
-                "Absent: "
-                + absentCount;
-
-            let percentage = 0;
-
-            if (
-                students.length > 0
-            ) {
-
-                percentage =
-                    (
-                        presentCount /
-                        students.length
-                    ) * 100;
-            }
-
-            document.getElementById(
-                "percentage"
-            ).innerHTML =
-                "Attendance %: "
-                + percentage.toFixed(2)
-                + "%";
-
-            document.getElementById(
-                "progressBar"
-            ).style.width =
-                percentage + "%";
-
-            document.getElementById(
-                "progressBar"
-            ).innerHTML =
-                percentage.toFixed(0)
-                + "%";
-        }
-
-        function markPresent(index) {
-
-            students[index].attendance =
-                "Present";
-
-            students[index].percentage =
-                100;
-
-            saveData();
-
-            displayStudents();
-        }
-
-        function markAbsent(index) {
-
-            students[index].attendance =
-                "Absent";
-
-            students[index].percentage =
-                0;
-
-            saveData();
-
-            displayStudents();
-        }
-
-        function editStudent(index) {
-
-            let newName =
-                prompt(
-                    "Enter New Name",
-                    students[index].name
-                );
-
-            if (newName !== null) {
-
-                students[index].name =
-                    newName;
-
-                saveData();
-
-                displayStudents();
-            }
-        }
-
-        function deleteStudent(index) {
-
-            students.splice(index, 1);
-
-            saveData();
-
-            displayStudents();
-        }
-
-        function resetAttendance() {
-
-            students.forEach((student) => {
-
-                student.attendance =
-                    "Not Marked";
-
-                student.percentage =
-                    0;
-            });
-
-            saveData();
-
-            displayStudents();
-        }
-
-        function clearInputs() {
-
+        let name =
             document.getElementById(
                 "studentName"
-            ).value = "";
+            ).value;
 
+        let department =
             document.getElementById(
                 "department"
-            ).value = "";
+            ).value;
 
+        let id =
             document.getElementById(
                 "studentId"
-            ).value = "";
+            ).value;
 
+        let email =
             document.getElementById(
-                "email"
-            ).value = "";
+                "studentEmail"
+            ).value;
 
+        let activity =
             document.getElementById(
                 "activity"
-            ).value = "";
+            ).value;
 
+        let remarks =
             document.getElementById(
                 "remarks"
-            ).value = "";
+            ).value;
 
+        let photoInput =
             document.getElementById(
                 "studentPhoto"
-            ).value = "";
-        }
-
-        function saveData() {
-
-            localStorage.setItem(
-
-                "students",
-
-                JSON.stringify(students)
-            );
-        }
-
-        function clearAllStudents() {
-
-            students = [];
-
-            saveData();
-
-            displayStudents();
-        }
-
-        function searchStudent() {
-
-            let value =
-                document.getElementById(
-                    "search"
-                ).value.toLowerCase();
-
-            let filtered =
-                students.filter((student) =>
-
-                    student.name
-                    .toLowerCase()
-                    .includes(value)
-
-                    ||
-
-                    student.department
-                    .toLowerCase()
-                    .includes(value)
-                );
-
-            displayStudents(filtered);
-        }
-
-        function toggleDarkMode() {
-
-            document.body.classList.toggle(
-                "dark-mode"
             );
 
-            if (
-                document.body.classList.contains(
-                    "dark-mode"
-                )
-            ) {
+        let file =
+            photoInput.files[0];
 
-                localStorage.setItem(
-                    "darkMode",
-                    "enabled"
-                );
-            }
+        if (
+            name === ""
+            ||
+            department === ""
+            ||
+            id === ""
+            ||
+            email === ""
+            ||
+            activity === ""
+            ||
+            remarks === ""
+            ||
+            !file
+        ) {
 
-            else {
-
-                localStorage.setItem(
-                    "darkMode",
-                    "disabled"
-                );
-            }
-        }
-
-        function logout() {
-
-            localStorage.removeItem(
-                "login"
+            alert(
+                "Fill All Fields"
             );
 
-            window.location.href =
-                "login.html";
+            return;
         }
 
-        function updateDateTime() {
+        let reader =
+            new FileReader();
 
-            let now = new Date();
+        reader.onload =
+            function(e) {
 
-            document.getElementById(
-                "dateTime"
-            ).innerHTML =
-                now.toLocaleString();
-        }
+                students.push({
 
-        setInterval(
-            updateDateTime,
-            1000
-        );
+                    name: name,
 
-        updateDateTime();
+                    department: department,
 
-        function exportCSV() {
+                    id: id,
 
-            let csv =
-                "Name,Department,ID,Email,Activity,Remarks,Attendance,Percentage\n";
+                    email: email,
 
-            students.forEach((student) => {
+                    activity: activity,
 
-                csv +=
-                    student.name + "," +
-                    student.department + "," +
-                    student.id + "," +
-                    student.email + "," +
-                    student.activity + "," +
-                    student.remarks + "," +
-                    student.attendance + "," +
-                    student.percentage + "%\n";
-            });
+                    remarks: remarks,
 
-            let blob =
-                new Blob([csv], {
-                    type: "text/csv"
+                    photo: e.target.result,
+
+                    attendance: "Not Marked"
                 });
 
-            let url =
-                window.URL.createObjectURL(blob);
+                saveStudents();
 
-            let a =
-                document.createElement("a");
+                displayStudents();
 
-            a.href = url;
+                clearInputs();
+            };
 
-            a.download =
-                "attendance.csv";
+        reader.readAsDataURL(file);
+    }
 
-            a.click();
+    function displayStudents(filtered = students) {
+
+        let table =
+            document.getElementById(
+                "studentTable"
+            );
+
+        table.innerHTML = "";
+
+        let present = 0;
+
+        let absent = 0;
+
+        filtered.forEach((student,index)=>{
+
+            let attendanceClass = "";
+
+            if (
+                student.attendance ===
+                "Present"
+            ) {
+
+                attendanceClass =
+                    "present";
+
+                present++;
+            }
+
+            if (
+                student.attendance ===
+                "Absent"
+            ) {
+
+                attendanceClass =
+                    "absent";
+
+                absent++;
+            }
+
+            table.innerHTML += `
+
+            <tr>
+
+                <td>
+
+                    <img src="${student.photo}"
+                    width="50"
+                    height="50">
+
+                </td>
+
+                <td>${student.name}</td>
+
+                <td>${student.department}</td>
+
+                <td>${student.id}</td>
+
+                <td>${student.email}</td>
+
+                <td>${student.activity}</td>
+
+                <td>${student.remarks}</td>
+
+                <td class="${attendanceClass}">
+                    ${student.attendance}
+                </td>
+
+                <td>
+
+                    <button onclick="markPresent(${index})">
+
+                        Present
+
+                    </button>
+
+                    <button onclick="markAbsent(${index})">
+
+                        Absent
+
+                    </button>
+
+                    <button onclick="deleteStudent(${index})">
+
+                        Delete
+
+                    </button>
+
+                    <a href="mailto:${student.email}">
+
+                        <button>
+
+                            Mail
+
+                        </button>
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            `;
+        });
+
+        document.getElementById(
+            "totalStudents"
+        ).innerHTML =
+            students.length;
+
+        document.getElementById(
+            "presentCount"
+        ).innerHTML =
+            present;
+
+        document.getElementById(
+            "absentCount"
+        ).innerHTML =
+            absent;
+
+        let percentage = 0;
+
+        if (
+            students.length > 0
+        ) {
+
+            percentage =
+                (
+                    present /
+                    students.length
+                ) * 100;
         }
 
-    </script>
+        document.getElementById(
+            "attendancePercentage"
+        ).innerHTML =
+            percentage.toFixed(0)
+            + "%";
+
+        document.getElementById(
+            "progressBar"
+        ).style.width =
+            percentage + "%";
+
+        document.getElementById(
+            "progressBar"
+        ).innerHTML =
+            percentage.toFixed(0)
+            + "%";
+    }
+
+    function markPresent(index) {
+
+        students[index].attendance =
+            "Present";
+
+        saveStudents();
+
+        displayStudents();
+    }
+
+    function markAbsent(index) {
+
+        students[index].attendance =
+            "Absent";
+
+        saveStudents();
+
+        displayStudents();
+    }
+
+    function deleteStudent(index) {
+
+        students.splice(index,1);
+
+        saveStudents();
+
+        displayStudents();
+    }
+
+    function saveStudents() {
+
+        localStorage.setItem(
+
+            "students",
+
+            JSON.stringify(students)
+        );
+    }
+
+    function clearInputs() {
+
+        document.getElementById(
+            "studentName"
+        ).value = "";
+
+        document.getElementById(
+            "department"
+        ).value = "";
+
+        document.getElementById(
+            "studentId"
+        ).value = "";
+
+        document.getElementById(
+            "studentEmail"
+        ).value = "";
+
+        document.getElementById(
+            "activity"
+        ).value = "";
+
+        document.getElementById(
+            "remarks"
+        ).value = "";
+
+        document.getElementById(
+            "studentPhoto"
+        ).value = "";
+    }
+
+    function clearAllStudents() {
+
+        students = [];
+
+        saveStudents();
+
+        displayStudents();
+    }
+
+    function resetAttendance() {
+
+        students.forEach((student)=>{
+
+            student.attendance =
+                "Not Marked";
+        });
+
+        saveStudents();
+
+        displayStudents();
+    }
+
+    function searchStudent() {
+
+        let value =
+            document.getElementById(
+                "searchStudent"
+            ).value.toLowerCase();
+
+        let filtered =
+            students.filter((student)=>
+
+                student.name
+                .toLowerCase()
+                .includes(value)
+
+                ||
+
+                student.department
+                .toLowerCase()
+                .includes(value)
+            );
+
+        displayStudents(filtered);
+    }
+
+    function exportCSV() {
+
+        let csv =
+            "Name,Department,ID,Email,Activity,Remarks,Attendance\n";
+
+        students.forEach((student)=>{
+
+            csv +=
+                student.name + "," +
+                student.department + "," +
+                student.id + "," +
+                student.email + "," +
+                student.activity + "," +
+                student.remarks + "," +
+                student.attendance + "\n";
+        });
+
+        let blob =
+            new Blob([csv],{
+                type:"text/csv"
+            });
+
+        let url =
+            window.URL.createObjectURL(blob);
+
+        let a =
+            document.createElement("a");
+
+        a.href = url;
+
+        a.download =
+            "attendance.csv";
+
+        a.click();
+    }
+
+    function toggleDarkMode() {
+
+        document.body.classList.toggle(
+            "dark-mode"
+        );
+    }
+
+    function logout() {
+
+        localStorage.removeItem(
+            "login"
+        );
+
+        window.location.href =
+            "login.html";
+    }
+
+    function updateDateTime() {
+
+        let now = new Date();
+
+        document.getElementById(
+            "dateTime"
+        ).innerHTML =
+            now.toLocaleString();
+    }
+
+    setInterval(
+        updateDateTime,
+        1000
+    );
+
+    updateDateTime();
+
+</script>
 
 </body>
 
