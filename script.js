@@ -1,107 +1,25 @@
-let students = JSON.parse(localStorage.getItem("students")) || [];
+function searchStudent() {
 
-let editIndex = -1;
+    let input =
+        document.getElementById("searchInput")
+        .value.toLowerCase();
 
-displayStudents();
+    let table =
+        document.getElementById("studentTable");
 
-function addStudent() {
+    let rows = table.getElementsByTagName("tr");
 
-    const student = {
-        id: document.getElementById("studentId").value,
-        name: document.getElementById("studentName").value,
-        department: document.getElementById("department").value,
-        year: document.getElementById("year").value,
-        section: document.getElementById("section").value,
-        email: document.getElementById("email").value,
-        phone: document.getElementById("phone").value,
-        activity: document.getElementById("activity").value
-    };
+    for (let i = 0; i < rows.length; i++) {
 
-    if (editIndex === -1) {
+        let data = rows[i].innerText.toLowerCase();
 
-        students.push(student);
+        if (data.includes(input)) {
 
-    } else {
+            rows[i].style.display = "";
 
-        students[editIndex] = student;
+        } else {
 
-        editIndex = -1;
+            rows[i].style.display = "none";
+        }
     }
-
-    localStorage.setItem("students", JSON.stringify(students));
-
-    displayStudents();
-
-    document.getElementById("studentForm").reset();
-}
-
-function displayStudents() {
-
-    let table = document.getElementById("studentTable");
-
-    table.innerHTML = "";
-
-    students.forEach((s, index) => {
-
-        table.innerHTML += `
-        <tr>
-            <td>${s.id}</td>
-            <td>${s.name}</td>
-            <td>${s.department}</td>
-            <td>${s.year}</td>
-            <td>${s.section}</td>
-            <td>${s.email}</td>
-            <td>${s.phone}</td>
-            <td>${s.activity}</td>
-
-            <td>
-                <button onclick="editStudent(${index})">
-                    Edit
-                </button>
-
-                <button onclick="deleteStudent(${index})">
-                    Delete
-                </button>
-            </td>
-        </tr>
-        `;
-    });
-}
-
-function deleteStudent(index) {
-
-    students.splice(index, 1);
-
-    localStorage.setItem("students", JSON.stringify(students));
-
-    displayStudents();
-}
-
-function editStudent(index) {
-
-    document.getElementById("studentId").value =
-        students[index].id;
-
-    document.getElementById("studentName").value =
-        students[index].name;
-
-    document.getElementById("department").value =
-        students[index].department;
-
-    document.getElementById("year").value =
-        students[index].year;
-
-    document.getElementById("section").value =
-        students[index].section;
-
-    document.getElementById("email").value =
-        students[index].email;
-
-    document.getElementById("phone").value =
-        students[index].phone;
-
-    document.getElementById("activity").value =
-        students[index].activity;
-
-    editIndex = index;
 }
