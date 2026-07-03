@@ -1,97 +1,27 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-  <title>Smart Attendance App</title>
-
-  <link rel="stylesheet" href="style.css">
-
-</head>
-
-<body>
-
-<div class="container">
-
-<h1>Smart Attendance App</h1>
-
-<button onclick="toggleDarkMode()">
-🌙 Dark Mode
-</button>
-
-<br><br>
-
-<input
-type="text"
-id="studentName"
-placeholder="Enter student name">
-
-<br><br>
+<input type="text" id="studentName" placeholder="Enter Student Name">
 
 <select id="activity">
-
-<option>Sports</option>
-<option>Dance</option>
-<option>Music</option>
-<option>Yoga</option>
-<option>NCC</option>
-
+    <option>Sports</option>
+    <option>NSS</option>
+    <option>NCC</option>
+    <option>Yoga</option>
 </select>
 
-<br><br>
+<button onclick="markAttendance('Present')">Present</button>
+<button onclick="markAttendance('Absent')">Absent</button>
 
-<button onclick="markAttendance('Present')">
-Present
-</button>
+<h3>Total Students: <span id="totalStudents">0</span></h3>
+<h3>Present: <span id="presentCount">0</span></h3>
+<h3>Absent: <span id="absentCount">0</span></h3>
+<h3>Attendance %: <span id="attendancePercent">0%</span></h3>
 
-<button onclick="markAttendance('Absent')">
-Absent
-</button>
-
-<br><br>
-
-<input
-type="text"
-id="searchInput"
-placeholder="Search student"
-onkeyup="searchStudent()">
-
-<br><br>
-
-<button onclick="downloadReport()">
-Download Report
-</button>
-
-<div class="dashboard">
-
-<div class="card blue">
-<h2 id="totalStudents">0</h2>
-<p>Total Students</p>
-</div>
-
-<div class="card green">
-<h2 id="presentCount">0</h2>
-<p>Present</p>
-</div>
-
-<div class="card red">
-<h2 id="absentCount">0</h2>
-<p>Absent</p>
-</div>
-
-<div class="card purple">
-<h2 id="attendancePercentage">0%</h2>
-<p>Attendance %</p>
-</div>
-
-</div>
-
-<ul id="attendanceList"></ul>
-
-</div>
-
-<script src="script.js"></script>
-
-</body>
-
-</html>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Activity</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="attendanceTable"></tbody>
+</table>
