@@ -16,8 +16,11 @@ function markAttendance(status) {
   let item =
     document.createElement("li");
 
-  item.innerText =
-    student + " - " + status;
+  let time =
+new Date().toLocaleString();
+
+item.innerText =
+student + " - " + status + " - " + time;
 
   if(status === "Present") {
     item.style.color = "green";
