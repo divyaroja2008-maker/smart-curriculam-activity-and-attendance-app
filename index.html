@@ -180,6 +180,12 @@
             Smart Attendance App
         </h1>
 
+        <h3 id="welcome">
+            Welcome Admin
+        </h3>
+
+        <h4 id="dateTime"></h4>
+
         <button onclick="toggleDarkMode()">
             Dark Mode
         </button>
@@ -233,12 +239,24 @@
             id="department"
             placeholder="Department">
 
+        <input type="text"
+            id="studentId"
+            placeholder="Student ID">
+
+        <input type="email"
+            id="email"
+            placeholder="Student Email">
+
         <button onclick="addStudent()">
             Add Student
         </button>
 
         <button onclick="clearAllStudents()">
             Clear All Students
+        </button>
+
+        <button onclick="exportCSV()">
+            Export CSV
         </button>
 
         <table>
@@ -250,6 +268,10 @@
                     <th>Name</th>
 
                     <th>Department</th>
+
+                    <th>ID</th>
+
+                    <th>Email</th>
 
                     <th>Attendance</th>
 
@@ -292,21 +314,35 @@
             let name =
                 document.getElementById(
                     "studentName"
-                ).value;
+                ).value.trim();
 
             let department =
                 document.getElementById(
                     "department"
-                ).value;
+                ).value.trim();
+
+            let studentId =
+                document.getElementById(
+                    "studentId"
+                ).value.trim();
+
+            let email =
+                document.getElementById(
+                    "email"
+                ).value.trim();
 
             if (
                 name === ""
                 ||
                 department === ""
+                ||
+                studentId === ""
+                ||
+                email === ""
             ) {
 
                 alert(
-                    "Fill all fields"
+                    "Please fill all fields"
                 );
 
                 return;
@@ -317,6 +353,10 @@
                 name: name,
 
                 department: department,
+
+                id: studentId,
+
+                email: email,
 
                 attendance: "Not Marked"
             });
@@ -341,67 +381,79 @@
 
             let absentCount = 0;
 
-            filtered.forEach((s, index) => {
+            filtered.forEach((student, index) => {
+
+                let colorClass = "";
 
                 if (
-                    s.attendance === "Present"
+                    student.attendance === "Present"
                 ) {
+
+                    colorClass = "present";
 
                     presentCount++;
                 }
 
                 if (
-                    s.attendance === "Absent"
-                ) {
-
-                    absentCount++;
-                }
-
-                let colorClass = "";
-
-                if (
-                    s.attendance === "Present"
-                ) {
-
-                    colorClass = "present";
-                }
-
-                if (
-                    s.attendance === "Absent"
+                    student.attendance === "Absent"
                 ) {
 
                     colorClass = "absent";
+
+                    absentCount++;
                 }
 
                 table.innerHTML += `
 
                 <tr>
 
-                    <td>${s.name}</td>
+                    <td>${student.name}</td>
 
-                    <td>${s.department}</td>
+                    <td>${student.department}</td>
+
+                    <td>${student.id}</td>
+
+                    <td>${student.email}</td>
 
                     <td class="${colorClass}">
-                        ${s.attendance}
+                        ${student.attendance}
                     </td>
 
                     <td>
 
                         <button onclick="markPresent(${index})">
+
                             Present
+
                         </button>
 
                         <button onclick="markAbsent(${index})">
+
                             Absent
+
                         </button>
 
                         <button onclick="editStudent(${index})">
+
                             Edit
+
                         </button>
 
                         <button onclick="deleteStudent(${index})">
+
                             Delete
+
                         </button>
+
+                        <a href="mailto:${student.email}">
+
+                            <button>
+
+                                Mail
+
+                            </button>
+
+                        </a>
 
                     </td>
 
@@ -427,19 +479,24 @@
                 "Absent: "
                 + absentCount;
 
+            let percentage = 0;
+
+            if (
+                students.length > 0
+            ) {
+
+                percentage =
+                    (
+                        presentCount /
+                        students.length
+                    ) * 100;
+            }
+
             document.getElementById(
                 "percentage"
             ).innerHTML =
                 "Attendance %: "
-                +
-                (
-                    students.length === 0
-                    ? 0
-                    : (
-                        presentCount /
-                        students.length
-                    ) * 100
-                ).toFixed(2)
+                + percentage.toFixed(2)
                 + "%";
         }
 
@@ -465,11 +522,19 @@
 
         function deleteStudent(index) {
 
-            students.splice(index, 1);
+            let confirmDelete =
+                confirm(
+                    "Delete this student?"
+                );
 
-            saveData();
+            if (confirmDelete) {
 
-            displayStudents();
+                students.splice(index, 1);
+
+                saveData();
+
+                displayStudents();
+            }
         }
 
         function editStudent(index) {
@@ -511,14 +576,25 @@
                     "search"
                 ).value.toLowerCase();
 
-            let filtered =
-                students.filter((s) =>
+            let filteredStudents =
+                students.filter(
 
-                    s.name.toLowerCase()
-                    .includes(value)
+                    (student) =>
+
+                        student.name
+                        .toLowerCase()
+                        .includes(value)
+
+                        ||
+
+                        student.department
+                        .toLowerCase()
+                        .includes(value)
                 );
 
-            displayStudents(filtered);
+            displayStudents(
+                filteredStudents
+            );
         }
 
         function clearInputs() {
@@ -530,16 +606,24 @@
             document.getElementById(
                 "department"
             ).value = "";
+
+            document.getElementById(
+                "studentId"
+            ).value = "";
+
+            document.getElementById(
+                "email"
+            ).value = "";
         }
 
         function clearAllStudents() {
 
-            let confirmDelete =
+            let confirmClear =
                 confirm(
-                    "Delete All Students?"
+                    "Delete all students?"
                 );
 
-            if (confirmDelete) {
+            if (confirmClear) {
 
                 students = [];
 
@@ -574,6 +658,57 @@
             document.body.classList.toggle(
                 "dark-mode"
             );
+        }
+
+        function updateDateTime() {
+
+            let now = new Date();
+
+            document.getElementById(
+                "dateTime"
+            ).innerHTML =
+                now.toLocaleString();
+        }
+
+        setInterval(
+            updateDateTime,
+            1000
+        );
+
+        updateDateTime();
+
+        function exportCSV() {
+
+            let csv =
+                "Name,Department,ID,Email,Attendance\n";
+
+            students.forEach((student) => {
+
+                csv +=
+                    student.name + "," +
+                    student.department + "," +
+                    student.id + "," +
+                    student.email + "," +
+                    student.attendance + "\n";
+            });
+
+            let blob =
+                new Blob([csv], {
+                    type: "text/csv"
+                });
+
+            let url =
+                window.URL.createObjectURL(blob);
+
+            let a =
+                document.createElement("a");
+
+            a.href = url;
+
+            a.download =
+                "attendance.csv";
+
+            a.click();
         }
 
     </script>
