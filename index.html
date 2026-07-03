@@ -1,27 +1,69 @@
-<input type="text" id="studentName" placeholder="Enter Student Name">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<select id="activity">
-    <option>Sports</option>
-    <option>NSS</option>
-    <option>NCC</option>
-    <option>Yoga</option>
-</select>
+<h2>Student Profile</h2>
 
-<button onclick="markAttendance('Present')">Present</button>
-<button onclick="markAttendance('Absent')">Absent</button>
+<form id="studentForm">
 
-<h3>Total Students: <span id="totalStudents">0</span></h3>
-<h3>Present: <span id="presentCount">0</span></h3>
-<h3>Absent: <span id="absentCount">0</span></h3>
-<h3>Attendance %: <span id="attendancePercent">0%</span></h3>
+    <input type="text" id="studentId" placeholder="Student ID" required><br><br>
+
+    <input type="text" id="studentName" placeholder="Student Name" required><br><br>
+
+    <input type="text" id="department" placeholder="Department" required><br><br>
+
+    <input type="text" id="year" placeholder="Year" required><br><br>
+
+    <input type="text" id="section" placeholder="Section" required><br><br>
+
+    <input type="email" id="email" placeholder="Email" required><br><br>
+
+    <input type="tel" id="phone" placeholder="Phone Number" required><br><br>
+
+    <select id="activity">
+        <option>Sports</option>
+        <option>NSS</option>
+        <option>NCC</option>
+        <option>Yoga</option>
+        <option>Cultural</option>
+    </select>
+
+    <br><br>
+
+    <button type="button" onclick="addStudent()">Add Student</button>
+
+</form>
+
+<hr>
+
+<h3>Student List</h3>
 
 <table border="1">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Activity</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody id="attendanceTable"></tbody>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Department</th>
+<th>Year</th>
+<th>Section</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Activity</th>
+</tr>
+</thead>
+
+<tbody id="studentTable">
+</tbody>
+
 </table>
+
+<script src="student.js"></script>
+
+</body>
+</html>
