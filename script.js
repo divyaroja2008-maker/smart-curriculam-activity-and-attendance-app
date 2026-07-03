@@ -23,28 +23,26 @@ function markAttendance(status) {
     new Date().toLocaleString();
 
   item.innerHTML =
-    student +
-    " - " +
-    status +
-    " - " +
-    activity +
-    " - " +
-    time +
+    "<strong>" + student + "</strong>" +
+    " - " + status +
+    " - " + activity +
+    " - " + time +
     ' <button onclick="deleteItem(this)">❌</button>';
 
   if(status === "Present") {
-    item.style.color = "green";
+    item.style.borderLeft = "5px solid green";
   }
 
   else {
-    item.style.color = "red";
+    item.style.borderLeft = "5px solid red";
   }
 
   list.appendChild(item);
 
   total++;
 
-  document.getElementById("count").innerText = total;
+  document.getElementById("totalStudents").innerText =
+    "Total Students: " + total;
 
   document.getElementById("studentName").value = "";
 }
@@ -55,5 +53,31 @@ function deleteItem(button) {
 
   total--;
 
-  document.getElementById("count").innerText = total;
+  document.getElementById("totalStudents").innerText =
+    "Total Students: " + total;
+}
+
+function searchStudent() {
+
+  let input =
+    document.getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+  let items =
+    document.getElementsByTagName("li");
+
+  for(let i = 0; i < items.length; i++) {
+
+    let text =
+      items[i].innerText.toLowerCase();
+
+    if(text.includes(input)) {
+      items[i].style.display = "";
+    }
+
+    else {
+      items[i].style.display = "none";
+    }
+  }
 }
