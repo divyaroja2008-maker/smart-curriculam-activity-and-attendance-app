@@ -2,8 +2,7 @@ let total = 0;
 let presentCount = 0;
 let absentCount = 0;
 
-window.onload = function() {
-
+window.onload = function () {
   loadAttendance();
 };
 
@@ -15,7 +14,7 @@ function markAttendance(status) {
   let activity =
     document.getElementById("activity").value;
 
-  if(student === "") {
+  if (student === "") {
     alert("Enter student name");
     return;
   }
@@ -36,7 +35,7 @@ function markAttendance(status) {
     " - " + time +
     ' <button onclick="deleteItem(this, \'' + status + '\')">❌</button>';
 
-  if(status === "Present") {
+  if (status === "Present") {
     item.style.borderLeft = "5px solid green";
     presentCount++;
   }
@@ -63,7 +62,7 @@ function deleteItem(button, status) {
 
   total--;
 
-  if(status === "Present") {
+  if (status === "Present") {
     presentCount--;
   }
 
@@ -79,17 +78,22 @@ function deleteItem(button, status) {
 function updateStatistics() {
 
   document.getElementById("totalStudents").innerText =
-    "Total Students: " + total;
+    total;
+
+  document.getElementById("presentCount").innerText =
+    presentCount;
+
+  document.getElementById("absentCount").innerText =
+    absentCount;
 
   let percentage = 0;
 
-  if(total > 0) {
+  if (total > 0) {
     percentage =
       (presentCount / total) * 100;
   }
 
   document.getElementById("attendancePercentage").innerText =
-    "Attendance Percentage: " +
     percentage.toFixed(0) + "%";
 }
 
@@ -103,12 +107,12 @@ function searchStudent() {
   let items =
     document.getElementsByTagName("li");
 
-  for(let i = 0; i < items.length; i++) {
+  for (let i = 0; i < items.length; i++) {
 
     let text =
       items[i].innerText.toLowerCase();
 
-    if(text.includes(input)) {
+    if (text.includes(input)) {
       items[i].style.display = "";
     }
 
@@ -130,7 +134,7 @@ function downloadReport() {
 
   let report = "";
 
-  for(let i = 0; i < items.length; i++) {
+  for (let i = 0; i < items.length; i++) {
 
     report += items[i].innerText + "\n";
   }
@@ -157,6 +161,12 @@ function saveAttendance() {
     document.getElementById("attendanceList").innerHTML;
 
   localStorage.setItem("attendanceData", data);
+
+  localStorage.setItem("total", total);
+
+  localStorage.setItem("presentCount", presentCount);
+
+  localStorage.setItem("absentCount", absentCount);
 }
 
 function loadAttendance() {
@@ -164,26 +174,19 @@ function loadAttendance() {
   let savedData =
     localStorage.getItem("attendanceData");
 
-  if(savedData) {
+  if (savedData) {
 
     document.getElementById("attendanceList").innerHTML =
       savedData;
 
-    let items =
-      document.getElementsByTagName("li");
+    total =
+      parseInt(localStorage.getItem("total")) || 0;
 
-    total = items.length;
+    presentCount =
+      parseInt(localStorage.getItem("presentCount")) || 0;
 
-    for(let i = 0; i < items.length; i++) {
-
-      if(items[i].innerText.includes("Present")) {
-        presentCount++;
-      }
-
-      else {
-        absentCount++;
-      }
-    }
+    absentCount =
+      parseInt(localStorage.getItem("absentCount")) || 0;
 
     updateStatistics();
   }
