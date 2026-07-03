@@ -1,144 +1,70 @@
-let total = 0;
-let presentCount = 0;
-let absentCount = 0;
+let students = [];
 
-function markAttendance(status) {
+// ADD STUDENT
+function addStudent() {
+  let name = document.getElementById("studentName").value;
 
-  let student =
-    document.getElementById("studentName").value;
-
-  let activity =
-    document.getElementById("activity").value;
-
-  if(student === "") {
+  if (name === "") {
     alert("Enter student name");
     return;
   }
 
-  let list =
-    document.getElementById("attendanceList");
-
-  let item =
-    document.createElement("li");
-
-  let time =
-    new Date().toLocaleString();
-
-  item.innerHTML =
-    "<strong>" + student + "</strong>" +
-    " - " + status +
-    " - " + activity +
-    " - " + time +
-    ' <button onclick="deleteItem(this, \'' + status + '\')">❌</button>';
-
-  if(status === "Present") {
-    item.style.borderLeft = "5px solid green";
-    presentCount++;
-  }
-
-  else {
-    item.style.borderLeft = "5px solid red";
-    absentCount++;
-  }
-
-  list.appendChild(item);
-
-  total++;
-
-  updateStatistics();
+  students.push({
+    name: name,
+    attendance: "Not Marked"
+  });
 
   document.getElementById("studentName").value = "";
+  displayStudents();
 }
 
-function deleteItem(button, status) {
+// DISPLAY STUDENTS
+function displayStudents() {
+  let list = document.getElementById("studentList");
+  list.innerHTML = "";
 
-  button.parentElement.remove();
+  students.forEach((student, index) => {
+    list.innerHTML += `
+      <div class="student-card">
+        <h3>${student.name}</h3>
+        <p>Attendance: ${student.attendance}</p>
 
-  total--;
-
-  if(status === "Present") {
-    presentCount--;
-  }
-
-  else {
-    absentCount--;
-  }
-
-  updateStatistics();
+        <button onclick="markPresent(${index})">Present</button>
+        <button onclick="markAbsent(${index})">Absent</button>
+      </div>
+    `;
+  });
 }
 
-function updateStatistics() {
-
-  document.getElementById("totalStudents").innerText =
-    "Total Students: " + total;
-
-  let percentage = 0;
-
-  if(total > 0) {
-    percentage =
-      (presentCount / total) * 100;
-  }
-
-  document.getElementById("attendancePercentage").innerText =
-    "Attendance Percentage: " +
-    percentage.toFixed(0) + "%";
+// MARK PRESENT
+function markPresent(index) {
+  students[index].attendance = "Present";
+  displayStudents();
 }
 
+// MARK ABSENT
+function markAbsent(index) {
+  students[index].attendance = "Absent";
+  displayStudents();
+}
+
+// SEARCH STUDENT
 function searchStudent() {
+  let value = document.getElementById("searchBox").value.toLowerCase();
 
-  let input =
-    document.getElementById("searchInput")
-    .value
-    .toLowerCase();
+  let filtered = students.filter(s =>
+    s.name.toLowerCase().includes(value)
+  );
 
-  let items =
-    document.getElementsByTagName("li");
+  let list = document.getElementById("studentList");
+  list.innerHTML = "";
 
-  for(let i = 0; i < items.length; i++) {
-
-    let text =
-      items[i].innerText.toLowerCase();
-
-    if(text.includes(input)) {
-      items[i].style.display = "";
-    }
-
-    else {
-      items[i].style.display = "none";
-    }
-  }
+  filtered.forEach((student, index) => {
+    list.innerHTML += `
+      <div class="student-card">
+        <h3>${student.name}</h3>
+        <p>Attendance: ${student.attendance}</p>
+      </div>
+    `;
+  });
 }
-
-function toggleDarkMode() {
-
-  document.body.classList.toggle("dark");
-}
-
-function downloadReport() {
-
-  let items =
-    document.getElementsByTagName("li");
-
-  let report = "";
-
-  for(let i = 0; i < items.length; i++) {
-
-    report += items[i].innerText + "\n";
-  }
-
-  let blob =
-    new Blob([report],
-    { type: "text/plain" });
-
-  let link =
-    document.createElement("a");
-
-  link.href =
-    URL.createObjectURL(blob);
-
-  link.download =
-    "attendance-report.txt";
-
-  link.click();
-}
-      
