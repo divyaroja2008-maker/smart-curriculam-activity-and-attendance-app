@@ -1,4 +1,6 @@
 let total = 0;
+let presentCount = 0;
+let absentCount = 0;
 
 function markAttendance(status) {
 
@@ -27,34 +29,59 @@ function markAttendance(status) {
     " - " + status +
     " - " + activity +
     " - " + time +
-    ' <button onclick="deleteItem(this)">❌</button>';
+    ' <button onclick="deleteItem(this, \'' + status + '\')">❌</button>';
 
   if(status === "Present") {
     item.style.borderLeft = "5px solid green";
+    presentCount++;
   }
 
   else {
     item.style.borderLeft = "5px solid red";
+    absentCount++;
   }
 
   list.appendChild(item);
 
   total++;
 
-  document.getElementById("totalStudents").innerText =
-    "Total Students: " + total;
+  updateStatistics();
 
   document.getElementById("studentName").value = "";
 }
 
-function deleteItem(button) {
+function deleteItem(button, status) {
 
   button.parentElement.remove();
 
   total--;
 
+  if(status === "Present") {
+    presentCount--;
+  }
+
+  else {
+    absentCount--;
+  }
+
+  updateStatistics();
+}
+
+function updateStatistics() {
+
   document.getElementById("totalStudents").innerText =
     "Total Students: " + total;
+
+  let percentage = 0;
+
+  if(total > 0) {
+    percentage =
+      (presentCount / total) * 100;
+  }
+
+  document.getElementById("attendancePercentage").innerText =
+    "Attendance Percentage: " +
+    percentage.toFixed(0) + "%";
 }
 
 function searchStudent() {
@@ -114,3 +141,4 @@ function downloadReport() {
 
   link.click();
 }
+      
