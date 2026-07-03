@@ -1,4 +1,4 @@
-function markAttendance() {
+function markAttendance(status) {
 
   let student =
     document.getElementById("studentName").value;
@@ -10,7 +10,15 @@ function markAttendance() {
     document.createElement("li");
 
   item.innerText =
-    student + " - Present";
+    student + " - " + status;
+
+  if(status === "Present") {
+    item.style.color = "green";
+  }
+
+  else {
+    item.style.color = "red";
+  }
 
   list.appendChild(item);
 }
