@@ -1,54 +1,32 @@
-public class Attendance {
+function downloadCSV() {
 
-    private String studentId;
-    private String studentName;
-    private String department;
-    private String activity;
-    private String attendance;
+    let csv =
+`ID,Name,Department,Activity,Attendance\n`;
 
-    public Attendance(
-        String studentId,
-        String studentName,
-        String department,
-        String activity,
-        String attendance
-    ) {
+    students.forEach((s) => {
 
-        this.studentId = studentId;
-        this.studentName = studentName;
-        this.department = department;
-        this.activity = activity;
-        this.attendance = attendance;
-    }
+        csv +=
+`${s.id},
+${s.name},
+${s.department},
+${s.activity},
+${s.attendance}\n`;
+    });
 
-    public String getStudentId() {
-        return studentId;
-    }
+    let blob =
+        new Blob([csv],
+        { type: 'text/csv' });
 
-    public String getStudentName() {
-        return studentName;
-    }
+    let url =
+        window.URL.createObjectURL(blob);
 
-    public String getDepartment() {
-        return department;
-    }
+    let a =
+        document.createElement("a");
 
-    public String getActivity() {
-        return activity;
-    }
+    a.href = url;
 
-    public String getAttendance() {
-        return attendance;
-    }
+    a.download =
+        "attendance_report.csv";
 
-    public void display() {
-
-        System.out.println(
-            studentId + " " +
-            studentName + " " +
-            department + " " +
-            activity + " " +
-            attendance
-        );
-    }
+    a.click();
 }
