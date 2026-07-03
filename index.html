@@ -3,206 +3,228 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    <title>
-        Smart Curriculum App
-    </title>
+<title>
 
-    <style>
+Smart Curriculum Attendance App
 
-        body {
+</title>
 
-            margin: 0;
+<style>
 
-            font-family: Arial;
+body{
 
-            background: #f2f2f2;
-        }
+font-family:Arial;
 
-        .dark-mode {
+margin:0;
 
-            background: #121212;
+padding:0;
 
-            color: white;
-        }
+background:#f2f2f2;
 
-        header {
+transition:0.3s;
 
-            background: #0066ff;
+}
 
-            color: white;
+.dark-mode{
 
-            padding: 20px;
+background:#121212;
 
-            text-align: center;
-        }
+color:white;
 
-        .container {
+}
 
-            padding: 20px;
-        }
+header{
 
-        .dashboard {
+background:#0066ff;
 
-            display: grid;
+color:white;
 
-            grid-template-columns:
-                repeat(auto-fit,
-                minmax(220px,1fr));
+padding:20px;
 
-            gap: 15px;
-        }
+text-align:center;
 
-        .card {
+}
 
-            background: white;
+.container{
 
-            padding: 20px;
+padding:20px;
 
-            border-radius: 10px;
+}
 
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-        }
+.dashboard{
 
-        .dark-mode .card {
+display:grid;
 
-            background: #1f1f1f;
-        }
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
 
-        h2 {
+gap:15px;
 
-            margin: 0;
-        }
+margin-top:20px;
 
-        input,
-        textarea,
-        button {
+}
 
-            width: 100%;
+.card{
 
-            padding: 10px;
+background:white;
 
-            margin-top: 10px;
+padding:20px;
 
-            border-radius: 5px;
+border-radius:10px;
 
-            border: 1px solid #ccc;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
 
-            box-sizing: border-box;
-        }
+}
 
-        button {
+.dark-mode .card{
 
-            background: #0066ff;
+background:#1f1f1f;
 
-            color: white;
+}
 
-            border: none;
+input,
+textarea,
+button{
 
-            cursor: pointer;
-        }
+width:100%;
 
-        button:hover {
+padding:10px;
 
-            background: #0044aa;
-        }
+margin-top:10px;
 
-        table {
+border-radius:5px;
 
-            width: 100%;
+border:1px solid #ccc;
 
-            border-collapse: collapse;
+box-sizing:border-box;
 
-            margin-top: 20px;
-        }
+}
 
-        table,
-        th,
-        td {
+button{
 
-            border: 1px solid #ccc;
-        }
+background:#0066ff;
 
-        th {
+color:white;
 
-            background: #0066ff;
+border:none;
 
-            color: white;
-        }
+cursor:pointer;
 
-        th,
-        td {
+}
 
-            padding: 10px;
+button:hover{
 
-            text-align: center;
-        }
+background:#0044aa;
 
-        .present {
+}
 
-            color: green;
+table{
 
-            font-weight: bold;
-        }
+width:100%;
 
-        .absent {
+margin-top:20px;
 
-            color: red;
+border-collapse:collapse;
 
-            font-weight: bold;
-        }
+}
 
-        .notice {
+table,
+th,
+td{
 
-            background: orange;
+border:1px solid #ccc;
 
-            color: white;
+}
 
-            padding: 10px;
+th{
 
-            border-radius: 5px;
+background:#0066ff;
 
-            margin-top: 15px;
-        }
+color:white;
 
-        .progress {
+}
 
-            width: 100%;
+th,
+td{
 
-            background: #ddd;
+padding:10px;
 
-            border-radius: 10px;
+text-align:center;
 
-            overflow: hidden;
+}
 
-            margin-top: 20px;
-        }
+.present{
 
-        .progress-bar {
+color:green;
 
-            width: 0%;
+font-weight:bold;
 
-            height: 25px;
+}
 
-            background: green;
+.absent{
 
-            color: white;
+color:red;
 
-            text-align: center;
+font-weight:bold;
 
-            line-height: 25px;
-        }
+}
 
-        img {
+.notice{
 
-            border-radius: 50%;
-        }
+background:orange;
 
-    </style>
+color:white;
+
+padding:10px;
+
+border-radius:5px;
+
+margin-top:15px;
+
+}
+
+.progress{
+
+width:100%;
+
+background:#ddd;
+
+border-radius:20px;
+
+overflow:hidden;
+
+margin-top:20px;
+
+}
+
+.progress-bar{
+
+width:0%;
+
+height:25px;
+
+background:green;
+
+text-align:center;
+
+line-height:25px;
+
+color:white;
+
+}
+
+img{
+
+border-radius:50%;
+
+}
+
+</style>
 
 </head>
 
@@ -210,666 +232,759 @@
 
 <header>
 
-    <h1>
+<h1>
 
-        Smart Curriculum Activity And Attendance App
+Smart Curriculum Activity And Attendance App
 
-    </h1>
+</h1>
 
 </header>
 
 <div class="container">
 
-    <button onclick="toggleDarkMode()">
+<button onclick="toggleDarkMode()">
 
-        Dark Mode
+Dark Mode
 
-    </button>
+</button>
 
-    <button onclick="logout()">
+<button onclick="logout()">
 
-        Logout
+Logout
 
-    </button>
+</button>
 
-    <h3 id="dateTime"></h3>
+<h3 id="dateTime"></h3>
 
-    <div class="notice">
+<div class="notice">
 
-        Notification:
-        Submit Attendance Before 5 PM
+Notification:
+Submit Attendance Before 5 PM
 
-    </div>
+</div>
 
-    <div class="dashboard">
+<div class="dashboard">
 
-        <div class="card">
+<div class="card">
 
-            <h2 id="totalStudents">
+<h2 id="totalStudents">
 
-                0
+0
 
-            </h2>
+</h2>
 
-            <p>
+<p>
 
-                Total Students
+Total Students
 
-            </p>
+</p>
 
-        </div>
+</div>
 
-        <div class="card">
+<div class="card">
 
-            <h2 id="presentStudents">
+<h2 id="presentStudents">
 
-                0
+0
 
-            </h2>
+</h2>
 
-            <p>
+<p>
 
-                Present Students
+Present Students
 
-            </p>
+</p>
 
-        </div>
+</div>
 
-        <div class="card">
+<div class="card">
 
-            <h2 id="absentStudents">
+<h2 id="absentStudents">
 
-                0
+0
 
-            </h2>
+</h2>
 
-            <p>
+<p>
 
-                Absent Students
+Absent Students
 
-            </p>
+</p>
 
-        </div>
+</div>
 
-        <div class="card">
+<div class="card">
 
-            <h2 id="attendancePercent">
+<h2 id="attendancePercentage">
 
-                0%
+0%
 
-            </h2>
+</h2>
 
-            <p>
+<p>
 
-                Attendance Percentage
+Attendance Percentage
 
-            </p>
+</p>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
-    <div class="progress">
+<div class="progress">
 
-        <div class="progress-bar"
-            id="progressBar">
+<div class="progress-bar"
+id="progressBar">
 
-            0%
+0%
 
-        </div>
+</div>
 
-    </div>
+</div>
 
-    <input type="text"
-        id="search"
-        placeholder="Search Student"
-        onkeyup="searchStudent()">
+<input type="text"
+id="search"
+placeholder="Search Student"
+onkeyup="searchStudent()">
 
-    <input type="text"
-        id="studentName"
-        placeholder="Student Name">
+<input type="text"
+id="studentName"
+placeholder="Student Name">
 
-    <input type="text"
-        id="department"
-        placeholder="Department">
+<input type="text"
+id="department"
+placeholder="Department">
 
-    <input type="text"
-        id="studentId"
-        placeholder="Student ID">
+<input type="text"
+id="studentId"
+placeholder="Student ID">
 
-    <input type="email"
-        id="email"
-        placeholder="Student Email">
+<input type="email"
+id="email"
+placeholder="Student Email">
 
-    <input type="text"
-        id="activity"
-        placeholder="Curriculum Activity">
+<input type="text"
+id="activity"
+placeholder="Curriculum Activity">
 
-    <textarea id="remarks"
-        placeholder="Remarks"></textarea>
+<textarea id="remarks"
+placeholder="Remarks"></textarea>
 
-    <input type="file"
-        id="photo">
+<input type="file"
+id="photo">
 
-    <button onclick="addStudent()">
+<button onclick="addStudent()">
 
-        Add Student
+Add Student
 
-    </button>
+</button>
 
-    <button onclick="clearAllStudents()">
+<button onclick="resetAttendance()">
 
-        Clear All Students
+Reset Attendance
 
-    </button>
+</button>
 
-    <button onclick="resetAttendance()">
+<button onclick="clearAllStudents()">
 
-        Reset Attendance
+Clear All Students
 
-    </button>
+</button>
 
-    <button onclick="exportCSV()">
+<button onclick="exportCSV()">
 
-        Export CSV
+Export CSV
 
-    </button>
+</button>
 
-    <button onclick="window.print()">
+<button onclick="window.print()">
 
-        Download PDF
+Download PDF
 
-    </button>
+</button>
 
-    <table>
+<table>
 
-        <thead>
+<thead>
 
-            <tr>
+<tr>
 
-                <th>Photo</th>
+<th>Photo</th>
 
-                <th>Name</th>
+<th>Name</th>
 
-                <th>Department</th>
+<th>Department</th>
 
-                <th>ID</th>
+<th>ID</th>
 
-                <th>Email</th>
+<th>Email</th>
 
-                <th>Activity</th>
+<th>Activity</th>
 
-                <th>Remarks</th>
+<th>Remarks</th>
 
-                <th>Status</th>
+<th>Attendance</th>
 
-                <th>Actions</th>
+<th>Actions</th>
 
-            </tr>
+</tr>
 
-        </thead>
+</thead>
 
-        <tbody id="studentTable">
+<tbody id="studentTable">
 
-        </tbody>
+</tbody>
 
-    </table>
+</table>
 
 </div>
 
 <script>
 
-    if (
-        localStorage.getItem("login")
-        !== "true"
-    ) {
+if(
+localStorage.getItem("login")
+!== "true"
+){
+
+window.location.href =
+"login.html";
+
+}
+
+if(
+localStorage.getItem(
+"darkMode"
+) === "enabled"
+){
 
-        window.location.href =
-            "login.html";
-    }
+document.body.classList.add(
+"dark-mode"
+);
 
-    let students =
-        JSON.parse(
-            localStorage.getItem(
-                "students"
-            )
-        ) || [];
+}
 
-    displayStudents();
+let students =
+JSON.parse(
+localStorage.getItem(
+"students"
+)
+) || [];
 
-    function addStudent() {
+displayStudents();
 
-        let name =
-            document.getElementById(
-                "studentName"
-            ).value;
+function addStudent(){
 
-        let department =
-            document.getElementById(
-                "department"
-            ).value;
+let name =
+document.getElementById(
+"studentName"
+).value;
 
-        let id =
-            document.getElementById(
-                "studentId"
-            ).value;
+let department =
+document.getElementById(
+"department"
+).value;
 
-        let email =
-            document.getElementById(
-                "email"
-            ).value;
+let id =
+document.getElementById(
+"studentId"
+).value;
 
-        let activity =
-            document.getElementById(
-                "activity"
-            ).value;
+let email =
+document.getElementById(
+"email"
+).value;
 
-        let remarks =
-            document.getElementById(
-                "remarks"
-            ).value;
+let activity =
+document.getElementById(
+"activity"
+).value;
 
-        let photoInput =
-            document.getElementById(
-                "photo"
-            );
+let remarks =
+document.getElementById(
+"remarks"
+).value;
 
-        let file =
-            photoInput.files[0];
+let photoInput =
+document.getElementById(
+"photo"
+);
 
-        if (
-            name === ""
-            ||
-            department === ""
-            ||
-            id === ""
-            ||
-            email === ""
-            ||
-            activity === ""
-            ||
-            remarks === ""
-            ||
-            !file
-        ) {
+let file =
+photoInput.files[0];
 
-            alert(
-                "Fill All Fields"
-            );
+if(
+name === ""
+||
+department === ""
+||
+id === ""
+||
+email === ""
+||
+activity === ""
+||
+remarks === ""
+||
+!file
+){
 
-            return;
-        }
+alert(
+"Please Fill All Fields"
+);
 
-        let reader =
-            new FileReader();
+return;
 
-        reader.onload =
-            function(e) {
+}
 
-                students.push({
+let reader =
+new FileReader();
 
-                    name: name,
+reader.onload =
+function(e){
 
-                    department: department,
+students.push({
 
-                    id: id,
+name:name,
 
-                    email: email,
+department:department,
 
-                    activity: activity,
+id:id,
 
-                    remarks: remarks,
+email:email,
 
-                    photo: e.target.result,
+activity:activity,
 
-                    attendance: "Not Marked"
-                });
+remarks:remarks,
 
-                saveStudents();
+photo:e.target.result,
 
-                displayStudents();
+attendance:"Not Marked"
 
-                clearInputs();
-            };
+});
 
-        reader.readAsDataURL(file);
-    }
+saveStudents();
 
-    function displayStudents(filtered = students) {
+displayStudents();
 
-        let table =
-            document.getElementById(
-                "studentTable"
-            );
+clearInputs();
 
-        table.innerHTML = "";
+alert(
+"Student Added Successfully"
+);
 
-        let present = 0;
+};
 
-        let absent = 0;
+reader.readAsDataURL(file);
 
-        filtered.forEach((student,index)=>{
+}
 
-            let colorClass = "";
+function displayStudents(filtered = students){
 
-            if (
-                student.attendance ===
-                "Present"
-            ) {
+let table =
+document.getElementById(
+"studentTable"
+);
 
-                colorClass =
-                    "present";
+table.innerHTML = "";
 
-                present++;
-            }
+let present = 0;
 
-            if (
-                student.attendance ===
-                "Absent"
-            ) {
+let absent = 0;
 
-                colorClass =
-                    "absent";
+filtered.forEach((student,index)=>{
 
-                absent++;
-            }
+let colorClass = "";
 
-            table.innerHTML += `
+if(
+student.attendance ===
+"Present"
+){
 
-            <tr>
+colorClass =
+"present";
 
-                <td>
+present++;
 
-                    <img src="${student.photo}"
-                    width="50"
-                    height="50">
+}
 
-                </td>
+if(
+student.attendance ===
+"Absent"
+){
 
-                <td>${student.name}</td>
+colorClass =
+"absent";
 
-                <td>${student.department}</td>
+absent++;
 
-                <td>${student.id}</td>
+}
 
-                <td>${student.email}</td>
+table.innerHTML += `
 
-                <td>${student.activity}</td>
+<tr>
 
-                <td>${student.remarks}</td>
+<td>
 
-                <td class="${colorClass}">
-                    ${student.attendance}
-                </td>
+<img src="${student.photo}"
+width="50"
+height="50">
 
-                <td>
+</td>
 
-                    <button onclick="markPresent(${index})">
+<td>${student.name}</td>
 
-                        Present
+<td>${student.department}</td>
 
-                    </button>
+<td>${student.id}</td>
 
-                    <button onclick="markAbsent(${index})">
+<td>${student.email}</td>
 
-                        Absent
+<td>${student.activity}</td>
 
-                    </button>
+<td>${student.remarks}</td>
 
-                    <button onclick="deleteStudent(${index})">
+<td class="${colorClass}">
+${student.attendance}
+</td>
 
-                        Delete
+<td>
 
-                    </button>
+<button onclick="markPresent(${index})">
 
-                    <a href="mailto:${student.email}">
+Present
 
-                        <button>
+</button>
 
-                            Mail
+<button onclick="markAbsent(${index})">
 
-                        </button>
+Absent
 
-                    </a>
+</button>
 
-                </td>
+<button onclick="editStudent(${index})">
 
-            </tr>
+Edit
 
-            `;
-        });
+</button>
 
-        document.getElementById(
-            "totalStudents"
-        ).innerHTML =
-            students.length;
+<button onclick="deleteStudent(${index})">
 
-        document.getElementById(
-            "presentStudents"
-        ).innerHTML =
-            present;
+Delete
 
-        document.getElementById(
-            "absentStudents"
-        ).innerHTML =
-            absent;
+</button>
 
-        let percentage = 0;
+<a href="mailto:${student.email}">
 
-        if (
-            students.length > 0
-        ) {
+<button>
 
-            percentage =
-                (
-                    present /
-                    students.length
-                ) * 100;
-        }
+Mail
 
-        document.getElementById(
-            "attendancePercent"
-        ).innerHTML =
-            percentage.toFixed(0)
-            + "%";
+</button>
 
-        document.getElementById(
-            "progressBar"
-        ).style.width =
-            percentage + "%";
+</a>
 
-        document.getElementById(
-            "progressBar"
-        ).innerHTML =
-            percentage.toFixed(0)
-            + "%";
-    }
+</td>
 
-    function markPresent(index) {
+</tr>
 
-        students[index].attendance =
-            "Present";
+`;
 
-        saveStudents();
+});
 
-        displayStudents();
-    }
+document.getElementById(
+"totalStudents"
+).innerHTML =
+students.length;
 
-    function markAbsent(index) {
+document.getElementById(
+"presentStudents"
+).innerHTML =
+present;
 
-        students[index].attendance =
-            "Absent";
+document.getElementById(
+"absentStudents"
+).innerHTML =
+absent;
 
-        saveStudents();
+let percentage = 0;
 
-        displayStudents();
-    }
+if(
+students.length > 0
+){
 
-    function deleteStudent(index) {
+percentage =
+(
+present /
+students.length
+) * 100;
 
-        students.splice(index,1);
+}
 
-        saveStudents();
+document.getElementById(
+"attendancePercentage"
+).innerHTML =
+percentage.toFixed(0)
++ "%";
 
-        displayStudents();
-    }
+document.getElementById(
+"progressBar"
+).style.width =
+percentage + "%";
 
-    function saveStudents() {
+document.getElementById(
+"progressBar"
+).innerHTML =
+percentage.toFixed(0)
++ "%";
 
-        localStorage.setItem(
+}
 
-            "students",
+function markPresent(index){
 
-            JSON.stringify(students)
-        );
-    }
+students[index].attendance =
+"Present";
 
-    function clearInputs() {
+saveStudents();
 
-        document.getElementById(
-            "studentName"
-        ).value = "";
+displayStudents();
 
-        document.getElementById(
-            "department"
-        ).value = "";
+}
 
-        document.getElementById(
-            "studentId"
-        ).value = "";
+function markAbsent(index){
 
-        document.getElementById(
-            "email"
-        ).value = "";
+students[index].attendance =
+"Absent";
 
-        document.getElementById(
-            "activity"
-        ).value = "";
+saveStudents();
 
-        document.getElementById(
-            "remarks"
-        ).value = "";
+displayStudents();
 
-        document.getElementById(
-            "photo"
-        ).value = "";
-    }
+}
 
-    function clearAllStudents() {
+function editStudent(index){
 
-        students = [];
+let newName =
+prompt(
+"Enter New Name",
+students[index].name
+);
 
-        saveStudents();
+if(newName !== null){
 
-        displayStudents();
-    }
+students[index].name =
+newName;
 
-    function resetAttendance() {
+saveStudents();
 
-        students.forEach((student)=>{
+displayStudents();
 
-            student.attendance =
-                "Not Marked";
-        });
+}
 
-        saveStudents();
+}
 
-        displayStudents();
-    }
+function deleteStudent(index){
 
-    function searchStudent() {
+students.splice(index,1);
 
-        let value =
-            document.getElementById(
-                "search"
-            ).value.toLowerCase();
+saveStudents();
 
-        let filtered =
-            students.filter((student)=>
+displayStudents();
 
-                student.name
-                .toLowerCase()
-                .includes(value)
+}
 
-                ||
+function saveStudents(){
 
-                student.department
-                .toLowerCase()
-                .includes(value)
-            );
+localStorage.setItem(
 
-        displayStudents(filtered);
-    }
+"students",
 
-    function exportCSV() {
+JSON.stringify(students)
 
-        let csv =
-            "Name,Department,ID,Email,Activity,Remarks,Attendance\n";
+);
 
-        students.forEach((student)=>{
+}
 
-            csv +=
-                student.name + "," +
-                student.department + "," +
-                student.id + "," +
-                student.email + "," +
-                student.activity + "," +
-                student.remarks + "," +
-                student.attendance + "\n";
-        });
+function clearInputs(){
 
-        let blob =
-            new Blob([csv],{
-                type:"text/csv"
-            });
+document.getElementById(
+"studentName"
+).value = "";
 
-        let url =
-            window.URL.createObjectURL(blob);
+document.getElementById(
+"department"
+).value = "";
 
-        let a =
-            document.createElement("a");
+document.getElementById(
+"studentId"
+).value = "";
 
-        a.href = url;
+document.getElementById(
+"email"
+).value = "";
 
-        a.download =
-            "attendance.csv";
+document.getElementById(
+"activity"
+).value = "";
 
-        a.click();
-    }
+document.getElementById(
+"remarks"
+).value = "";
 
-    function toggleDarkMode() {
+document.getElementById(
+"photo"
+).value = "";
 
-        document.body.classList.toggle(
-            "dark-mode"
-        );
-    }
+}
 
-    function logout() {
+function clearAllStudents(){
 
-        localStorage.removeItem(
-            "login"
-        );
+students = [];
 
-        window.location.href =
-            "login.html";
-    }
+saveStudents();
 
-    function updateDateTime() {
+displayStudents();
 
-        let now = new Date();
+}
 
-        document.getElementById(
-            "dateTime"
-        ).innerHTML =
-            now.toLocaleString();
-    }
+function resetAttendance(){
 
-    setInterval(
-        updateDateTime,
-        1000
-    );
+students.forEach((student)=>{
 
-    updateDateTime();
+student.attendance =
+"Not Marked";
+
+});
+
+saveStudents();
+
+displayStudents();
+
+}
+
+function searchStudent(){
+
+let value =
+document.getElementById(
+"search"
+).value.toLowerCase();
+
+let filtered =
+students.filter((student)=>
+
+student.name
+.toLowerCase()
+.includes(value)
+
+||
+
+student.department
+.toLowerCase()
+.includes(value)
+
+);
+
+displayStudents(filtered);
+
+}
+
+function exportCSV(){
+
+let csv =
+"Name,Department,ID,Email,Activity,Remarks,Attendance\n";
+
+students.forEach((student)=>{
+
+csv +=
+student.name + "," +
+student.department + "," +
+student.id + "," +
+student.email + "," +
+student.activity + "," +
+student.remarks + "," +
+student.attendance + "\n";
+
+});
+
+let blob =
+new Blob([csv],{
+
+type:"text/csv"
+
+});
+
+let url =
+window.URL.createObjectURL(blob);
+
+let a =
+document.createElement("a");
+
+a.href = url;
+
+a.download =
+"attendance.csv";
+
+a.click();
+
+}
+
+function toggleDarkMode(){
+
+document.body.classList.toggle(
+"dark-mode"
+);
+
+if(
+document.body.classList.contains(
+"dark-mode"
+)
+){
+
+localStorage.setItem(
+"darkMode",
+"enabled"
+);
+
+}
+
+else{
+
+localStorage.setItem(
+"darkMode",
+"disabled"
+);
+
+}
+
+}
+
+function logout(){
+
+localStorage.removeItem(
+"login"
+);
+
+window.location.href =
+"login.html";
+
+}
+
+function updateDateTime(){
+
+let now = new Date();
+
+document.getElementById(
+"dateTime"
+).innerHTML =
+now.toLocaleString();
+
+}
+
+setInterval(
+updateDateTime,
+1000
+);
+
+updateDateTime();
 
 </script>
 
