@@ -9,7 +9,7 @@
         content="width=device-width, initial-scale=1.0">
 
     <title>
-        Smart Attendance App
+        Smart Curriculum Activity And Attendance App
     </title>
 
     <style>
@@ -58,7 +58,8 @@
         }
 
         input,
-        button {
+        button,
+        select {
 
             width: 100%;
 
@@ -82,11 +83,43 @@
             border: none;
 
             cursor: pointer;
+
+            transition: 0.3s;
         }
 
         button:hover {
 
+            transform: scale(1.03);
+
             background: darkblue;
+        }
+
+        .dashboard {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+            margin-top: 20px;
+        }
+
+        .card {
+
+            flex: 1;
+
+            min-width: 180px;
+
+            background: blue;
+
+            color: white;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            text-align: center;
         }
 
         table {
@@ -120,34 +153,6 @@
             text-align: center;
         }
 
-        .dashboard {
-
-            display: flex;
-
-            gap: 10px;
-
-            flex-wrap: wrap;
-
-            margin-top: 20px;
-        }
-
-        .card {
-
-            flex: 1;
-
-            min-width: 150px;
-
-            background: blue;
-
-            color: white;
-
-            padding: 15px;
-
-            border-radius: 10px;
-
-            text-align: center;
-        }
-
         .present {
 
             color: green;
@@ -177,15 +182,22 @@
 
         .progress-bar {
 
-            height: 20px;
-
             width: 0%;
+
+            height: 25px;
 
             background: green;
 
+            text-align: center;
+
             color: white;
 
-            text-align: center;
+            line-height: 25px;
+        }
+
+        img {
+
+            border-radius: 50%;
         }
 
         @media screen and (max-width: 600px) {
@@ -217,7 +229,7 @@
 
         <h1>
 
-            Smart Attendance App
+            Smart Curriculum Activity And Attendance App
 
         </h1>
 
@@ -236,6 +248,28 @@
         </button>
 
         <div class="dashboard">
+
+            <div class="card">
+
+                <h3>
+
+                    Admin Profile
+
+                </h3>
+
+                <p>
+
+                    Name: Admin
+
+                </p>
+
+                <p>
+
+                    Role: Attendance Manager
+
+                </p>
+
+            </div>
 
             <div class="card">
 
@@ -311,6 +345,13 @@
             id="email"
             placeholder="Student Email">
 
+        <input type="text"
+            id="activity"
+            placeholder="Curriculum Activity">
+
+        <input type="file"
+            id="studentPhoto">
+
         <button onclick="addStudent()">
 
             Add Student
@@ -335,11 +376,19 @@
 
         </button>
 
+        <button onclick="window.print()">
+
+            Download PDF
+
+        </button>
+
         <table>
 
             <thead>
 
                 <tr>
+
+                    <th>Photo</th>
 
                     <th>Name</th>
 
@@ -349,7 +398,11 @@
 
                     <th>Email</th>
 
+                    <th>Activity</th>
+
                     <th>Attendance</th>
+
+                    <th>Percentage</th>
 
                     <th>Action</th>
 
@@ -418,6 +471,19 @@
                     "email"
                 ).value;
 
+            let activity =
+                document.getElementById(
+                    "activity"
+                ).value;
+
+            let photoInput =
+                document.getElementById(
+                    "studentPhoto"
+                );
+
+            let file =
+                photoInput.files[0];
+
             if (
                 name === ""
                 ||
@@ -426,37 +492,56 @@
                 studentId === ""
                 ||
                 email === ""
+                ||
+                activity === ""
+                ||
+                !file
             ) {
 
                 alert(
-                    "Please fill all fields"
+                    "Please Fill All Fields"
                 );
 
                 return;
             }
 
-            students.push({
+            let reader =
+                new FileReader();
 
-                name: name,
+            reader.onload =
+                function(e) {
 
-                department: department,
+                    students.push({
 
-                id: studentId,
+                        name: name,
 
-                email: email,
+                        department: department,
 
-                attendance: "Not Marked"
-            });
+                        id: studentId,
 
-            saveData();
+                        email: email,
 
-            displayStudents();
+                        activity: activity,
 
-            clearInputs();
+                        photo: e.target.result,
 
-            alert(
-                "Student Added"
-            );
+                        attendance: "Not Marked",
+
+                        percentage: 0
+                    });
+
+                    saveData();
+
+                    displayStudents();
+
+                    clearInputs();
+
+                    alert(
+                        "Student Added Successfully"
+                    );
+                };
+
+            reader.readAsDataURL(file);
         }
 
         function displayStudents(filtered = students) {
@@ -498,6 +583,14 @@
 
                 <tr>
 
+                    <td>
+
+                        <img src="${student.photo}"
+                        width="50"
+                        height="50">
+
+                    </td>
+
                     <td>${student.name}</td>
 
                     <td>${student.department}</td>
@@ -506,8 +599,14 @@
 
                     <td>${student.email}</td>
 
+                    <td>${student.activity}</td>
+
                     <td class="${colorClass}">
                         ${student.attendance}
+                    </td>
+
+                    <td>
+                        ${student.percentage}%
                     </td>
 
                     <td>
@@ -607,6 +706,9 @@
             students[index].attendance =
                 "Present";
 
+            students[index].percentage =
+                100;
+
             saveData();
 
             displayStudents();
@@ -616,6 +718,9 @@
 
             students[index].attendance =
                 "Absent";
+
+            students[index].percentage =
+                0;
 
             saveData();
 
@@ -638,10 +743,6 @@
                 saveData();
 
                 displayStudents();
-
-                alert(
-                    "Student Updated"
-                );
             }
         }
 
@@ -660,6 +761,9 @@
 
                 student.attendance =
                     "Not Marked";
+
+                student.percentage =
+                    0;
             });
 
             saveData();
@@ -688,6 +792,24 @@
             document.getElementById(
                 "email"
             ).value = "";
+
+            document.getElementById(
+                "activity"
+            ).value = "";
+
+            document.getElementById(
+                "studentPhoto"
+            ).value = "";
+        }
+
+        function saveData() {
+
+            localStorage.setItem(
+
+                "students",
+
+                JSON.stringify(students)
+            );
         }
 
         function clearAllStudents() {
@@ -697,14 +819,6 @@
             saveData();
 
             displayStudents();
-        }
-
-        function saveData() {
-
-            localStorage.setItem(
-                "students",
-                JSON.stringify(students)
-            );
         }
 
         function searchStudent() {
@@ -729,16 +843,6 @@
                 );
 
             displayStudents(filtered);
-        }
-
-        function logout() {
-
-            localStorage.removeItem(
-                "login"
-            );
-
-            window.location.href =
-                "login.html";
         }
 
         function toggleDarkMode() {
@@ -768,6 +872,16 @@
             }
         }
 
+        function logout() {
+
+            localStorage.removeItem(
+                "login"
+            );
+
+            window.location.href =
+                "login.html";
+        }
+
         function updateDateTime() {
 
             let now = new Date();
@@ -788,7 +902,7 @@
         function exportCSV() {
 
             let csv =
-                "Name,Department,ID,Email,Attendance\n";
+                "Name,Department,ID,Email,Activity,Attendance,Percentage\n";
 
             students.forEach((student) => {
 
@@ -797,7 +911,9 @@
                     student.department + "," +
                     student.id + "," +
                     student.email + "," +
-                    student.attendance + "\n";
+                    student.activity + "," +
+                    student.attendance + "," +
+                    student.percentage + "%\n";
             });
 
             let blob =
@@ -823,5 +939,6 @@
 
 </body>
 
-</html>            
-                   
+</html>
+        
+       
