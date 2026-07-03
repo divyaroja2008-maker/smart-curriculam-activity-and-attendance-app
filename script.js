@@ -1,140 +1,64 @@
-let students = [];
+let attendance = [];
 
-function addAttendance(status) {
-    let name = document.getElementById("studentName").value;
-    let activity = document.getElementById("activity").value;
+function markAttendance(status) {
+
+    const name = document.getElementById("studentName").value;
+    const activity = document.getElementById("activity").value;
 
     if (name === "") {
         alert("Please enter student name");
         return;
     }
 
-    let now = new Date();
-
-    let student = {
+    attendance.push({
         name: name,
         activity: activity,
-        status: status,
-        time: now.toLocaleTimeString(),
-        date: now.toLocaleDateString()
-    };
+        status: status
+    });
 
-    students.push(student);
-
-    displayStudents();
+    updateDashboard();
+    displayAttendance();
 
     document.getElementById("studentName").value = "";
 }
 
-function displayStudents() {
-    let attendanceList = document.getElementById("attendanceList");
+function updateDashboard() {
 
-    attendanceList.innerHTML = "";
+    let total = attendance.length;
+    let present = attendance.filter(a => a.status === "Present").length;
+    let absent = attendance.filter(a => a.status === "Absent").length;
+    let percentage = total === 0 ? 0 : ((present / total) * 100).toFixed(2);
 
-    let presentCount = 0;
-
-    students.forEach((student, index) => {
-
-        if (student.status === "Present") {
-            presentCount++;
-        }
-
-        attendanceList.innerHTML += `
-            <li>
-                <b>${student.name}</b> |
-                ${student.activity} |
-                ${student.status} |
-                ${student.date} |
-                ${student.time}
-
-                <button onclick="deleteStudent(${index})">
-                    Delete
-                </button>
-            </li>
-        `;
-    });
-
-    document.getElementById("totalStudents").innerText =
-        "Total Students: " + students.length;
-
-    let percentage = 0;
-
-    if (students.length > 0) {
-        percentage =
-            (presentCount / students.length) * 100;
-    }
-
-    document.getElementById("attendancePercentage").innerText =
-        "Attendance Percentage: " +
-        percentage.toFixed(0) + "%";
+    document.getElementById("totalStudents").innerHTML = total;
+    document.getElementById("presentCount").innerHTML = present;
+    document.getElementById("absentCount").innerHTML = absent;
+    document.getElementById("attendancePercent").innerHTML = percentage + "%";
 }
 
-function deleteStudent(index) {
-    students.splice(index, 1);
+function displayAttendance() {
 
-    displayStudents();
-}
+    let table = document.getElementById("attendanceTable");
 
-function searchStudent() {
-    let input =
-        document.getElementById("searchBox").value.toLowerCase();
+    table.innerHTML = "";
 
-    let attendanceList =
-        document.getElementById("attendanceList");
+    attendance.forEach((student) => {
 
-    attendanceList.innerHTML = "";
-
-    students.forEach((student, index) => {
-
-        if (
-            student.name.toLowerCase().includes(input)
-        ) {
-
-            attendanceList.innerHTML += `
-                <li>
-                    <b>${student.name}</b> |
-                    ${student.activity} |
-                    ${student.status} |
-                    ${student.date} |
-                    ${student.time}
-
-                    <button onclick="deleteStudent(${index})">
-                        Delete
-                    </button>
-                </li>
-            `;
-        }
+        table.innerHTML += `
+        <tr>
+            <td>${student.name}</td>
+            <td>${student.activity}</td>
+            <td>${student.status}</td>
+        </tr>`;
     });
 }
+<input type="text" id="studentName" placeholder="Enter Student Name">
 
-function downloadReport() {
+<select id="activity">
+    <option>Sports</option>
+    <option>NSS</option>
+    <option>NCC</option>
+    <option>Yoga</option>
+</select>
 
-    let text = "SMART ATTENDANCE REPORT\n\n";
-
-    students.forEach((student) => {
-
-        text +=
-            "Name: " + student.name +
-            " | Activity: " + student.activity +
-            " | Status: " + student.status +
-            " | Date: " + student.date +
-            " | Time: " + student.time +
-            "\n";
-    });
-
-    let blob = new Blob([text], {
-        type: "text/plain"
-    });
-
-    let link = document.createElement("a");
-
-    link.href = URL.createObjectURL(blob);
-
-    link.download = "attendance_report.txt";
-
-    link.click();
-}
-
-function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-}
+<button onclick="markAttendance('Present')">Present</button>
+<button
