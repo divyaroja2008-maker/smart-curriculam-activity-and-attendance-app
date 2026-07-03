@@ -30,7 +30,7 @@ function displayStudents() {
 
     table.innerHTML = "";
 
-    students.forEach((s) => {
+    students.forEach((s, index) => {
 
         table.innerHTML += `
         <tr>
@@ -42,7 +42,55 @@ function displayStudents() {
             <td>${s.email}</td>
             <td>${s.phone}</td>
             <td>${s.activity}</td>
+
+            <td>
+                <button onclick="editStudent(${index})">
+                    Edit
+                </button>
+
+                <button onclick="deleteStudent(${index})">
+                    Delete
+                </button>
+            </td>
         </tr>
         `;
     });
+}
+
+function deleteStudent(index) {
+
+    students.splice(index, 1);
+
+    localStorage.setItem("students", JSON.stringify(students));
+
+    displayStudents();
+}
+
+function editStudent(index) {
+
+    document.getElementById("studentId").value =
+        students[index].id;
+
+    document.getElementById("studentName").value =
+        students[index].name;
+
+    document.getElementById("department").value =
+        students[index].department;
+
+    document.getElementById("year").value =
+        students[index].year;
+
+    document.getElementById("section").value =
+        students[index].section;
+
+    document.getElementById("email").value =
+        students[index].email;
+
+    document.getElementById("phone").value =
+        students[index].phone;
+
+    document.getElementById("activity").value =
+        students[index].activity;
+
+    deleteStudent(index);
 }
