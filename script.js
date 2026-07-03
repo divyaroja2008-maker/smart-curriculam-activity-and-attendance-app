@@ -1,4 +1,4 @@
-       if (
+      if (
     localStorage.getItem("login")
     !== "true"
 ) {
@@ -35,7 +35,7 @@ function addStudent() {
     ) {
 
         alert(
-            "Please fill all fields"
+            "Fill all fields"
         );
 
         return;
@@ -63,7 +63,7 @@ function addStudent() {
     ).value = "";
 }
 
-function displayStudents() {
+function displayStudents(filtered = students) {
 
     let table =
         document.getElementById(
@@ -72,22 +72,24 @@ function displayStudents() {
 
     table.innerHTML = "";
 
-    students.forEach((s, index) => {
+    let presentCount = 0;
 
-        let colorClass = "";
+    let absentCount = 0;
+
+    filtered.forEach((s, index) => {
 
         if (
             s.attendance === "Present"
         ) {
 
-            colorClass = "present";
+            presentCount++;
         }
 
         if (
             s.attendance === "Absent"
         ) {
 
-            colorClass = "absent";
+            absentCount++;
         }
 
         table.innerHTML += `
@@ -98,9 +100,7 @@ function displayStudents() {
 
             <td>${s.department}</td>
 
-            <td class="${colorClass}">
-                ${s.attendance}
-            </td>
+            <td>${s.attendance}</td>
 
             <td>
 
@@ -127,6 +127,24 @@ function displayStudents() {
         </tr>
         `;
     });
+
+    document.getElementById(
+        "total"
+    ).innerHTML =
+        "Total Students: "
+        + students.length;
+
+    document.getElementById(
+        "present"
+    ).innerHTML =
+        "Present: "
+        + presentCount;
+
+    document.getElementById(
+        "absent"
+    ).innerHTML =
+        "Absent: "
+        + absentCount;
 }
 
 function markPresent(index) {
@@ -177,4 +195,20 @@ function logout() {
     window.location.href =
         "login.html";
 }
-   
+
+function searchStudent() {
+
+    let value =
+        document.getElementById(
+            "search"
+        ).value.toLowerCase();
+
+    let filtered =
+        students.filter((s) =>
+
+            s.name.toLowerCase()
+            .includes(value)
+        );
+
+    displayStudents(filtered);
+}
