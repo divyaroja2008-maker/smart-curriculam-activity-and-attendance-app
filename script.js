@@ -1,4 +1,4 @@
-      if (
+if (
     localStorage.getItem("login")
     !== "true"
 ) {
@@ -54,13 +54,7 @@ function addStudent() {
 
     displayStudents();
 
-    document.getElementById(
-        "studentName"
-    ).value = "";
-
-    document.getElementById(
-        "department"
-    ).value = "";
+    clearInputs();
 }
 
 function displayStudents(filtered = students) {
@@ -92,6 +86,14 @@ function displayStudents(filtered = students) {
             absentCount++;
         }
 
+        let percentage =
+            students.length === 0
+            ? 0
+            : (
+                presentCount /
+                students.length
+              ) * 100;
+
         table.innerHTML += `
 
         <tr>
@@ -105,21 +107,19 @@ function displayStudents(filtered = students) {
             <td>
 
                 <button onclick="markPresent(${index})">
-
                     Present
-
                 </button>
 
                 <button onclick="markAbsent(${index})">
-
                     Absent
+                </button>
 
+                <button onclick="editStudent(${index})">
+                    Edit
                 </button>
 
                 <button onclick="deleteStudent(${index})">
-
                     Delete
-
                 </button>
 
             </td>
@@ -145,6 +145,21 @@ function displayStudents(filtered = students) {
     ).innerHTML =
         "Absent: "
         + absentCount;
+
+    document.getElementById(
+        "percentage"
+    ).innerHTML =
+        "Attendance %: "
+        +
+        (
+            students.length === 0
+            ? 0
+            : (
+                presentCount /
+                students.length
+              ) * 100
+        ).toFixed(2)
+        + "%";
 }
 
 function markPresent(index) {
@@ -176,24 +191,36 @@ function deleteStudent(index) {
     displayStudents();
 }
 
-function saveData() {
+function editStudent(index) {
 
-    localStorage.setItem(
+    let newName =
+        prompt(
+            "Enter New Name",
+            students[index].name
+        );
 
-        "students",
+    let newDepartment =
+        prompt(
+            "Enter New Department",
+            students[index].department
+        );
 
-        JSON.stringify(students)
-    );
-}
+    if (
+        newName !== null
+        &&
+        newDepartment !== null
+    ) {
 
-function logout() {
+        students[index].name =
+            newName;
 
-    localStorage.removeItem(
-        "login"
-    );
+        students[index].department =
+            newDepartment;
 
-    window.location.href =
-        "login.html";
+        saveData();
+
+        displayStudents();
+    }
 }
 
 function searchStudent() {
@@ -212,3 +239,51 @@ function searchStudent() {
 
     displayStudents(filtered);
 }
+
+function clearInputs() {
+
+    document.getElementById(
+        "studentName"
+    ).value = "";
+
+    document.getElementById(
+        "department"
+    ).value = "";
+}
+
+function clearAllStudents() {
+
+    let confirmDelete =
+        confirm(
+            "Delete All Students?"
+        );
+
+    if (confirmDelete) {
+
+        students = [];
+
+        saveData();
+
+        displayStudents();
+    }
+}
+
+function saveData() {
+
+    localStorage.setItem(
+
+        "students",
+
+        JSON.stringify(students)
+    );
+}
+
+function logout() {
+
+    localStorage.removeItem(
+        "login"
+    );
+
+    window.location.href =
+        "login.html";
+}     
