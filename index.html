@@ -1,81 +1,31 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
-  <title>Smart Attendance App</title>
-
+  <title>Smart Curriculum App</title>
   <link rel="stylesheet" href="style.css">
-
 </head>
-
 <body>
 
-<div class="container">
+  <div class="container">
 
-<h1>Smart Attendance App</h1>
+    <h1>Smart Curriculum & Attendance App</h1>
 
-<button onclick="toggleDarkMode()">
-🌙 Dark Mode
-</button>
+    <!-- ADD STUDENT -->
+    <div class="card">
+      <input type="text" id="studentName" placeholder="Enter student name">
+      <button onclick="addStudent()">Add Student</button>
+    </div>
 
-<br><br>
+    <!-- SEARCH -->
+    <div class="card">
+      <input type="text" id="searchBox" placeholder="Search student..." onkeyup="searchStudent()">
+    </div>
 
-<input
-type="text"
-id="studentName"
-placeholder="Enter student name">
+    <!-- STUDENT LIST -->
+    <div id="studentList"></div>
 
-<br><br>
+  </div>
 
-<select id="activity">
-
-<option>Sports</option>
-<option>Dance</option>
-<option>Music</option>
-<option>Yoga</option>
-<option>NCC</option>
-
-</select>
-
-<br><br>
-
-<button onclick="markAttendance('Present')">
-Present
-</button>
-
-<button onclick="markAttendance('Absent')">
-Absent
-</button>
-
-<br><br>
-
-<input
-type="text"
-id="searchInput"
-placeholder="Search student"
-onkeyup="searchStudent()">
-
-<br><br>
-
-<button onclick="downloadReport()">
-Download Report
-</button>
-
-<h3 id="totalStudents">
-Total Students: 0
-</h3>
-
-<h3 id="attendancePercentage">
-Attendance Percentage: 0%
-</h3>
-
-<ul id="attendanceList"></ul>
-
-</div>
-
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
-
 </html>
