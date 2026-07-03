@@ -38,3 +38,4 @@ function markAttendance(status) {
 
   document.getElementById("studentName").value = "";
 }
+    
