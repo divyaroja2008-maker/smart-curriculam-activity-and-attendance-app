@@ -9,7 +9,7 @@
         content="width=device-width, initial-scale=1.0">
 
     <title>
-        Smart Curriculum Dashboard
+        Smart Curriculum App
     </title>
 
     <style>
@@ -20,9 +20,7 @@
 
             font-family: Arial;
 
-            background: #f0f2f5;
-
-            transition: 0.3s;
+            background: #f2f2f2;
         }
 
         .dark-mode {
@@ -34,11 +32,11 @@
 
         header {
 
-            background: blue;
+            background: #0066ff;
 
             color: white;
 
-            padding: 15px;
+            padding: 20px;
 
             text-align: center;
         }
@@ -63,13 +61,11 @@
 
             background: white;
 
-            border-radius: 10px;
-
             padding: 20px;
 
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            border-radius: 10px;
 
-            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
         }
 
         .dark-mode .card {
@@ -77,42 +73,14 @@
             background: #1f1f1f;
         }
 
-        .card:hover {
-
-            transform: scale(1.03);
-        }
-
-        .card h2 {
+        h2 {
 
             margin: 0;
         }
 
-        button {
-
-            width: 100%;
-
-            padding: 10px;
-
-            border: none;
-
-            background: blue;
-
-            color: white;
-
-            border-radius: 5px;
-
-            margin-top: 10px;
-
-            cursor: pointer;
-        }
-
-        button:hover {
-
-            background: darkblue;
-        }
-
         input,
-        textarea {
+        textarea,
+        button {
 
             width: 100%;
 
@@ -125,6 +93,22 @@
             border: 1px solid #ccc;
 
             box-sizing: border-box;
+        }
+
+        button {
+
+            background: #0066ff;
+
+            color: white;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+
+            background: #0044aa;
         }
 
         table {
@@ -145,7 +129,7 @@
 
         th {
 
-            background: blue;
+            background: #0066ff;
 
             color: white;
         }
@@ -191,7 +175,7 @@
 
             background: #ddd;
 
-            border-radius: 20px;
+            border-radius: 10px;
 
             overflow: hidden;
 
@@ -206,9 +190,9 @@
 
             background: green;
 
-            text-align: center;
-
             color: white;
+
+            text-align: center;
 
             line-height: 25px;
         }
@@ -253,7 +237,7 @@
     <div class="notice">
 
         Notification:
-        Attendance Submission Before 5 PM
+        Submit Attendance Before 5 PM
 
     </div>
 
@@ -277,7 +261,7 @@
 
         <div class="card">
 
-            <h2 id="presentCount">
+            <h2 id="presentStudents">
 
                 0
 
@@ -293,7 +277,7 @@
 
         <div class="card">
 
-            <h2 id="absentCount">
+            <h2 id="absentStudents">
 
                 0
 
@@ -309,7 +293,7 @@
 
         <div class="card">
 
-            <h2 id="attendancePercentage">
+            <h2 id="attendancePercent">
 
                 0%
 
@@ -337,7 +321,7 @@
     </div>
 
     <input type="text"
-        id="searchStudent"
+        id="search"
         placeholder="Search Student"
         onkeyup="searchStudent()">
 
@@ -354,7 +338,7 @@
         placeholder="Student ID">
 
     <input type="email"
-        id="studentEmail"
+        id="email"
         placeholder="Student Email">
 
     <input type="text"
@@ -365,7 +349,7 @@
         placeholder="Remarks"></textarea>
 
     <input type="file"
-        id="studentPhoto">
+        id="photo">
 
     <button onclick="addStudent()">
 
@@ -373,15 +357,15 @@
 
     </button>
 
-    <button onclick="resetAttendance()">
-
-        Reset Attendance
-
-    </button>
-
     <button onclick="clearAllStudents()">
 
         Clear All Students
+
+    </button>
+
+    <button onclick="resetAttendance()">
+
+        Reset Attendance
 
     </button>
 
@@ -417,9 +401,9 @@
 
                 <th>Remarks</th>
 
-                <th>Attendance</th>
+                <th>Status</th>
 
-                <th>Action</th>
+                <th>Actions</th>
 
             </tr>
 
@@ -472,7 +456,7 @@
 
         let email =
             document.getElementById(
-                "studentEmail"
+                "email"
             ).value;
 
         let activity =
@@ -487,7 +471,7 @@
 
         let photoInput =
             document.getElementById(
-                "studentPhoto"
+                "photo"
             );
 
         let file =
@@ -566,14 +550,14 @@
 
         filtered.forEach((student,index)=>{
 
-            let attendanceClass = "";
+            let colorClass = "";
 
             if (
                 student.attendance ===
                 "Present"
             ) {
 
-                attendanceClass =
+                colorClass =
                     "present";
 
                 present++;
@@ -584,7 +568,7 @@
                 "Absent"
             ) {
 
-                attendanceClass =
+                colorClass =
                     "absent";
 
                 absent++;
@@ -614,7 +598,7 @@
 
                 <td>${student.remarks}</td>
 
-                <td class="${attendanceClass}">
+                <td class="${colorClass}">
                     ${student.attendance}
                 </td>
 
@@ -661,12 +645,12 @@
             students.length;
 
         document.getElementById(
-            "presentCount"
+            "presentStudents"
         ).innerHTML =
             present;
 
         document.getElementById(
-            "absentCount"
+            "absentStudents"
         ).innerHTML =
             absent;
 
@@ -684,7 +668,7 @@
         }
 
         document.getElementById(
-            "attendancePercentage"
+            "attendancePercent"
         ).innerHTML =
             percentage.toFixed(0)
             + "%";
@@ -755,7 +739,7 @@
         ).value = "";
 
         document.getElementById(
-            "studentEmail"
+            "email"
         ).value = "";
 
         document.getElementById(
@@ -767,7 +751,7 @@
         ).value = "";
 
         document.getElementById(
-            "studentPhoto"
+            "photo"
         ).value = "";
     }
 
@@ -797,7 +781,7 @@
 
         let value =
             document.getElementById(
-                "searchStudent"
+                "search"
             ).value.toLowerCase();
 
         let filtered =
