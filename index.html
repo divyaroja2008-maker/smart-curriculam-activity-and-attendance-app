@@ -9,8 +9,7 @@
         content="width=device-width, initial-scale=1.0">
 
     <title>
-        Smart Curriculum Activity
-        and Attendance App
+        Smart Curriculum Activity and Attendance App
     </title>
 
     <style>
@@ -20,6 +19,8 @@
             font-family: Arial, sans-serif;
 
             background: #f4f4f4;
+
+            margin: 0;
 
             padding: 20px;
         }
@@ -33,26 +34,34 @@
 
         .container {
 
+            max-width: 1200px;
+
+            margin: auto;
+
             background: white;
 
             padding: 20px;
 
             border-radius: 10px;
 
-            max-width: 1200px;
-
-            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
         }
 
         input,
         select,
         button {
 
+            width: 100%;
+
             padding: 10px;
 
-            margin: 5px;
+            margin-top: 10px;
 
-            width: 95%;
+            border-radius: 5px;
+
+            border: 1px solid #ccc;
+
+            box-sizing: border-box;
         }
 
         button {
@@ -84,7 +93,14 @@
         th,
         td {
 
-            border: 1px solid black;
+            border: 1px solid #ddd;
+        }
+
+        th {
+
+            background: #007bff;
+
+            color: white;
         }
 
         th,
@@ -99,12 +115,16 @@
 
             display: flex;
 
-            justify-content: space-around;
+            justify-content: space-between;
 
             margin-top: 20px;
+
+            gap: 10px;
         }
 
         .card {
+
+            flex: 1;
 
             background: #007bff;
 
@@ -113,8 +133,6 @@
             padding: 20px;
 
             border-radius: 10px;
-
-            width: 22%;
 
             text-align: center;
         }
@@ -128,8 +146,7 @@
     <div class="container">
 
         <h1>
-            Smart Curriculum Activity
-            and Attendance App
+            Smart Curriculum Activity and Attendance App
         </h1>
 
         <input type="text"
@@ -219,6 +236,10 @@
 
         </div>
 
+        <button onclick="downloadCSV()">
+            Download Report
+        </button>
+
         <table>
 
             <thead>
@@ -243,7 +264,7 @@
 
                     <th>Status</th>
 
-                    <th>Action</th>
+                    <th>Actions</th>
 
                 </tr>
 
@@ -320,8 +341,7 @@
 
             updateDashboard();
 
-            document.querySelectorAll("input")
-                .forEach(input => input.value = "");
+            clearForm();
         }
 
         function displayStudents() {
@@ -358,19 +378,27 @@
                     <td>
 
                         <button onclick="markAttendance(${index}, 'Present')">
+
                             Present
+
                         </button>
 
                         <button onclick="markAttendance(${index}, 'Absent')">
+
                             Absent
+
                         </button>
 
                         <button onclick="editStudent(${index})">
+
                             Edit
+
                         </button>
 
                         <button onclick="deleteStudent(${index})">
+
                             Delete
+
                         </button>
 
                     </td>
@@ -497,8 +525,64 @@
                 percent + "%";
         }
 
+        function clearForm() {
+
+            document.getElementById("studentId").value = "";
+
+            document.getElementById("studentName").value = "";
+
+            document.getElementById("department").value = "";
+
+            document.getElementById("year").value = "";
+
+            document.getElementById("section").value = "";
+
+            document.getElementById("email").value = "";
+
+            document.getElementById("phone").value = "";
+        }
+
+        function downloadCSV() {
+
+            let csv =
+`ID,Name,Department,Year,Section,Email,Phone,Activity,Attendance\n`;
+
+            students.forEach((s) => {
+
+                csv +=
+`${s.id},
+${s.name},
+${s.department},
+${s.year},
+${s.section},
+${s.email},
+${s.phone},
+${s.activity},
+${s.attendance}\n`;
+            });
+
+            let blob =
+                new Blob([csv],
+                { type: 'text/csv' });
+
+            let url =
+                window.URL.createObjectURL(blob);
+
+            let a =
+                document.createElement("a");
+
+            a.href = url;
+
+            a.download =
+                "attendance_report.csv";
+
+            a.click();
+        }
+
     </script>
 
 </body>
 
 </html>
+
+              
