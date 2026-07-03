@@ -1,45 +1,58 @@
-<!DOCTYPE html>
-<html>
+body {
+  background-color: #f2f2f2;
+  font-family: Arial, sans-serif;
+  padding: 30px;
+}
 
-<head>
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 500px;
+  margin: auto;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
 
-  <title>Smart Attendance App</title>
+h1 {
+  color: darkblue;
+  text-align: center;
+}
 
-  <link rel="stylesheet" href="style.css">
+input {
+  padding: 12px;
+  width: 250px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
 
-</head>
+button {
+  padding: 12px 18px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
 
-<body>
+button:hover {
+  background-color: darkblue;
+}
 
-<div class="container">
+ul {
+  margin-top: 20px;
+  list-style: none;
+  padding: 0;
+}
 
-<h1>Smart Attendance App</h1>
+li {
+  background: #f9f9f9;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
 
-<input
-type="text"
-id="studentName"
-placeholder="Enter student name">
-
-<button onclick="markAttendance('Present')">
-Present
-</button>
-
-<button onclick="markAttendance('Absent')">
-Absent
-</button>
-
-<h3>
-Total Students:
-<span id="count">0</span>
-</h3>
-
-<ul id="attendanceList"></ul>
-
-</div>
-
-<script src="script.js"></script>
-
-</body>
-
-</html>
-
+h3 {
+  margin-top: 20px;
+  color: darkblue;
+}
