@@ -3,9 +3,9 @@
 
 <head>
 
-<title>Smart Attendance App</title>
+  <title>Smart Attendance App</title>
 
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -42,9 +42,16 @@ Present
 Absent
 </button>
 
-<h3>
-Total Students:
-<span id="count">0</span>
+<br><br>
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search student"
+onkeyup="searchStudent()">
+
+<h3 id="totalStudents">
+Total Students: 0
 </h3>
 
 <ul id="attendanceList"></ul>
