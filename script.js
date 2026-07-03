@@ -1,4 +1,6 @@
-let students = [];
+let students = JSON.parse(localStorage.getItem("students")) || [];
+
+displayStudents();
 
 function addStudent() {
 
@@ -14,6 +16,8 @@ function addStudent() {
     };
 
     students.push(student);
+
+    localStorage.setItem("students", JSON.stringify(students));
 
     displayStudents();
 
