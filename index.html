@@ -59,7 +59,8 @@
 
         input,
         button,
-        select {
+        select,
+        textarea {
 
             width: 100%;
 
@@ -89,9 +90,9 @@
 
         button:hover {
 
-            transform: scale(1.03);
-
             background: darkblue;
+
+            transform: scale(1.02);
         }
 
         .dashboard {
@@ -188,9 +189,9 @@
 
             background: green;
 
-            text-align: center;
-
             color: white;
+
+            text-align: center;
 
             line-height: 25px;
         }
@@ -198,6 +199,19 @@
         img {
 
             border-radius: 50%;
+        }
+
+        .notice {
+
+            background: orange;
+
+            color: white;
+
+            padding: 10px;
+
+            border-radius: 5px;
+
+            margin-top: 15px;
         }
 
         @media screen and (max-width: 600px) {
@@ -246,6 +260,13 @@
             Dark Mode
 
         </button>
+
+        <div class="notice">
+
+            Today's Notification:
+            Submit Attendance Before 5 PM
+
+        </div>
 
         <div class="dashboard">
 
@@ -349,6 +370,9 @@
             id="activity"
             placeholder="Curriculum Activity">
 
+        <textarea id="remarks"
+            placeholder="Student Remarks"></textarea>
+
         <input type="file"
             id="studentPhoto">
 
@@ -399,6 +423,8 @@
                     <th>Email</th>
 
                     <th>Activity</th>
+
+                    <th>Remarks</th>
 
                     <th>Attendance</th>
 
@@ -476,6 +502,11 @@
                     "activity"
                 ).value;
 
+            let remarks =
+                document.getElementById(
+                    "remarks"
+                ).value;
+
             let photoInput =
                 document.getElementById(
                     "studentPhoto"
@@ -494,6 +525,8 @@
                 email === ""
                 ||
                 activity === ""
+                ||
+                remarks === ""
                 ||
                 !file
             ) {
@@ -522,6 +555,8 @@
                         email: email,
 
                         activity: activity,
+
+                        remarks: remarks,
 
                         photo: e.target.result,
 
@@ -600,6 +635,8 @@
                     <td>${student.email}</td>
 
                     <td>${student.activity}</td>
+
+                    <td>${student.remarks}</td>
 
                     <td class="${colorClass}">
                         ${student.attendance}
@@ -798,6 +835,10 @@
             ).value = "";
 
             document.getElementById(
+                "remarks"
+            ).value = "";
+
+            document.getElementById(
                 "studentPhoto"
             ).value = "";
         }
@@ -902,7 +943,7 @@
         function exportCSV() {
 
             let csv =
-                "Name,Department,ID,Email,Activity,Attendance,Percentage\n";
+                "Name,Department,ID,Email,Activity,Remarks,Attendance,Percentage\n";
 
             students.forEach((student) => {
 
@@ -912,6 +953,7 @@
                     student.id + "," +
                     student.email + "," +
                     student.activity + "," +
+                    student.remarks + "," +
                     student.attendance + "," +
                     student.percentage + "%\n";
             });
@@ -940,5 +982,3 @@
 </body>
 
 </html>
-        
-       
