@@ -5,15 +5,53 @@
 
     <title>Login</title>
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+
+        body {
+
+            font-family: Arial;
+
+            background: #f4f4f4;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            height: 100vh;
+        }
+
+        .box {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            width: 300px;
+        }
+
+        input,
+        button {
+
+            width: 100%;
+
+            padding: 10px;
+
+            margin-top: 10px;
+        }
+
+    </style>
 
 </head>
 
 <body>
 
-    <div class="login-box">
+    <div class="box">
 
-        <h1>Smart Attendance App</h1>
+        <h2>Admin Login</h2>
 
         <input type="text"
             id="username"
@@ -64,7 +102,7 @@
                 document.getElementById(
                     "msg"
                 ).innerHTML =
-                    "Wrong Username or Password";
+                    "Invalid Login";
             }
         }
 
