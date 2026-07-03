@@ -1,11 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-    <title>Login</title>
+    <meta charset="UTF-8">
 
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Login
+    </title>
+
+    <style>
+
+        body {
+
+            font-family: Arial;
+
+            background: #f2f2f2;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            height: 100vh;
+        }
+
+        .login-box {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 10px;
+
+            width: 300px;
+
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+
+            text-align: center;
+
+            color: blue;
+        }
+
+        input,
+        button {
+
+            width: 100%;
+
+            padding: 10px;
+
+            margin-top: 10px;
+
+            box-sizing: border-box;
+
+            border-radius: 5px;
+
+            border: 1px solid #ccc;
+        }
+
+        button {
+
+            background: blue;
+
+            color: white;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+
+            background: darkblue;
+        }
+
+    </style>
 
 </head>
 
@@ -13,21 +89,21 @@
 
     <div class="login-box">
 
-        <h1>Smart Attendance App</h1>
+        <h2>
+            Admin Login
+        </h2>
 
         <input type="text"
             id="username"
-            placeholder="Username">
+            placeholder="Enter Username">
 
         <input type="password"
             id="password"
-            placeholder="Password">
+            placeholder="Enter Password">
 
         <button onclick="login()">
             Login
         </button>
-
-        <p id="msg"></p>
 
     </div>
 
@@ -48,7 +124,7 @@
             if (
                 username === "admin"
                 &&
-                password === "admin123"
+                password === "1234"
             ) {
 
                 localStorage.setItem(
@@ -58,13 +134,13 @@
 
                 window.location.href =
                     "index.html";
+            }
 
-            } else {
+            else {
 
-                document.getElementById(
-                    "msg"
-                ).innerHTML =
-                    "Wrong Username or Password";
+                alert(
+                    "Invalid Username or Password"
+                );
             }
         }
 
