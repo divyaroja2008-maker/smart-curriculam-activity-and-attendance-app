@@ -2,6 +2,11 @@ let total = 0;
 let presentCount = 0;
 let absentCount = 0;
 
+window.onload = function() {
+
+  loadAttendance();
+};
+
 function markAttendance(status) {
 
   let student =
@@ -47,6 +52,8 @@ function markAttendance(status) {
 
   updateStatistics();
 
+  saveAttendance();
+
   document.getElementById("studentName").value = "";
 }
 
@@ -65,6 +72,8 @@ function deleteItem(button, status) {
   }
 
   updateStatistics();
+
+  saveAttendance();
 }
 
 function updateStatistics() {
@@ -140,4 +149,42 @@ function downloadReport() {
     "attendance-report.txt";
 
   link.click();
+}
+
+function saveAttendance() {
+
+  let data =
+    document.getElementById("attendanceList").innerHTML;
+
+  localStorage.setItem("attendanceData", data);
+}
+
+function loadAttendance() {
+
+  let savedData =
+    localStorage.getItem("attendanceData");
+
+  if(savedData) {
+
+    document.getElementById("attendanceList").innerHTML =
+      savedData;
+
+    let items =
+      document.getElementsByTagName("li");
+
+    total = items.length;
+
+    for(let i = 0; i < items.length; i++) {
+
+      if(items[i].innerText.includes("Present")) {
+        presentCount++;
+      }
+
+      else {
+        absentCount++;
+      }
+    }
+
+    updateStatistics();
+  }
 }
