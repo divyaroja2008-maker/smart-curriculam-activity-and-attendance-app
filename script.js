@@ -21,12 +21,12 @@ function addStudent() {
     let name =
         document.getElementById(
             "studentName"
-        ).value;
+        ).value.trim();
 
     let department =
         document.getElementById(
             "department"
-        ).value;
+        ).value.trim();
 
     if (
         name === ""
@@ -35,7 +35,7 @@ function addStudent() {
     ) {
 
         alert(
-            "Fill all fields"
+            "Please fill all fields"
         );
 
         return;
@@ -70,56 +70,64 @@ function displayStudents(filtered = students) {
 
     let absentCount = 0;
 
-    filtered.forEach((s, index) => {
+    filtered.forEach((student, index) => {
+
+        let colorClass = "";
 
         if (
-            s.attendance === "Present"
+            student.attendance === "Present"
         ) {
+
+            colorClass = "present";
 
             presentCount++;
         }
 
         if (
-            s.attendance === "Absent"
+            student.attendance === "Absent"
         ) {
+
+            colorClass = "absent";
 
             absentCount++;
         }
-
-        let percentage =
-            students.length === 0
-            ? 0
-            : (
-                presentCount /
-                students.length
-              ) * 100;
 
         table.innerHTML += `
 
         <tr>
 
-            <td>${s.name}</td>
+            <td>${student.name}</td>
 
-            <td>${s.department}</td>
+            <td>${student.department}</td>
 
-            <td>${s.attendance}</td>
+            <td class="${colorClass}">
+                ${student.attendance}
+            </td>
 
             <td>
 
                 <button onclick="markPresent(${index})">
+
                     Present
+
                 </button>
 
                 <button onclick="markAbsent(${index})">
+
                     Absent
+
                 </button>
 
                 <button onclick="editStudent(${index})">
+
                     Edit
+
                 </button>
 
                 <button onclick="deleteStudent(${index})">
+
                     Delete
+
                 </button>
 
             </td>
@@ -146,19 +154,24 @@ function displayStudents(filtered = students) {
         "Absent: "
         + absentCount;
 
+    let percentage = 0;
+
+    if (
+        students.length > 0
+    ) {
+
+        percentage =
+            (
+                presentCount /
+                students.length
+            ) * 100;
+    }
+
     document.getElementById(
         "percentage"
     ).innerHTML =
         "Attendance %: "
-        +
-        (
-            students.length === 0
-            ? 0
-            : (
-                presentCount /
-                students.length
-              ) * 100
-        ).toFixed(2)
+        + percentage.toFixed(2)
         + "%";
 }
 
@@ -184,11 +197,19 @@ function markAbsent(index) {
 
 function deleteStudent(index) {
 
-    students.splice(index, 1);
+    let confirmDelete =
+        confirm(
+            "Delete this student?"
+        );
 
-    saveData();
+    if (confirmDelete) {
 
-    displayStudents();
+        students.splice(index, 1);
+
+        saveData();
+
+        displayStudents();
+    }
 }
 
 function editStudent(index) {
@@ -230,14 +251,25 @@ function searchStudent() {
             "search"
         ).value.toLowerCase();
 
-    let filtered =
-        students.filter((s) =>
+    let filteredStudents =
+        students.filter(
 
-            s.name.toLowerCase()
-            .includes(value)
+            (student) =>
+
+                student.name
+                .toLowerCase()
+                .includes(value)
+
+                ||
+
+                student.department
+                .toLowerCase()
+                .includes(value)
         );
 
-    displayStudents(filtered);
+    displayStudents(
+        filteredStudents
+    );
 }
 
 function clearInputs() {
@@ -253,12 +285,12 @@ function clearInputs() {
 
 function clearAllStudents() {
 
-    let confirmDelete =
+    let confirmClear =
         confirm(
-            "Delete All Students?"
+            "Delete all students?"
         );
 
-    if (confirmDelete) {
+    if (confirmClear) {
 
         students = [];
 
@@ -286,4 +318,13 @@ function logout() {
 
     window.location.href =
         "login.html";
-}     
+}
+
+function toggleDarkMode() {
+
+    document.body.classList.toggle(
+        "dark-mode"
+    );
+}
+
+    
