@@ -1,193 +1,140 @@
-let total = 0;
-let presentCount = 0;
-let absentCount = 0;
+let students = [];
 
-window.onload = function () {
-  loadAttendance();
-};
+function addAttendance(status) {
+    let name = document.getElementById("studentName").value;
+    let activity = document.getElementById("activity").value;
 
-function markAttendance(status) {
+    if (name === "") {
+        alert("Please enter student name");
+        return;
+    }
 
-  let student =
-    document.getElementById("studentName").value;
+    let now = new Date();
 
-  let activity =
-    document.getElementById("activity").value;
+    let student = {
+        name: name,
+        activity: activity,
+        status: status,
+        time: now.toLocaleTimeString(),
+        date: now.toLocaleDateString()
+    };
 
-  if (student === "") {
-    alert("Enter student name");
-    return;
-  }
+    students.push(student);
 
-  let list =
-    document.getElementById("attendanceList");
+    displayStudents();
 
-  let item =
-    document.createElement("li");
-
-  let time =
-    new Date().toLocaleString();
-
-  item.innerHTML =
-    "<strong>" + student + "</strong>" +
-    " - " + status +
-    " - " + activity +
-    " - " + time +
-    ' <button onclick="deleteItem(this, \'' + status + '\')">❌</button>';
-
-  if (status === "Present") {
-    item.style.borderLeft = "5px solid green";
-    presentCount++;
-  }
-
-  else {
-    item.style.borderLeft = "5px solid red";
-    absentCount++;
-  }
-
-  list.appendChild(item);
-
-  total++;
-
-  updateStatistics();
-
-  saveAttendance();
-
-  document.getElementById("studentName").value = "";
+    document.getElementById("studentName").value = "";
 }
 
-function deleteItem(button, status) {
+function displayStudents() {
+    let attendanceList = document.getElementById("attendanceList");
 
-  button.parentElement.remove();
+    attendanceList.innerHTML = "";
 
-  total--;
+    let presentCount = 0;
 
-  if (status === "Present") {
-    presentCount--;
-  }
+    students.forEach((student, index) => {
 
-  else {
-    absentCount--;
-  }
+        if (student.status === "Present") {
+            presentCount++;
+        }
 
-  updateStatistics();
+        attendanceList.innerHTML += `
+            <li>
+                <b>${student.name}</b> |
+                ${student.activity} |
+                ${student.status} |
+                ${student.date} |
+                ${student.time}
 
-  saveAttendance();
+                <button onclick="deleteStudent(${index})">
+                    Delete
+                </button>
+            </li>
+        `;
+    });
+
+    document.getElementById("totalStudents").innerText =
+        "Total Students: " + students.length;
+
+    let percentage = 0;
+
+    if (students.length > 0) {
+        percentage =
+            (presentCount / students.length) * 100;
+    }
+
+    document.getElementById("attendancePercentage").innerText =
+        "Attendance Percentage: " +
+        percentage.toFixed(0) + "%";
 }
 
-function updateStatistics() {
+function deleteStudent(index) {
+    students.splice(index, 1);
 
-  document.getElementById("totalStudents").innerText =
-    total;
-
-  document.getElementById("presentCount").innerText =
-    presentCount;
-
-  document.getElementById("absentCount").innerText =
-    absentCount;
-
-  let percentage = 0;
-
-  if (total > 0) {
-    percentage =
-      (presentCount / total) * 100;
-  }
-
-  document.getElementById("attendancePercentage").innerText =
-    percentage.toFixed(0) + "%";
+    displayStudents();
 }
 
 function searchStudent() {
+    let input =
+        document.getElementById("searchBox").value.toLowerCase();
 
-  let input =
-    document.getElementById("searchInput")
-    .value
-    .toLowerCase();
+    let attendanceList =
+        document.getElementById("attendanceList");
 
-  let items =
-    document.getElementsByTagName("li");
+    attendanceList.innerHTML = "";
 
-  for (let i = 0; i < items.length; i++) {
+    students.forEach((student, index) => {
 
-    let text =
-      items[i].innerText.toLowerCase();
+        if (
+            student.name.toLowerCase().includes(input)
+        ) {
 
-    if (text.includes(input)) {
-      items[i].style.display = "";
-    }
+            attendanceList.innerHTML += `
+                <li>
+                    <b>${student.name}</b> |
+                    ${student.activity} |
+                    ${student.status} |
+                    ${student.date} |
+                    ${student.time}
 
-    else {
-      items[i].style.display = "none";
-    }
-  }
-}
-
-function toggleDarkMode() {
-
-  document.body.classList.toggle("dark");
+                    <button onclick="deleteStudent(${index})">
+                        Delete
+                    </button>
+                </li>
+            `;
+        }
+    });
 }
 
 function downloadReport() {
 
-  let items =
-    document.getElementsByTagName("li");
+    let text = "SMART ATTENDANCE REPORT\n\n";
 
-  let report = "";
+    students.forEach((student) => {
 
-  for (let i = 0; i < items.length; i++) {
+        text +=
+            "Name: " + student.name +
+            " | Activity: " + student.activity +
+            " | Status: " + student.status +
+            " | Date: " + student.date +
+            " | Time: " + student.time +
+            "\n";
+    });
 
-    report += items[i].innerText + "\n";
-  }
+    let blob = new Blob([text], {
+        type: "text/plain"
+    });
 
-  let blob =
-    new Blob([report],
-    { type: "text/plain" });
+    let link = document.createElement("a");
 
-  let link =
-    document.createElement("a");
+    link.href = URL.createObjectURL(blob);
 
-  link.href =
-    URL.createObjectURL(blob);
+    link.download = "attendance_report.txt";
 
-  link.download =
-    "attendance-report.txt";
-
-  link.click();
+    link.click();
 }
 
-function saveAttendance() {
-
-  let data =
-    document.getElementById("attendanceList").innerHTML;
-
-  localStorage.setItem("attendanceData", data);
-
-  localStorage.setItem("total", total);
-
-  localStorage.setItem("presentCount", presentCount);
-
-  localStorage.setItem("absentCount", absentCount);
-}
-
-function loadAttendance() {
-
-  let savedData =
-    localStorage.getItem("attendanceData");
-
-  if (savedData) {
-
-    document.getElementById("attendanceList").innerHTML =
-      savedData;
-
-    total =
-      parseInt(localStorage.getItem("total")) || 0;
-
-    presentCount =
-      parseInt(localStorage.getItem("presentCount")) || 0;
-
-    absentCount =
-      parseInt(localStorage.getItem("absentCount")) || 0;
-
-    updateStatistics();
-  }
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
 }
