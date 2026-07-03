@@ -3,15 +3,64 @@
 
 <head>
 
-    <title>Home</title>
+    <title>Smart Attendance App</title>
+
+    <link rel="stylesheet"
+        href="style.css">
 
 </head>
 
 <body>
 
-    <h1>
-        Login Successful
-    </h1>
+    <div class="container">
+
+        <button onclick="logout()">
+            Logout
+        </button>
+
+        <h1>
+            Smart Attendance App
+        </h1>
+
+        <input type="text"
+            id="studentName"
+            placeholder="Student Name">
+
+        <input type="text"
+            id="department"
+            placeholder="Department">
+
+        <button onclick="addStudent()">
+            Add Student
+        </button>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Department</th>
+
+                    <th>Attendance</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="studentTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <script src="script.js"></script>
 
 </body>
 
