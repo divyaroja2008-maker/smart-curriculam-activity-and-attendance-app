@@ -1,69 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Profile</title>
-    <link rel="stylesheet" href="style.css">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Smart Curriculum Activity
+        and Attendance App
+    </title>
+
+    <style>
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f4f4;
+
+            padding: 20px;
+        }
+
+        h1 {
+
+            text-align: center;
+
+            color: #333;
+        }
+
+        .container {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            max-width: 1000px;
+
+            margin: auto;
+        }
+
+        input,
+        select,
+        button {
+
+            padding: 10px;
+
+            margin: 5px;
+
+            width: 95%;
+        }
+
+        button {
+
+            background: #007bff;
+
+            color: white;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+
+            background: #0056b3;
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+
+            border: 1px solid black;
+        }
+
+        th,
+        td {
+
+            padding: 10px;
+
+            text-align: center;
+        }
+
+        .dashboard {
+
+            display: flex;
+
+            justify-content: space-around;
+
+            margin-top: 20px;
+        }
+
+        .card {
+
+            background: #007bff;
+
+            color: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            width: 22%;
+
+            text-align: center;
+        }
+
+    </style>
+
 </head>
+
 <body>
 
-<h2>Student Profile</h2>
+    <div class="container">
 
-<form id="studentForm">
+        <h1>
+            Smart Curriculum Activity
+            and Attendance App
+        </h1>
 
-    <input type="text" id="studentId" placeholder="Student ID" required><br><br>
+        <input type="text"
+            id="studentId"
+            placeholder="Student ID">
 
-    <input type="text" id="studentName" placeholder="Student Name" required><br><br>
+        <input type="text"
+            id="studentName"
+            placeholder="Student Name">
 
-    <input type="text" id="department" placeholder="Department" required><br><br>
+        <input type="text"
+            id="department"
+            placeholder="Department">
 
-    <input type="text" id="year" placeholder="Year" required><br><br>
+        <input type="text"
+            id="year"
+            placeholder="Year">
 
-    <input type="text" id="section" placeholder="Section" required><br><br>
+        <input type="text"
+            id="section"
+            placeholder="Section">
 
-    <input type="email" id="email" placeholder="Email" required><br><br>
+        <input type="email"
+            id="email"
+            placeholder="Email">
 
-    <input type="tel" id="phone" placeholder="Phone Number" required><br><br>
+        <input type="text"
+            id="phone"
+            placeholder="Phone Number">
 
-    <select id="activity">
-        <option>Sports</option>
-        <option>NSS</option>
-        <option>NCC</option>
-        <option>Yoga</option>
-        <option>Cultural</option>
-    </select>
+        <select id="activity">
 
-    <br><br>
+            <option>Sports</option>
 
-    <button type="button" onclick="addStudent()">Add Student</button>
+            <option>NSS</option>
 
-</form>
+            <option>NCC</option>
 
-<hr>
+            <option>Yoga</option>
 
-<h3>Student List</h3>
+            <option>Cultural</option>
 
-<table border="1">
-<thead>
-<tr>
-<th>ID</th>
-<th>Name</th>
-<th>Department</th>
-<th>Year</th>
-<th>Section</th>
-<th>Email</th>
-<th>Phone</th>
-<th>Activity</th>
-</tr>
-</thead>
+        </select>
 
-<tbody id="studentTable">
-</tbody>
+        <button onclick="addStudent()">
+            Add Student
+        </button>
 
-</table>
+        <input type="text"
+            id="searchInput"
+            placeholder="Search Student"
+            onkeyup="searchStudent()">
 
-<script src="student.js"></script>
+        <div class="dashboard">
+
+            <div class="card">
+
+                <h3>Total Students</h3>
+
+                <h2 id="totalStudents">0</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Sports</h3>
+
+                <h2 id="sportsCount">0</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>NSS</h3>
+
+                <h2 id="nssCount">0</h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>NCC</h3>
+
+                <h2 id="nccCount">0</h2>
+
+            </div>
+
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Name</th>
+
+                    <th>Department</th>
+
+                    <th>Year</th>
+
+                    <th>Section</th>
+
+                    <th>Email</th>
+
+                    <th>Phone</th>
+
+                    <th>Activity</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="studentTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <script>
+
+        let students =
+            JSON.parse(localStorage.getItem("students"))
+            || [];
+
+        let editIndex = -1;
+
+        displayStudents();
+
+        updateDashboard();
+
+        function addStudent() {
+
+            const student = {
+
+                id:
+                    document.getElementById("studentId").value,
+
+                name:
+                    document.getElementById("studentName").value,
+
+                department:
+                    document.getElementById("department").value,
+
+                year:
+                    document.getElementById("year").value,
+
+                section:
+                    document.getElementById("section").value,
+
+                email:
+                    document.getElementById("email").value,
+
+                phone:
+                    document.getElementById("phone").value,
+
+                activity:
+                    document.getElementById("activity").value
+            };
+
+            if (editIndex === -1) {
+
+                students.push(student);
+
+            } else {
+
+                students[editIndex] = student;
+
+                editIndex = -1;
+            }
+
+            localStorage.setItem(
+                "students",
+                JSON.stringify(students)
+            );
+
+            displayStudents();
+
+            updateDashboard();
+
+            document.getElementById(
+                "studentId").value = "";
+
+            document.getElementById(
+                "studentName").value = "";
+
+            document.getElementById(
+                "department").value = "";
+
+            document.getElementById(
+                "year").value = "";
+
+            document.getElementById(
+                "section").value = "";
+
+            document.getElementById(
+                "email").value = "";
+
+            document.getElementById(
+                "phone").value = "";
+        }
+
+        function displayStudents() {
+
+            let table =
+                document.getElementById("studentTable");
+
+            table.innerHTML = "";
+
+            students.forEach((s, index) => {
+
+                table.innerHTML += `
+
+                <tr>
+
+                    <td>${s.id}</td>
+
+                    <td>${s.name}</td>
+
+                    <td>${s.department}</td>
+
+                    <td>${s.year}</td>
+
+                    <td>${s.section}</td>
+
+                    <td>${s.email}</td>
+
+                    <td>${s.phone}</td>
+
+                    <td>${s.activity}</td>
+
+                    <td>
+
+                        <button onclick="editStudent(${index})">
+
+                            Edit
+
+                        </button>
+
+                        <button onclick="deleteStudent(${index})">
+
+                            Delete
+
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                `;
+            });
+        }
+
+        function deleteStudent(index) {
+
+            students.splice(index, 1);
+
+            localStorage.setItem(
+                "students",
+                JSON.stringify(students)
+            );
+
+            displayStudents();
+
+            updateDashboard();
+        }
+
+        function editStudent(index) {
+
+            document.getElementById("studentId").value =
+                students[index].id;
+
+            document.getElementById("studentName").value =
+                students[index].name;
+
+            document.getElementById("department").value =
+                students[index].department;
+
+            document.getElementById("year").value =
+                students[index].year;
+
+            document.getElementById("section").value =
+                students[index].section;
+
+            document.getElementById("email").value =
+                students[index].email;
+
+            document.getElementById("phone").value =
+                students[index].phone;
+
+            document.getElementById("activity").value =
+                students[index].activity;
+
+            editIndex = index;
+        }
+
+        function searchStudent() {
+
+            let input =
+                document.getElementById("searchInput")
+                .value.toLowerCase();
+
+            let table =
+                document.getElementById("studentTable");
+
+            let rows =
+                table.getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+
+                let data =
+                    rows[i].innerText.toLowerCase();
+
+                if (data.includes(input)) {
+
+                    rows[i].style.display = "";
+
+                } else {
+
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+
+        function updateDashboard() {
+
+            document.getElementById(
+                "totalStudents").innerHTML =
+                students.length;
+
+            let sports = students.filter(
+                s => s.activity === "Sports"
+            ).length;
+
+            let nss = students.filter(
+                s => s.activity === "NSS"
+            ).length;
+
+            let ncc = students.filter(
+                s => s.activity === "NCC"
+            ).length;
+
+            document.getElementById(
+                "sportsCount").innerHTML = sports;
+
+            document.getElementById(
+                "nssCount").innerHTML = nss;
+
+            document.getElementById(
+                "nccCount").innerHTML = ncc;
+        }
+
+    </script>
 
 </body>
+
 </html>
