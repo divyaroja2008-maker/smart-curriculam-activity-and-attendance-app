@@ -1,4 +1,4 @@
-if (
+       if (
     localStorage.getItem("login")
     !== "true"
 ) {
@@ -7,7 +7,14 @@ if (
         "login.html";
 }
 
-let students = [];
+let students =
+    JSON.parse(
+        localStorage.getItem(
+            "students"
+        )
+    ) || [];
+
+displayStudents();
 
 function addStudent() {
 
@@ -21,6 +28,19 @@ function addStudent() {
             "department"
         ).value;
 
+    if (
+        name === ""
+        ||
+        department === ""
+    ) {
+
+        alert(
+            "Please fill all fields"
+        );
+
+        return;
+    }
+
     students.push({
 
         name: name,
@@ -30,7 +50,17 @@ function addStudent() {
         attendance: "Not Marked"
     });
 
+    saveData();
+
     displayStudents();
+
+    document.getElementById(
+        "studentName"
+    ).value = "";
+
+    document.getElementById(
+        "department"
+    ).value = "";
 }
 
 function displayStudents() {
@@ -44,6 +74,22 @@ function displayStudents() {
 
     students.forEach((s, index) => {
 
+        let colorClass = "";
+
+        if (
+            s.attendance === "Present"
+        ) {
+
+            colorClass = "present";
+        }
+
+        if (
+            s.attendance === "Absent"
+        ) {
+
+            colorClass = "absent";
+        }
+
         table.innerHTML += `
 
         <tr>
@@ -52,7 +98,9 @@ function displayStudents() {
 
             <td>${s.department}</td>
 
-            <td>${s.attendance}</td>
+            <td class="${colorClass}">
+                ${s.attendance}
+            </td>
 
             <td>
 
@@ -68,6 +116,12 @@ function displayStudents() {
 
                 </button>
 
+                <button onclick="deleteStudent(${index})">
+
+                    Delete
+
+                </button>
+
             </td>
 
         </tr>
@@ -80,6 +134,8 @@ function markPresent(index) {
     students[index].attendance =
         "Present";
 
+    saveData();
+
     displayStudents();
 }
 
@@ -88,7 +144,28 @@ function markAbsent(index) {
     students[index].attendance =
         "Absent";
 
+    saveData();
+
     displayStudents();
+}
+
+function deleteStudent(index) {
+
+    students.splice(index, 1);
+
+    saveData();
+
+    displayStudents();
+}
+
+function saveData() {
+
+    localStorage.setItem(
+
+        "students",
+
+        JSON.stringify(students)
+    );
 }
 
 function logout() {
@@ -100,3 +177,4 @@ function logout() {
     window.location.href =
         "login.html";
 }
+   
