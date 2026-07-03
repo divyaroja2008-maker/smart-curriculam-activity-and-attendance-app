@@ -1,5 +1,7 @@
 let students = JSON.parse(localStorage.getItem("students")) || [];
 
+let editIndex = -1;
+
 displayStudents();
 
 function addStudent() {
@@ -15,7 +17,16 @@ function addStudent() {
         activity: document.getElementById("activity").value
     };
 
-    students.push(student);
+    if (editIndex === -1) {
+
+        students.push(student);
+
+    } else {
+
+        students[editIndex] = student;
+
+        editIndex = -1;
+    }
 
     localStorage.setItem("students", JSON.stringify(students));
 
@@ -92,5 +103,5 @@ function editStudent(index) {
     document.getElementById("activity").value =
         students[index].activity;
 
-    deleteStudent(index);
+    editIndex = index;
 }
