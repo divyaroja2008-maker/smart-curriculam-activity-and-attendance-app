@@ -22,14 +22,15 @@ function markAttendance(status) {
   let time =
     new Date().toLocaleString();
 
-  item.innerText =
+  item.innerHTML =
     student +
     " - " +
     status +
     " - " +
     activity +
     " - " +
-    time;
+    time +
+    ' <button onclick="deleteItem(this)">❌</button>';
 
   if(status === "Present") {
     item.style.color = "green";
@@ -46,4 +47,13 @@ function markAttendance(status) {
   document.getElementById("count").innerText = total;
 
   document.getElementById("studentName").value = "";
+}
+
+function deleteItem(button) {
+
+  button.parentElement.remove();
+
+  total--;
+
+  document.getElementById("count").innerText = total;
 }
