@@ -9,7 +9,7 @@
         content="width=device-width, initial-scale=1.0">
 
     <title>
-        Smart Curriculum Activity And Attendance App
+        Smart Attendance App
     </title>
 
     <style>
@@ -59,7 +59,6 @@
 
         input,
         button,
-        select,
         textarea {
 
             width: 100%;
@@ -92,7 +91,7 @@
 
             background: darkblue;
 
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
 
         .dashboard {
@@ -121,6 +120,19 @@
             border-radius: 10px;
 
             text-align: center;
+        }
+
+        .notice {
+
+            background: orange;
+
+            color: white;
+
+            padding: 10px;
+
+            border-radius: 5px;
+
+            margin-top: 15px;
         }
 
         table {
@@ -201,19 +213,6 @@
             border-radius: 50%;
         }
 
-        .notice {
-
-            background: orange;
-
-            color: white;
-
-            padding: 10px;
-
-            border-radius: 5px;
-
-            margin-top: 15px;
-        }
-
         @media screen and (max-width: 600px) {
 
             .dashboard {
@@ -263,7 +262,6 @@
 
         <div class="notice">
 
-            Today's Notification:
             Submit Attendance Before 5 PM
 
         </div>
@@ -273,21 +271,15 @@
             <div class="card">
 
                 <h3>
-
                     Admin Profile
-
                 </h3>
 
                 <p>
-
                     Name: Admin
-
                 </p>
 
                 <p>
-
                     Role: Attendance Manager
-
                 </p>
 
             </div>
@@ -371,7 +363,7 @@
             placeholder="Curriculum Activity">
 
         <textarea id="remarks"
-            placeholder="Student Remarks"></textarea>
+            placeholder="Remarks"></textarea>
 
         <input type="file"
             id="studentPhoto">
@@ -532,7 +524,7 @@
             ) {
 
                 alert(
-                    "Please Fill All Fields"
+                    "Fill All Fields"
                 );
 
                 return;
@@ -572,7 +564,7 @@
                     clearInputs();
 
                     alert(
-                        "Student Added Successfully"
+                        "Student Added"
                     );
                 };
 
@@ -806,10 +798,6 @@
             saveData();
 
             displayStudents();
-
-            alert(
-                "Attendance Reset"
-            );
         }
 
         function clearInputs() {
