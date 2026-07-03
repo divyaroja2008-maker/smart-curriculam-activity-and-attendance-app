@@ -5,6 +5,9 @@ function markAttendance(status) {
   let student =
     document.getElementById("studentName").value;
 
+  let activity =
+    document.getElementById("activity").value;
+
   if(student === "") {
     alert("Enter student name");
     return;
@@ -20,7 +23,13 @@ function markAttendance(status) {
     new Date().toLocaleString();
 
   item.innerText =
-    student + " - " + status + " - " + time;
+    student +
+    " - " +
+    status +
+    " - " +
+    activity +
+    " - " +
+    time;
 
   if(status === "Present") {
     item.style.color = "green";
