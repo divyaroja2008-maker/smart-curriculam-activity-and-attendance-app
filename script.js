@@ -1,330 +1,128 @@
-if (
-    localStorage.getItem("login")
-    !== "true"
-) {
+let timetable =
+JSON.parse(
+localStorage.getItem(
+"timetable"
+)
+) || [];
 
-    window.location.href =
-        "login.html";
+displayTimetable();
+
+function addTimetable(){
+
+let teacher =
+document.getElementById(
+"teacherName"
+).value;
+
+let subject =
+document.getElementById(
+"subjectName"
+).value;
+
+let room =
+document.getElementById(
+"classRoom"
+).value;
+
+let day =
+document.getElementById(
+"day"
+).value;
+
+let time =
+document.getElementById(
+"timeSlot"
+).value;
+
+if(
+teacher === ""
+||
+subject === ""
+||
+room === ""
+){
+
+alert(
+"Please Fill All Fields"
+);
+
+return;
+
 }
 
-let students =
-    JSON.parse(
-        localStorage.getItem(
-            "students"
-        )
-    ) || [];
+timetable.push({
 
-displayStudents();
+teacher:teacher,
+subject:subject,
+room:room,
+day:day,
+time:time
 
-function addStudent() {
+});
 
-    let name =
-        document.getElementById(
-            "studentName"
-        ).value.trim();
+saveTimetable();
 
-    let department =
-        document.getElementById(
-            "department"
-        ).value.trim();
+displayTimetable();
 
-    if (
-        name === ""
-        ||
-        department === ""
-    ) {
-
-        alert(
-            "Please fill all fields"
-        );
-
-        return;
-    }
-
-    students.push({
-
-        name: name,
-
-        department: department,
-
-        attendance: "Not Marked"
-    });
-
-    saveData();
-
-    displayStudents();
-
-    clearInputs();
 }
 
-function displayStudents(filtered = students) {
+function displayTimetable(){
 
-    let table =
-        document.getElementById(
-            "studentTable"
-        );
+let table =
+document.getElementById(
+"timetableTable"
+);
 
-    table.innerHTML = "";
+table.innerHTML = "";
 
-    let presentCount = 0;
+timetable.forEach((item,index)=>{
 
-    let absentCount = 0;
+table.innerHTML += `
 
-    filtered.forEach((student, index) => {
+<tr>
 
-        let colorClass = "";
+<td>${item.teacher}</td>
+<td>${item.subject}</td>
+<td>${item.room}</td>
+<td>${item.day}</td>
+<td>${item.time}</td>
 
-        if (
-            student.attendance === "Present"
-        ) {
+<td>
 
-            colorClass = "present";
+<button onclick="deleteTimetable(${index})">
 
-            presentCount++;
-        }
+Delete
 
-        if (
-            student.attendance === "Absent"
-        ) {
+</button>
 
-            colorClass = "absent";
+</td>
 
-            absentCount++;
-        }
+</tr>
 
-        table.innerHTML += `
+`;
 
-        <tr>
+});
 
-            <td>${student.name}</td>
-
-            <td>${student.department}</td>
-
-            <td class="${colorClass}">
-                ${student.attendance}
-            </td>
-
-            <td>
-
-                <button onclick="markPresent(${index})">
-
-                    Present
-
-                </button>
-
-                <button onclick="markAbsent(${index})">
-
-                    Absent
-
-                </button>
-
-                <button onclick="editStudent(${index})">
-
-                    Edit
-
-                </button>
-
-                <button onclick="deleteStudent(${index})">
-
-                    Delete
-
-                </button>
-
-            </td>
-
-        </tr>
-        `;
-    });
-
-    document.getElementById(
-        "total"
-    ).innerHTML =
-        "Total Students: "
-        + students.length;
-
-    document.getElementById(
-        "present"
-    ).innerHTML =
-        "Present: "
-        + presentCount;
-
-    document.getElementById(
-        "absent"
-    ).innerHTML =
-        "Absent: "
-        + absentCount;
-
-    let percentage = 0;
-
-    if (
-        students.length > 0
-    ) {
-
-        percentage =
-            (
-                presentCount /
-                students.length
-            ) * 100;
-    }
-
-    document.getElementById(
-        "percentage"
-    ).innerHTML =
-        "Attendance %: "
-        + percentage.toFixed(2)
-        + "%";
 }
 
-function markPresent(index) {
+function deleteTimetable(index){
 
-    students[index].attendance =
-        "Present";
+timetable.splice(index,1);
 
-    saveData();
+saveTimetable();
 
-    displayStudents();
+displayTimetable();
+
 }
 
-function markAbsent(index) {
+function saveTimetable(){
 
-    students[index].attendance =
-        "Absent";
+localStorage.setItem(
 
-    saveData();
+"timetable",
 
-    displayStudents();
+JSON.stringify(timetable)
+
+);
+
 }
-
-function deleteStudent(index) {
-
-    let confirmDelete =
-        confirm(
-            "Delete this student?"
-        );
-
-    if (confirmDelete) {
-
-        students.splice(index, 1);
-
-        saveData();
-
-        displayStudents();
-    }
-}
-
-function editStudent(index) {
-
-    let newName =
-        prompt(
-            "Enter New Name",
-            students[index].name
-        );
-
-    let newDepartment =
-        prompt(
-            "Enter New Department",
-            students[index].department
-        );
-
-    if (
-        newName !== null
-        &&
-        newDepartment !== null
-    ) {
-
-        students[index].name =
-            newName;
-
-        students[index].department =
-            newDepartment;
-
-        saveData();
-
-        displayStudents();
-    }
-}
-
-function searchStudent() {
-
-    let value =
-        document.getElementById(
-            "search"
-        ).value.toLowerCase();
-
-    let filteredStudents =
-        students.filter(
-
-            (student) =>
-
-                student.name
-                .toLowerCase()
-                .includes(value)
-
-                ||
-
-                student.department
-                .toLowerCase()
-                .includes(value)
-        );
-
-    displayStudents(
-        filteredStudents
-    );
-}
-
-function clearInputs() {
-
-    document.getElementById(
-        "studentName"
-    ).value = "";
-
-    document.getElementById(
-        "department"
-    ).value = "";
-}
-
-function clearAllStudents() {
-
-    let confirmClear =
-        confirm(
-            "Delete all students?"
-        );
-
-    if (confirmClear) {
-
-        students = [];
-
-        saveData();
-
-        displayStudents();
-    }
-}
-
-function saveData() {
-
-    localStorage.setItem(
-
-        "students",
-
-        JSON.stringify(students)
-    );
-}
-
-function logout() {
-
-    localStorage.removeItem(
-        "login"
-    );
-
-    window.location.href =
-        "login.html";
-}
-
-function toggleDarkMode() {
-
-    document.body.classList.toggle(
-        "dark-mode"
-    );
-}
-
-    
