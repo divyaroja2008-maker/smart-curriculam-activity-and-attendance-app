@@ -55,12 +55,12 @@ let file =
 document.getElementById("photo").files[0];
 
 if(
-name==="" ||
-department==="" ||
-id==="" ||
-email==="" ||
-activity==="" ||
-remarks==="" ||
+name === "" ||
+department === "" ||
+id === "" ||
+email === "" ||
+activity === "" ||
+remarks === "" ||
 !file
 ){
 alert("Please Fill All Fields");
@@ -92,9 +92,27 @@ displayStudents();
 updateLeaderboard();
 updateRewards();
 
+clearInputs();
+
 };
 
 reader.readAsDataURL(file);
+
+}
+
+// =========================
+// CLEAR INPUTS
+// =========================
+
+function clearInputs(){
+
+document.getElementById("studentName").value="";
+document.getElementById("department").value="";
+document.getElementById("studentId").value="";
+document.getElementById("email").value="";
+document.getElementById("activity").value="";
+document.getElementById("remarks").value="";
+document.getElementById("photo").value="";
 
 }
 
@@ -137,11 +155,17 @@ height="50">
 </td>
 
 <td>${student.name}</td>
+
 <td>${student.department}</td>
+
 <td>${student.id}</td>
+
 <td>${student.email}</td>
+
 <td>${student.semester}</td>
+
 <td>${student.activity}</td>
+
 <td>${student.remarks}</td>
 
 <td class="${color}">
@@ -185,7 +209,7 @@ absent;
 
 let percent = 0;
 
-if(students.length>0){
+if(students.length > 0){
 
 percent =
 (present/students.length)*100;
@@ -287,6 +311,10 @@ student.name.toLowerCase().includes(value)
 
 student.department.toLowerCase().includes(value)
 
+||
+
+student.id.toLowerCase().includes(value)
+
 );
 
 displayStudents(filtered);
@@ -386,7 +414,7 @@ chart.destroy();
 chart =
 new Chart(ctx,{
 
-type:"bar",
+type:"pie",
 
 data:{
 
@@ -396,8 +424,6 @@ labels:[
 ],
 
 datasets:[{
-
-label:"Students",
 
 data:[
 present,
@@ -517,7 +543,7 @@ displayTimetable();
 }
 
 // =========================
-// AI ATTENDANCE PREDICTION
+// AI PREDICTION
 // =========================
 
 function predictAttendance(){
@@ -532,7 +558,7 @@ students.filter(
 s => s.attendance==="Absent"
 ).length;
 
-if(present>absent){
+if(present > absent){
 
 document.getElementById("aiPrediction")
 .innerHTML =
@@ -551,7 +577,7 @@ document.getElementById("aiPrediction")
 }
 
 // =========================
-// QR GENERATOR
+// QR CODE
 // =========================
 
 function generateQR(){
@@ -568,7 +594,7 @@ document.getElementById("qrResult").innerHTML =
 }
 
 // =========================
-// ANNOUNCEMENT SYSTEM
+// ANNOUNCEMENTS
 // =========================
 
 function addAnnouncement(){
@@ -626,7 +652,7 @@ students.forEach((student)=>{
 if(student.attendance==="Present"){
 
 board.innerHTML +=
-`<li>${student.name}</li>`;
+`<li>🏆 ${student.name}</li>`;
 
 }
 
@@ -676,7 +702,9 @@ table.innerHTML += `
 <tr>
 
 <td>${student.name}</td>
+
 <td>${student.attendance}</td>
+
 <td>${reward}</td>
 
 </tr>
