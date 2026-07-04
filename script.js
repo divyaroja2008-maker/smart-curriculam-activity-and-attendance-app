@@ -1,4 +1,10 @@
 // =========================
+// SMART CURRICULUM ACTIVITY
+// & ATTENDANCE APP
+// FULL JAVASCRIPT CODE
+// =========================
+
+// =========================
 // LOCAL STORAGE
 // =========================
 
@@ -23,6 +29,7 @@ displayTimetable();
 displayAnnouncements();
 updateLeaderboard();
 updateRewards();
+updateDateTime();
 
 // =========================
 // ADD STUDENT
@@ -88,8 +95,11 @@ attendance:"Pending"
 });
 
 saveStudents();
+
 displayStudents();
+
 updateLeaderboard();
+
 updateRewards();
 
 clearInputs();
@@ -230,12 +240,13 @@ updateChart(present,absent);
 }
 
 // =========================
-// ATTENDANCE FUNCTIONS
+// MARK PRESENT
 // =========================
 
 function markPresent(index){
 
-students[index].attendance="Present";
+students[index].attendance =
+"Present";
 
 saveStudents();
 
@@ -247,9 +258,14 @@ updateRewards();
 
 }
 
+// =========================
+// MARK ABSENT
+// =========================
+
 function markAbsent(index){
 
-students[index].attendance="Absent";
+students[index].attendance =
+"Absent";
 
 saveStudents();
 
@@ -376,7 +392,9 @@ a.click();
 
 function toggleDarkMode(){
 
-document.body.classList.toggle("dark-mode");
+document.body.classList.toggle(
+"dark-mode"
+);
 
 }
 
@@ -393,8 +411,6 @@ new Date().toLocaleString();
 }
 
 setInterval(updateDateTime,1000);
-
-updateDateTime();
 
 // =========================
 // ATTENDANCE CHART
@@ -465,9 +481,9 @@ let time =
 document.getElementById("timeSlot").value;
 
 if(
-teacher==="" ||
-subject==="" ||
-room===""
+teacher === "" ||
+subject === "" ||
+room === ""
 ){
 alert("Fill All Fields");
 return;
@@ -492,12 +508,16 @@ displayTimetable();
 
 }
 
+// =========================
+// DISPLAY TIMETABLE
+// =========================
+
 function displayTimetable(){
 
 let table =
 document.getElementById("timetableTable");
 
-table.innerHTML="";
+table.innerHTML = "";
 
 timetable.forEach((item,index)=>{
 
@@ -506,17 +526,19 @@ table.innerHTML += `
 <tr>
 
 <td>${item.teacher}</td>
+
 <td>${item.subject}</td>
+
 <td>${item.room}</td>
+
 <td>${item.day}</td>
+
 <td>${item.time}</td>
 
 <td>
 
 <button onclick="deleteTimetable(${index})">
-
 Delete
-
 </button>
 
 </td>
@@ -528,6 +550,10 @@ Delete
 });
 
 }
+
+// =========================
+// DELETE TIMETABLE
+// =========================
 
 function deleteTimetable(index){
 
@@ -543,7 +569,7 @@ displayTimetable();
 }
 
 // =========================
-// AI PREDICTION
+// AI ATTENDANCE PREDICTION
 // =========================
 
 function predictAttendance(){
@@ -562,7 +588,7 @@ if(present > absent){
 
 document.getElementById("aiPrediction")
 .innerHTML =
-"AI Prediction: Attendance performance is GOOD";
+"AI Prediction: Attendance Performance is GOOD";
 
 }
 
@@ -570,14 +596,14 @@ else{
 
 document.getElementById("aiPrediction")
 .innerHTML =
-"AI Prediction: Attendance performance needs improvement";
+"AI Prediction: Attendance Needs Improvement";
 
 }
 
 }
 
 // =========================
-// QR CODE
+// QR CODE GENERATOR
 // =========================
 
 function generateQR(){
@@ -594,7 +620,7 @@ document.getElementById("qrResult").innerHTML =
 }
 
 // =========================
-// ANNOUNCEMENTS
+// ANNOUNCEMENT BOARD
 // =========================
 
 function addAnnouncement(){
@@ -620,12 +646,16 @@ document.getElementById("announcementInput").value="";
 
 }
 
+// =========================
+// DISPLAY ANNOUNCEMENTS
+// =========================
+
 function displayAnnouncements(){
 
 let list =
 document.getElementById("announcementList");
 
-list.innerHTML="";
+list.innerHTML = "";
 
 announcements.forEach((item)=>{
 
@@ -645,7 +675,7 @@ function updateLeaderboard(){
 let board =
 document.getElementById("leaderboard");
 
-board.innerHTML="";
+board.innerHTML = "";
 
 students.forEach((student)=>{
 
@@ -661,7 +691,7 @@ board.innerHTML +=
 }
 
 // =========================
-// REWARD SYSTEM
+// ACHIEVEMENT & REWARD SYSTEM
 // =========================
 
 function updateRewards(){
@@ -712,5 +742,20 @@ table.innerHTML += `
 `;
 
 });
+
+}
+
+// =========================
+// LOGOUT
+// =========================
+
+function logout(){
+
+localStorage.removeItem("login");
+
+alert("Logged Out Successfully");
+
+window.location.href =
+"login.html";
 
 }
