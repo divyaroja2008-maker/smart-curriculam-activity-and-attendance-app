@@ -1,6 +1,356 @@
-<!-- SMART TIMETABLE GENERATOR SECTION -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+AI Smart Curriculum Activity & Attendance App
+</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#f2f2f2;
+transition:0.3s;
+}
+
+.dark-mode{
+background:#121212;
+color:white;
+}
+
+header{
+background:#0066ff;
+color:white;
+padding:20px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+}
+
+.container{
+padding:20px;
+}
+
+button{
+padding:10px 15px;
+margin:5px;
+border:none;
+border-radius:5px;
+cursor:pointer;
+background:#0066ff;
+color:white;
+}
+
+button:hover{
+background:#0044aa;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-top:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+.dark-mode .card{
+background:#1f1f1f;
+}
+
+.chart-box{
+background:white;
+padding:20px;
+margin-top:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+.dark-mode .chart-box{
+background:#1f1f1f;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+background:white;
+}
+
+.dark-mode table{
+background:#1f1f1f;
+}
+
+table,th,td{
+border:1px solid #ccc;
+}
+
+th{
+background:#0066ff;
+color:white;
+}
+
+th,td{
+padding:10px;
+text-align:center;
+}
+
+img{
+border-radius:50%;
+}
+
+.progress{
+width:100%;
+height:25px;
+background:#ddd;
+border-radius:20px;
+overflow:hidden;
+margin-top:20px;
+}
+
+.progress-bar{
+height:25px;
+width:0%;
+background:green;
+color:white;
+text-align:center;
+line-height:25px;
+}
+
+.notice{
+background:orange;
+padding:15px;
+border-radius:10px;
+color:white;
+margin-top:20px;
+}
+
+footer{
+margin-top:30px;
+background:#0066ff;
+color:white;
+padding:15px;
+text-align:center;
+}
+
+.present{
+color:green;
+font-weight:bold;
+}
+
+.absent{
+color:red;
+font-weight:bold;
+}
+
+.pending{
+color:orange;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+AI Smart Curriculum Activity & Attendance App
+
+</header>
+
+<div class="container">
+
+<button onclick="toggleDarkMode()">
+Dark Mode
+</button>
+
+<button onclick="window.print()">
+Download PDF
+</button>
+
+<button onclick="exportCSV()">
+Export CSV
+</button>
+
+<h2 id="dateTime"></h2>
+
+<div class="notice">
+
+Attendance must be submitted before 5 PM
+
+</div>
+
+<div class="dashboard">
 
 <div class="card">
+<h1 id="totalStudents">0</h1>
+<p>Total Students</p>
+</div>
+
+<div class="card">
+<h1 id="presentStudents">0</h1>
+<p>Present Students</p>
+</div>
+
+<div class="card">
+<h1 id="absentStudents">0</h1>
+<p>Absent Students</p>
+</div>
+
+<div class="card">
+<h1 id="attendancePercent">0%</h1>
+<p>Attendance Percentage</p>
+</div>
+
+</div>
+
+<div class="progress">
+
+<div class="progress-bar"
+id="progressBar">
+
+0%
+
+</div>
+
+</div>
+
+<!-- STUDENT SECTION -->
+
+<div class="chart-box">
+
+<h2>
+Add Student
+</h2>
+
+<input type="text"
+id="studentName"
+placeholder="Student Name">
+
+<input type="text"
+id="department"
+placeholder="Department">
+
+<input type="text"
+id="studentId"
+placeholder="Student ID">
+
+<input type="email"
+id="email"
+placeholder="Email">
+
+<select id="semester">
+
+<option>Semester 1</option>
+<option>Semester 2</option>
+<option>Semester 3</option>
+<option>Semester 4</option>
+
+</select>
+
+<input type="text"
+id="activity"
+placeholder="Curriculum Activity">
+
+<textarea id="remarks"
+placeholder="Remarks"></textarea>
+
+<input type="file"
+id="photo">
+
+<button onclick="addStudent()">
+
+Add Student
+
+</button>
+
+<input type="text"
+id="search"
+placeholder="Search Student"
+onkeyup="searchStudent()">
+
+</div>
+
+<!-- STUDENT TABLE -->
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Photo</th>
+<th>Name</th>
+<th>Department</th>
+<th>ID</th>
+<th>Email</th>
+<th>Semester</th>
+<th>Activity</th>
+<th>Remarks</th>
+<th>Status</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="studentTable">
+
+</tbody>
+
+</table>
+
+<!-- ATTENDANCE CHART -->
+
+<div class="chart-box">
+
+<h2>
+Attendance Analytics
+</h2>
+
+<canvas id="attendanceChart"></canvas>
+
+</div>
+
+<!-- SMART TIMETABLE -->
+
+<div class="chart-box">
 
 <h2>
 Smart Timetable Generator
@@ -30,11 +380,11 @@ placeholder="Class Room">
 
 <select id="timeSlot">
 
-<option>9:00 AM - 10:00 AM</option>
-<option>10:00 AM - 11:00 AM</option>
-<option>11:00 AM - 12:00 PM</option>
-<option>1:00 PM - 2:00 PM</option>
-<option>2:00 PM - 3:00 PM</option>
+<option>9 AM - 10 AM</option>
+<option>10 AM - 11 AM</option>
+<option>11 AM - 12 PM</option>
+<option>1 PM - 2 PM</option>
+<option>2 PM - 3 PM</option>
 
 </select>
 
@@ -69,111 +419,507 @@ Generate Timetable
 
 </div>
 
+<!-- AI PREDICTION -->
+
+<div class="chart-box">
+
+<h2>
+AI Attendance Prediction
+</h2>
+
+<p id="aiPrediction">
+
+No Prediction Yet
+
+</p>
+
+<button onclick="predictAttendance()">
+
+Generate Prediction
+
+</button>
+
+</div>
+
+<!-- QR ATTENDANCE -->
+
+<div class="chart-box">
+
+<h2>
+QR Attendance Generator
+</h2>
+
+<input type="text"
+id="qrStudent"
+placeholder="Enter Student Name">
+
+<button onclick="generateQR()">
+
+Generate QR
+
+</button>
+
+<div id="qrResult"></div>
+
+</div>
+
+<!-- ANNOUNCEMENTS -->
+
+<div class="chart-box">
+
+<h2>
+Announcement Board
+</h2>
+
+<textarea id="announcementInput"
+placeholder="Enter Announcement"></textarea>
+
+<button onclick="addAnnouncement()">
+
+Add Announcement
+
+</button>
+
+<ul id="announcementList">
+
+</ul>
+
+</div>
+
+<!-- LEADERBOARD -->
+
+<div class="chart-box">
+
+<h2>
+Top Attendance Students
+</h2>
+
+<ol id="leaderboard">
+
+</ol>
+
+</div>
+
+<footer>
+
+Smart Curriculum Activity & Attendance App
+
+</footer>
+
 <script>
+
+let students =
+JSON.parse(
+localStorage.getItem("students")
+) || [];
 
 let timetable =
 JSON.parse(
-localStorage.getItem(
-"timetable"
-)
+localStorage.getItem("timetable")
 ) || [];
 
+let announcements =
+JSON.parse(
+localStorage.getItem("announcements")
+) || [];
+
+displayStudents();
 displayTimetable();
+displayAnnouncements();
+
+function addStudent(){
+
+let name =
+document.getElementById("studentName").value;
+
+let department =
+document.getElementById("department").value;
+
+let id =
+document.getElementById("studentId").value;
+
+let email =
+document.getElementById("email").value;
+
+let semester =
+document.getElementById("semester").value;
+
+let activity =
+document.getElementById("activity").value;
+
+let remarks =
+document.getElementById("remarks").value;
+
+let file =
+document.getElementById("photo").files[0];
+
+if(
+name==="" ||
+department==="" ||
+id==="" ||
+email==="" ||
+activity==="" ||
+remarks==="" ||
+!file
+){
+alert("Fill All Fields");
+return;
+}
+
+let reader =
+new FileReader();
+
+reader.onload =
+function(e){
+
+students.push({
+
+name:name,
+department:department,
+id:id,
+email:email,
+semester:semester,
+activity:activity,
+remarks:remarks,
+photo:e.target.result,
+attendance:"Pending"
+
+});
+
+saveStudents();
+displayStudents();
+updateLeaderboard();
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+function displayStudents(filtered = students){
+
+let table =
+document.getElementById("studentTable");
+
+table.innerHTML = "";
+
+let present = 0;
+let absent = 0;
+
+filtered.forEach((student,index)=>{
+
+let color = "pending";
+
+if(student.attendance==="Present"){
+color="present";
+present++;
+}
+
+if(student.attendance==="Absent"){
+color="absent";
+absent++;
+}
+
+table.innerHTML += `
+
+<tr>
+
+<td>
+<img src="${student.photo}"
+width="50"
+height="50">
+</td>
+
+<td>${student.name}</td>
+<td>${student.department}</td>
+<td>${student.id}</td>
+<td>${student.email}</td>
+<td>${student.semester}</td>
+<td>${student.activity}</td>
+<td>${student.remarks}</td>
+
+<td class="${color}">
+${student.attendance}
+</td>
+
+<td>
+
+<button onclick="markPresent(${index})">
+Present
+</button>
+
+<button onclick="markAbsent(${index})">
+Absent
+</button>
+
+<button onclick="deleteStudent(${index})">
+Delete
+</button>
+
+<button onclick="sendMail('${student.email}')">
+Mail
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("totalStudents").innerHTML =
+students.length;
+
+document.getElementById("presentStudents").innerHTML =
+present;
+
+document.getElementById("absentStudents").innerHTML =
+absent;
+
+let percent = 0;
+
+if(students.length>0){
+
+percent =
+(present/students.length)*100;
+
+}
+
+document.getElementById("attendancePercent").innerHTML =
+percent.toFixed(0)+"%";
+
+document.getElementById("progressBar").style.width =
+percent+"%";
+
+document.getElementById("progressBar").innerHTML =
+percent.toFixed(0)+"%";
+
+updateChart(present,absent);
+
+}
+
+function markPresent(index){
+
+students[index].attendance="Present";
+
+saveStudents();
+
+displayStudents();
+
+updateLeaderboard();
+
+}
+
+function markAbsent(index){
+
+students[index].attendance="Absent";
+
+saveStudents();
+
+displayStudents();
+
+updateLeaderboard();
+
+}
+
+function deleteStudent(index){
+
+students.splice(index,1);
+
+saveStudents();
+
+displayStudents();
+
+updateLeaderboard();
+
+}
+
+function saveStudents(){
+
+localStorage.setItem(
+"students",
+JSON.stringify(students)
+);
+
+}
+
+function searchStudent(){
+
+let value =
+document.getElementById("search")
+.value.toLowerCase();
+
+let filtered =
+students.filter((student)=>
+
+student.name.toLowerCase().includes(value)
+
+||
+
+student.department.toLowerCase().includes(value)
+
+);
+
+displayStudents(filtered);
+
+}
+
+function sendMail(email){
+
+window.location.href =
+"mailto:"+email;
+
+}
+
+function exportCSV(){
+
+let csv =
+"Name,Department,Attendance\n";
+
+students.forEach((student)=>{
+
+csv +=
+student.name + "," +
+student.department + "," +
+student.attendance + "\n";
+
+});
+
+let blob =
+new Blob([csv],{
+type:"text/csv"
+});
+
+let url =
+window.URL.createObjectURL(blob);
+
+let a =
+document.createElement("a");
+
+a.href = url;
+
+a.download =
+"attendance.csv";
+
+a.click();
+
+}
+
+function toggleDarkMode(){
+
+document.body.classList.toggle("dark-mode");
+
+}
+
+function updateDateTime(){
+
+document.getElementById("dateTime")
+.innerHTML =
+new Date().toLocaleString();
+
+}
+
+setInterval(updateDateTime,1000);
+
+updateDateTime();
+
+let chart;
+
+function updateChart(present,absent){
+
+let ctx =
+document.getElementById("attendanceChart");
+
+if(chart){
+chart.destroy();
+}
+
+chart =
+new Chart(ctx,{
+
+type:"bar",
+
+data:{
+
+labels:[
+"Present",
+"Absent"
+],
+
+datasets:[{
+
+label:"Students",
+
+data:[
+present,
+absent
+],
+
+backgroundColor:[
+"green",
+"red"
+]
+
+}]
+
+}
+
+});
+
+}
 
 function addTimetable(){
 
 let teacher =
-document.getElementById(
-"teacherName"
-).value;
+document.getElementById("teacherName").value;
 
 let subject =
-document.getElementById(
-"subjectName"
-).value;
+document.getElementById("subjectName").value;
 
 let room =
-document.getElementById(
-"classRoom"
-).value;
+document.getElementById("classRoom").value;
 
 let day =
-document.getElementById(
-"day"
-).value;
+document.getElementById("day").value;
 
 let time =
-document.getElementById(
-"timeSlot"
-).value;
+document.getElementById("timeSlot").value;
 
 if(
-teacher === ""
-||
-subject === ""
-||
-room === ""
+teacher==="" ||
+subject==="" ||
+room===""
 ){
-
-alert(
-"Please Fill All Fields"
-);
-
+alert("Fill All Fields");
 return;
-
-}
-
-let clash =
-timetable.find((item)=>
-
-item.teacher === teacher
-&&
-item.day === day
-&&
-item.time === time
-
-);
-
-if(clash){
-
-alert(
-"Teacher Already Assigned At This Time"
-);
-
-return;
-
 }
 
 timetable.push({
 
-teacher:teacher,
-subject:subject,
-room:room,
-day:day,
-time:time
+teacher,
+subject,
+room,
+day,
+time
 
 });
 
-saveTimetable();
+localStorage.setItem(
+"timetable",
+JSON.stringify(timetable)
+);
 
 displayTimetable();
-
-clearTimetableInputs();
-
-alert(
-"Timetable Generated Successfully"
-);
 
 }
 
 function displayTimetable(){
 
 let table =
-document.getElementById(
-"timetableTable"
-);
+document.getElementById("timetableTable");
 
-table.innerHTML = "";
+table.innerHTML="";
 
 timetable.forEach((item,index)=>{
 
@@ -209,38 +955,114 @@ function deleteTimetable(index){
 
 timetable.splice(index,1);
 
-saveTimetable();
+localStorage.setItem(
+"timetable",
+JSON.stringify(timetable)
+);
 
 displayTimetable();
 
 }
 
-function saveTimetable(){
+function predictAttendance(){
+
+let present =
+students.filter(
+s => s.attendance==="Present"
+).length;
+
+let absent =
+students.filter(
+s => s.attendance==="Absent"
+).length;
+
+if(present>absent){
+
+document.getElementById("aiPrediction")
+.innerHTML =
+"AI Prediction: Attendance performance is GOOD";
+
+}
+
+else{
+
+document.getElementById("aiPrediction")
+.innerHTML =
+"AI Prediction: Attendance performance needs improvement";
+
+}
+
+}
+
+function generateQR(){
+
+let student =
+document.getElementById("qrStudent").value;
+
+document.getElementById("qrResult").innerHTML =
+
+`
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${student}">
+`;
+
+}
+
+function addAnnouncement(){
+
+let text =
+document.getElementById("announcementInput").value;
+
+announcements.push(text);
 
 localStorage.setItem(
-
-"timetable",
-
-JSON.stringify(timetable)
-
+"announcements",
+JSON.stringify(announcements)
 );
 
-}
-
-function clearTimetableInputs(){
-
-document.getElementById(
-"teacherName"
-).value = "";
-
-document.getElementById(
-"subjectName"
-).value = "";
-
-document.getElementById(
-"classRoom"
-).value = "";
+displayAnnouncements();
 
 }
+
+function displayAnnouncements(){
+
+let list =
+document.getElementById("announcementList");
+
+list.innerHTML="";
+
+announcements.forEach((item)=>{
+
+list.innerHTML +=
+`<li>${item}</li>`;
+
+});
+
+}
+
+function updateLeaderboard(){
+
+let board =
+document.getElementById("leaderboard");
+
+board.innerHTML="";
+
+students.forEach((student)=>{
+
+if(student.attendance==="Present"){
+
+board.innerHTML +=
+`<li>${student.name}</li>`;
+
+}
+
+});
+
+}
+
+updateLeaderboard();
 
 </script>
+
+</body>
+
+</html>
