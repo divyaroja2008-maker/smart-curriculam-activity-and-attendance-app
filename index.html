@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
 AI Smart Curriculum Activity & Attendance App
@@ -23,7 +20,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:Arial;
 }
 
 body{
@@ -41,8 +38,6 @@ background:#0066ff;
 padding:20px;
 text-align:center;
 color:white;
-font-size:28px;
-font-weight:bold;
 }
 
 .container{
@@ -115,7 +110,9 @@ background:white;
 background:#1f1f1f;
 }
 
-table,th,td{
+table,
+th,
+td{
 border:1px solid #ccc;
 }
 
@@ -124,7 +121,8 @@ background:#0066ff;
 color:white;
 }
 
-th,td{
+th,
+td{
 padding:10px;
 text-align:center;
 }
@@ -190,23 +188,29 @@ color:white;
 
 <header>
 
+<h1>
 AI Smart Curriculum Activity & Attendance App
-
-</header>
-
-<div class="container">
+</h1>
 
 <button onclick="toggleDarkMode()">
 Dark Mode
+</button>
+
+<button onclick="exportCSV()">
+Export CSV
 </button>
 
 <button onclick="window.print()">
 Download PDF
 </button>
 
-<button onclick="exportCSV()">
-Export CSV
+<button onclick="logout()">
+Logout
 </button>
+
+</header>
+
+<div class="container">
 
 <h2 id="dateTime"></h2>
 
@@ -275,7 +279,7 @@ placeholder="Student ID">
 
 <input type="email"
 id="email"
-placeholder="Email">
+placeholder="Student Email">
 
 <select id="semester">
 
@@ -297,9 +301,7 @@ placeholder="Remarks"></textarea>
 id="photo">
 
 <button onclick="addStudent()">
-
 Add Student
-
 </button>
 
 <input type="text"
@@ -391,9 +393,7 @@ placeholder="Class Room">
 </select>
 
 <button onclick="addTimetable()">
-
 Generate Timetable
-
 </button>
 
 <table>
@@ -430,15 +430,11 @@ AI Attendance Prediction
 </h2>
 
 <p id="aiPrediction">
-
 No Prediction Yet
-
 </p>
 
 <button onclick="predictAttendance()">
-
 Generate Prediction
-
 </button>
 
 </div>
@@ -456,9 +452,7 @@ id="qrStudent"
 placeholder="Enter Student Name">
 
 <button onclick="generateQR()">
-
 Generate QR
-
 </button>
 
 <div id="qrResult"></div>
@@ -477,14 +471,10 @@ Announcement Board
 placeholder="Enter Announcement"></textarea>
 
 <button onclick="addAnnouncement()">
-
 Add Announcement
-
 </button>
 
-<ul id="announcementList">
-
-</ul>
+<ul id="announcementList"></ul>
 
 </div>
 
@@ -527,6 +517,8 @@ Student Achievement Rewards
 </tbody>
 
 </table>
+
+</div>
 
 </div>
 
@@ -628,13 +620,34 @@ attendance:"Pending"
 });
 
 saveStudents();
+
 displayStudents();
+
 updateLeaderboard();
+
 updateRewards();
+
+clearInputs();
 
 };
 
 reader.readAsDataURL(file);
+
+}
+
+// =========================
+// CLEAR INPUTS
+// =========================
+
+function clearInputs(){
+
+document.getElementById("studentName").value="";
+document.getElementById("department").value="";
+document.getElementById("studentId").value="";
+document.getElementById("email").value="";
+document.getElementById("activity").value="";
+document.getElementById("remarks").value="";
+document.getElementById("photo").value="";
 
 }
 
@@ -647,14 +660,14 @@ function displayStudents(filtered = students){
 let table =
 document.getElementById("studentTable");
 
-table.innerHTML = "";
+table.innerHTML="";
 
 let present = 0;
 let absent = 0;
 
 filtered.forEach((student,index)=>{
 
-let color = "pending";
+let color="pending";
 
 if(student.attendance==="Present"){
 color="present";
@@ -778,7 +791,7 @@ updateRewards();
 }
 
 // =========================
-// DELETE STUDENT
+// DELETE
 // =========================
 
 function deleteStudent(index){
@@ -826,6 +839,10 @@ student.name.toLowerCase().includes(value)
 ||
 
 student.department.toLowerCase().includes(value)
+
+||
+
+student.id.toLowerCase().includes(value)
 
 );
 
@@ -926,7 +943,7 @@ chart.destroy();
 chart =
 new Chart(ctx,{
 
-type:"bar",
+type:"pie",
 
 data:{
 
@@ -936,8 +953,6 @@ labels:[
 ],
 
 datasets:[{
-
-label:"Students",
 
 data:[
 present,
@@ -1028,9 +1043,7 @@ table.innerHTML += `
 <td>
 
 <button onclick="deleteTimetable(${index})">
-
 Delete
-
 </button>
 
 </td>
@@ -1091,7 +1104,7 @@ document.getElementById("aiPrediction")
 }
 
 // =========================
-// QR GENERATOR
+// QR
 // =========================
 
 function generateQR(){
@@ -1108,7 +1121,7 @@ document.getElementById("qrResult").innerHTML =
 }
 
 // =========================
-// ANNOUNCEMENTS
+// ANNOUNCEMENT
 // =========================
 
 function addAnnouncement(){
@@ -1166,7 +1179,7 @@ students.forEach((student)=>{
 if(student.attendance==="Present"){
 
 board.innerHTML +=
-`<li>${student.name}</li>`;
+`<li>🏆 ${student.name}</li>`;
 
 }
 
@@ -1183,7 +1196,7 @@ function updateRewards(){
 let table =
 document.getElementById("rewardTable");
 
-table.innerHTML = "";
+table.innerHTML="";
 
 students.forEach((student)=>{
 
@@ -1227,8 +1240,22 @@ table.innerHTML += `
 
 }
 
+// =========================
+// LOGOUT
+// =========================
+
+function logout(){
+
+localStorage.removeItem("login");
+
+alert("Logged Out Successfully");
+
+window.location.href =
+"login.html";
+
+}
+
 </script>
 
 </body>
-
 </html>
